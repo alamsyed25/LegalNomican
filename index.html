@@ -19,26 +19,12 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <ul class="nav-menu">
-                    <li><a href="#">Features</a></li>
-                    <li><a href="#">Pricing</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle">
-                            <i class="fas fa-user-circle"></i>
-                            <span>Account</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a href="#">Sign In</a></li>
-                            <li><a href="#">Register</a></li>
-                            <li><a href="#">My Dashboard</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Help Center</a></li>
-                            <li><a href="#">Settings</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#security">Security</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#about">About</a></li>
                 </ul>
+                <a href="#contact" class="btn primary schedule-btn">Schedule Demo</a>
             </nav>
         </div>
     </header>
@@ -113,7 +99,7 @@
         </div>
     </section>
 
-    <section class="features">
+    <section id="features" class="features">
         <div class="container">
             <h2 class="section-title">Everything Your Legal Team Needs</h2>
             <p class="section-subtitle">Streamline your entire legal workflow with AI-powered tools designed specifically for law firms and legal departments.</p>
@@ -212,7 +198,7 @@
         </div>
     </section>
 
-    <section class="stats">
+    <section id="pricing" class="stats">
         <div class="container">
             <div class="stats-grid">
                 <div class="stat-item">
@@ -235,7 +221,7 @@
         </div>
     </section>
 
-    <section class="security">
+    <section id="security" class="security">
         <div class="container">
             <h2>Enterprise-Grade Security Your Clients Demand</h2>
             <p>Built with the highest security standards for legal professionals handling sensitive client data.</p>
@@ -265,7 +251,7 @@
         </div>
     </section>
 
-    <section class="compliance">
+    <section id="about" class="compliance">
         <div class="container">
             <div class="compliance-box">
                 <h3>Compliance Standards</h3>
@@ -293,6 +279,159 @@
                     <div class="compliance-item">
                         <i class="fas fa-check-circle"></i>
                         <span>Legal Industry Standards</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Schedule a Live Demo</h2>
+            <p class="section-subtitle">See how Legal Nomicon can transform your legal workflow</p>
+            
+            <div class="contact-content">
+                <div class="contact-form-container">
+                    <form id="demoForm" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label for="firstName">First Name*</label>
+                                <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                            </div>
+                            <div class="form-group half">
+                                <label for="lastName">Last Name*</label>
+                                <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="workEmail">Work Email*</label>
+                            <input type="email" id="workEmail" name="workEmail" placeholder="name@company.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="companyName">Company/Firm Name*</label>
+                            <input type="text" id="companyName" name="companyName" placeholder="Your Law Firm" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="jobTitle">Job Title*</label>
+                            <select id="jobTitle" name="jobTitle" required>
+                                <option value="" disabled selected>Select your role</option>
+                                <option value="General Counsel">General Counsel</option>
+                                <option value="Partner">Partner</option>
+                                <option value="Associate">Associate</option>
+                                <option value="Legal Operations">Legal Operations</option>
+                                <option value="Managing Director">Managing Director</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="firmSize">Firm Size*</label>
+                            <select id="firmSize" name="firmSize" required>
+                                <option value="" disabled selected>Select firm size</option>
+                                <option value="1-10 attorneys">1-10 attorneys</option>
+                                <option value="11-50 attorneys">11-50 attorneys</option>
+                                <option value="51-200 attorneys">51-200 attorneys</option>
+                                <option value="200+ attorneys">200+ attorneys</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="useCase">Primary Use Case*</label>
+                            <select id="useCase" name="useCase" required>
+                                <option value="" disabled selected>Select primary use case</option>
+                                <option value="Contract Review & Analysis">Contract Review & Analysis</option>
+                                <option value="Legal Research & Citations">Legal Research & Citations</option>
+                                <option value="Document Drafting">Document Drafting</option>
+                                <option value="All Features">All Features</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phoneNumber">Phone Number (optional)</label>
+                            <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="(123) 456-7890">
+                        </div>
+                        
+                        <button type="submit" id="submitButton" class="btn primary submit-btn">
+                            <span class="btn-text">Request Your Demo</span>
+                            <span class="spinner"></span>
+                        </button>
+                        
+                        <p class="form-disclaimer">We'll contact you within 24 hours to schedule your personalized demo</p>
+                        
+                        <div id="formMessage" class="form-message"></div>
+                    </form>
+                </div>
+                
+                <div class="demo-preview">
+                    <h3>What You'll See in Your Demo</h3>
+                    
+                    <div class="preview-features">
+                        <div class="preview-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>AI-Powered Legal Research</h4>
+                                <p>See how our platform finds relevant case law in seconds with 85% citation accuracy</p>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-file-contract"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Contract Analysis</h4>
+                                <p>Watch as we automatically extract key clauses and identify potential risks</p>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Document Generation</h4>
+                                <p>Experience how quickly you can create custom legal documents from templates</p>
+                            </div>
+                        </div>
+                        
+                        <div class="preview-feature">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="feature-content">
+                                <h4>Collaboration Tools</h4>
+                                <p>Learn how to streamline review workflows with role-based assignments</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="trust-signals">
+                        <h4>Trusted by Leading Law Firms</h4>
+                        <div class="trust-badges">
+                            <div class="trust-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>SOC 2 Type II</span>
+                            </div>
+                            <div class="trust-badge">
+                                <i class="fas fa-lock"></i>
+                                <span>HIPAA Compliant</span>
+                            </div>
+                            <div class="trust-badge">
+                                <i class="fas fa-check-circle"></i>
+                                <span>GDPR Ready</span>
+                            </div>
+                        </div>
+                        
+                        <div class="cta-buttons">
+                            <a href="#contact" class="btn primary">Get Demo</a>
+                            <a href="#" class="btn secondary">Start Free Trial</a>
+                        </div>
                     </div>
                 </div>
             </div>
