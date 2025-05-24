@@ -9,10 +9,36 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Close menu when clicking outside
+    // Dropdown menu toggle
+    const dropdownToggle = document.querySelector('.dropdown-toggle');
+    const dropdown = document.querySelector('.dropdown');
+    
+    if (dropdownToggle && dropdown) {
+        dropdownToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            dropdown.classList.toggle('active');
+            
+            // Close other dropdowns if multiple exist
+            document.querySelectorAll('.dropdown').forEach(item => {
+                if (item !== dropdown) {
+                    item.classList.remove('active');
+                }
+            });
+        });
+    }
+    
+    // Close menu and dropdowns when clicking outside
     document.addEventListener('click', function(event) {
+        // Close mobile menu when clicking outside
         if (!event.target.closest('nav') && navMenu.classList.contains('active')) {
             navMenu.classList.remove('active');
+        }
+        
+        // Close dropdown when clicking outside
+        if (!event.target.closest('.dropdown') && document.querySelector('.dropdown.active')) {
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                dropdown.classList.remove('active');
+            });
         }
     });
     
