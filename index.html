@@ -6,6 +6,7 @@
     <meta name="description" content="Legal Nomicon - AI-powered legal assistant that automates contract review, legal research, and document drafting">
     <title>Legal Nomicon - AI-Powered Legal Assistant</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="contact-form.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -25,7 +26,10 @@
                     <li><a href="#pricing">Pricing</a></li>
                     <li><a href="#about">About</a></li>
                 </ul>
-                <a href="#contact" class="btn primary schedule-btn">Schedule Demo</a>
+                <div class="nav-buttons">
+                    <a href="#pricing" class="btn secondary pricing-nav-btn">View Plans</a>
+                    <a href="#contact" class="btn primary schedule-btn">Schedule Demo</a>
+                </div>
             </nav>
         </div>
     </header>
@@ -36,7 +40,7 @@
                 <div class="hero-content">
                     <span class="badge">Enterprise-Grade AI for Legal Teams</span>
                     <h2>Cut Legal Research Time by <span class="highlight">50%</span> with AI That Cites Its Sources</h2>
-                    <p>AI-powered legal assistant that automates contract review, legal research, and document drafting. SOC 2 compliant with 85% citation accuracy for enterprise law firms.</p>
+                    <p>AI-powered legal assistant that automates contract review, legal research, and document drafting with 85% citation accuracy for enterprise law firms.</p>
                     <div class="cta-buttons">
                         <a href="#contact" class="btn primary">Schedule Live Demo <i class="fas fa-arrow-right"></i></a>
                         <a href="features.html" class="btn secondary">View Features</a>
@@ -48,7 +52,7 @@
                         </li>
                         <li class="feature">
                             <i class="fas fa-check-circle"></i>
-                            <span>SOC 2 Type II compliant</span>
+                            <span>Advanced AI technology</span>
                         </li>
                         <li class="feature">
                             <i class="fas fa-check-circle"></i>
@@ -155,24 +159,131 @@
             </div>
         </section>
 
-        <section id="pricing" class="stats">
+        <section id="pricing" class="pricing">
             <div class="container">
-                <div class="stats-grid">
-                    <div class="stat-item">
-                        <h3>99.9%</h3>
-                        <p>Uptime SLA</p>
+                <h2 class="section-title">Pricing Plans</h2>
+                <p class="section-subtitle">Choose the plan that fits your legal team's needs</p>
+                
+                <div class="pricing-grid">
+                    <!-- Starter Plan -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Starter</h3>
+                            <div class="price">
+                                <span class="amount">$99</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <p class="plan-description">Perfect for solo practitioners and small firms</p>
+                        </div>
+                        <div class="pricing-features">
+                            <ul>
+                                <li><i class="fas fa-check"></i> Basic legal research</li>
+                                <li><i class="fas fa-check"></i> Contract review (up to 20 pages)</li>
+                                <li><i class="fas fa-check"></i> 3 document templates</li>
+                                <li><i class="fas fa-check"></i> 1 user license</li>
+                                <li><i class="fas fa-check"></i> Email support</li>
+                                <li class="not-included"><i class="fas fa-times"></i> Advanced analytics</li>
+                                <li class="not-included"><i class="fas fa-times"></i> Custom integrations</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-cta">
+                            <a href="#" class="btn secondary pricing-btn">Start Free Trial</a>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                        <h3>85%</h3>
-                        <p>Citation Accuracy</p>
+                    
+                    <!-- Professional Plan -->
+                    <div class="pricing-card popular">
+                        <div class="popular-tag">Most Popular</div>
+                        <div class="pricing-header">
+                            <h3>Professional</h3>
+                            <div class="price">
+                                <span class="amount">$299</span>
+                                <span class="period">/month</span>
+                            </div>
+                            <p class="plan-description">Ideal for growing firms and legal departments</p>
+                        </div>
+                        <div class="pricing-features">
+                            <ul>
+                                <li><i class="fas fa-check"></i> Advanced legal research</li>
+                                <li><i class="fas fa-check"></i> Contract review (unlimited pages)</li>
+                                <li><i class="fas fa-check"></i> 10 document templates</li>
+                                <li><i class="fas fa-check"></i> 5 user licenses</li>
+                                <li><i class="fas fa-check"></i> Priority support</li>
+                                <li><i class="fas fa-check"></i> Basic analytics</li>
+                                <li class="not-included"><i class="fas fa-times"></i> Custom integrations</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-cta">
+                            <a href="#" class="btn primary pricing-btn">Start Free Trial</a>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                        <h3>&lt;3s</h3>
-                        <p>Response Time</p>
+                    
+                    <!-- Enterprise Plan -->
+                    <div class="pricing-card">
+                        <div class="pricing-header">
+                            <h3>Enterprise</h3>
+                            <div class="price">
+                                <span class="custom-price">Custom</span>
+                            </div>
+                            <p class="plan-description">For large law firms and corporate legal teams</p>
+                        </div>
+                        <div class="pricing-features">
+                            <ul>
+                                <li><i class="fas fa-check"></i> Premium legal research</li>
+                                <li><i class="fas fa-check"></i> Advanced contract analysis</li>
+                                <li><i class="fas fa-check"></i> Unlimited document templates</li>
+                                <li><i class="fas fa-check"></i> Unlimited user licenses</li>
+                                <li><i class="fas fa-check"></i> 24/7 dedicated support</li>
+                                <li><i class="fas fa-check"></i> Advanced analytics</li>
+                                <li><i class="fas fa-check"></i> Custom integrations</li>
+                            </ul>
+                        </div>
+                        <div class="pricing-cta">
+                            <a href="#contact" class="btn secondary pricing-btn">Contact Sales</a>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                        <h3>1000+</h3>
-                        <p>Concurrent Users</p>
+                </div>
+                
+                <div class="pricing-stats">
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <h3>99.9%</h3>
+                            <p>Uptime SLA</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>85%</h3>
+                            <p>Citation Accuracy</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>&lt;3s</h3>
+                            <p>Response Time</p>
+                        </div>
+                        <div class="stat-item">
+                            <h3>1000+</h3>
+                            <p>Concurrent Users</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="pricing-faq">
+                    <h3>Frequently Asked Questions</h3>
+                    <div class="faq-grid">
+                        <div class="faq-item">
+                            <h4>Do you offer a free trial?</h4>
+                            <p>Yes, all plans come with a 30-day free trial with full access to all features.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4>Can I change plans later?</h4>
+                            <p>Absolutely! You can upgrade or downgrade your plan at any time.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4>Is there a setup fee?</h4>
+                            <p>No, there are no hidden fees or setup costs with any of our plans.</p>
+                        </div>
+                        <div class="faq-item">
+                            <h4>What payment methods do you accept?</h4>
+                            <p>We accept all major credit cards, ACH transfers, and invoicing for annual enterprise plans.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -185,9 +296,9 @@
                 
                 <div class="security-features">
                     <div class="security-feature">
-                        <i class="fas fa-certificate"></i>
-                        <h4>SOC 2 Type II Compliant</h4>
-                        <p>Independently audited security controls and processes</p>
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>Enterprise Security</h4>
+                        <p>Robust security controls and processes for enterprise clients</p>
                     </div>
                     <div class="security-feature">
                         <i class="fas fa-lock"></i>
@@ -208,41 +319,9 @@
             </div>
         </section>
 
-        <section id="about" class="compliance">
-            <div class="container">
-                <div class="compliance-box">
-                    <h3>Compliance Standards</h3>
-                    <div class="compliance-grid">
-                        <div class="compliance-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>SOC 2 Type II</span>
-                        </div>
-                        <div class="compliance-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>GDPR Ready</span>
-                        </div>
-                        <div class="compliance-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>HIPAA Compliant</span>
-                        </div>
-                        <div class="compliance-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>ISO 27001</span>
-                        </div>
-                        <div class="compliance-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>PCI DSS</span>
-                        </div>
-                        <div class="compliance-item">
-                            <i class="fas fa-check-circle"></i>
-                            <span>Legal Industry Standards</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        <!-- Compliance section removed -->
 
-        <section id="contact" class="contact">
+        <section id="contact" class="contact-section">
             <div class="container">
                 <h2 class="section-title">Schedule a Live Demo</h2>
                 <p class="section-subtitle">See how Legal Nomicon can transform your legal workflow</p>
@@ -357,19 +436,19 @@
                     </div>
                     
                     <div class="trust-signals">
-                        <h4>Trusted by Leading Law Firms</h4>
+                        <h4>Enterprise-Ready Solution</h4>
                         <div class="trust-badges">
                             <div class="trust-badge">
                                 <i class="fas fa-shield-alt"></i>
-                                <span>SOC 2 Type II</span>
+                                <span>Enterprise Security</span>
                             </div>
                             <div class="trust-badge">
                                 <i class="fas fa-lock"></i>
-                                <span>HIPAA Compliant</span>
+                                <span>Data Protection</span>
                             </div>
                             <div class="trust-badge">
                                 <i class="fas fa-check-circle"></i>
-                                <span>GDPR Ready</span>
+                                <span>Trusted Technology</span>
                             </div>
                         </div>
                         
@@ -424,7 +503,7 @@
                             <li><a href="#">Privacy Policy</a></li>
                             <li><a href="#">Terms of Service</a></li>
                             <li><a href="#">Cookie Policy</a></li>
-                            <li><a href="#">GDPR</a></li>
+                            <li><a href="#">Data Rights</a></li>
                         </ul>
                     </div>
                 </nav>

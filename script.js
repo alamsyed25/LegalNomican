@@ -6,7 +6,10 @@ document.addEventListener('DOMContentLoaded', () => {
         demoForm: document.getElementById('demoForm'),
         submitButton: document.getElementById('submitButton'),
         formMessage: document.getElementById('formMessage'),
-        animatedElements: document.querySelectorAll('.feature-card, .security-feature, .stat-item, .preview-feature')
+        animatedElements: document.querySelectorAll('.feature-card, .security-feature, .stat-item, .preview-feature, .pricing-card'),
+        pricingCards: document.querySelectorAll('.pricing-card'),
+        pricingButtons: document.querySelectorAll('.pricing-nav-btn'),
+        faqItems: document.querySelectorAll('.faq-item')
     };
 
     // Mobile menu handling
@@ -172,4 +175,84 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialize animations
     window.addEventListener('load', animateOnScroll);
     window.addEventListener('scroll', animateOnScroll);
+    
+    // Pricing section functionality
+    if (elements.pricingCards.length > 0) {
+        // Add hover effects to pricing cards
+        elements.pricingCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (!card.classList.contains('popular')) {
+                    card.style.transform = 'translateY(-10px)';
+                    card.style.boxShadow = '0 15px 30px rgba(0, 0, 0, 0.2)';
+                } else {
+                    card.style.transform = 'scale(1.05) translateY(-10px)';
+                }
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                if (!card.classList.contains('popular')) {
+                    card.style.transform = 'translateY(0)';
+                    card.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
+                } else {
+                    card.style.transform = 'scale(1.05)';
+                }
+            });
+        });
+        
+        // Add click event to pricing buttons
+        const trialButtons = document.querySelectorAll('.pricing-btn');
+        trialButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                if (button.textContent.includes('Free Trial')) {
+                    e.preventDefault();
+                    // Show a simple modal or alert for free trial
+                    alert('Thank you for your interest! Your free trial will begin after you complete a short registration form.');
+                    // Redirect to contact form
+                    setTimeout(() => {
+                        const contactSection = document.querySelector('#contact');
+                        if (contactSection) {
+                            contactSection.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 500);
+                }
+            });
+        });
+    }
+    
+    // FAQ functionality
+    if (elements.faqItems.length > 0) {
+        elements.faqItems.forEach(item => {
+            const question = item.querySelector('h4');
+            const answer = item.querySelector('p');
+            
+            // Add click event to expand/collapse FAQ items
+            question.addEventListener('click', () => {
+                const isExpanded = item.classList.contains('expanded');
+                
+                // Close all other items
+                elements.faqItems.forEach(otherItem => {
+                    if (otherItem !== item) {
+                        otherItem.classList.remove('expanded');
+                        const otherAnswer = otherItem.querySelector('p');
+                        otherAnswer.style.maxHeight = '0';
+                    }
+                });
+                
+                // Toggle current item
+                if (isExpanded) {
+                    item.classList.remove('expanded');
+                    answer.style.maxHeight = '0';
+                } else {
+                    item.classList.add('expanded');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+            
+            // Initialize FAQ items (collapsed by default)
+            answer.style.maxHeight = '0';
+            answer.style.overflow = 'hidden';
+            answer.style.transition = 'max-height 0.3s ease';
+            question.style.cursor = 'pointer';
+        });
+    }
 });
