@@ -6,270 +6,46 @@
     <title>Legal AI Technology Market Research Report 2025</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #111111; line-height: 1.6; overflow-x: hidden; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { background: #000000; padding: 3rem 0; text-align: center; border-bottom: 2px solid #e0e0e0; position: relative; overflow: hidden; }
+        header::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(120, 120, 120, 0.1) 0%, transparent 70%); animation: pulse 4s ease-in-out infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 0.8; } }
         
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0a0a0a;
-            color: #e0e0e0;
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+        h1 { font-size: 3rem; color: #ffffff; margin-bottom: 1rem; position: relative; z-index: 1; font-weight: 700; letter-spacing: -0.5px; }
+        .subtitle { font-size: 1.2rem; color: #cccccc; position: relative; z-index: 1; font-weight: 300; }
+        .executive-summary { background: #f8f8f8; padding: 2rem; border-radius: 12px; margin: 2rem 0; border: 1px solid #e0e0e0; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
+        .section { margin: 3rem 0; padding: 2rem; background: #ffffff; border-radius: 12px; border: 1px solid #e0e0e0; transition: transform 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
+        .section:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08); }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-            padding: 3rem 0;
-            text-align: center;
-            border-bottom: 2px solid #333;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
-            animation: pulse 4s ease-in-out infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-        }
-        
-        h1 {
-            font-size: 3rem;
-            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            color: #a0a0a0;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .executive-summary {
-            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
-            padding: 2rem;
-            border-radius: 12px;
-            margin: 2rem 0;
-            border: 1px solid #475569;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        
-        .section {
-            margin: 3rem 0;
-            padding: 2rem;
-            background: #1a1a1a;
-            border-radius: 12px;
-            border: 1px solid #333;
-            transition: transform 0.3s ease;
-        }
-        
-        .section:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.1);
-        }
-        
-        h2 {
-            font-size: 2rem;
-            color: #3b82f6;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        h2::before {
-            content: '▶';
-            font-size: 1rem;
-            color: #8b5cf6;
-        }
-        
-        h3 {
-            font-size: 1.5rem;
-            color: #60a5fa;
-            margin: 1.5rem 0 1rem;
-        }
-        
-        .highlight-box {
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        }
-        
-        .metric-card {
-            background: #2d2d2d;
-            padding: 1.5rem;
-            border-radius: 8px;
-            text-align: center;
-            border: 1px solid #444;
-            transition: all 0.3s ease;
-        }
-        
-        .metric-card:hover {
-            transform: translateY(-5px);
-            border-color: #3b82f6;
-            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2);
-        }
-        
-        .metric-value {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #3b82f6;
-            margin-bottom: 0.5rem;
-        }
-        
-        .metric-label {
-            color: #a0a0a0;
-            font-size: 0.9rem;
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-        
-        .chart-container {
-            background: #2d2d2d;
-            padding: 2rem;
-            border-radius: 8px;
-            margin: 2rem 0;
-            border: 1px solid #444;
-            position: relative;
-        }
-        
-        .chart-title {
-            text-align: center;
-            color: #60a5fa;
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-        
-        canvas {
-            max-height: 400px;
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            margin: 2rem 0;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: #2d2d2d;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #444;
-        }
-        
-        th {
-            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
-            color: white;
-            font-weight: 600;
-        }
-        
-        tr:hover {
-            background: #333;
-        }
-        
-        .trend-item {
-            background: #2d2d2d;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin: 1rem 0;
-            border-left: 4px solid #3b82f6;
-            transition: all 0.3s ease;
-        }
-        
-        .trend-item:hover {
-            transform: translateX(5px);
-            border-left-color: #8b5cf6;
-        }
-        
-        .footer {
-            background: #1a1a1a;
-            padding: 2rem 0;
-            text-align: center;
-            margin-top: 4rem;
-            border-top: 1px solid #333;
-        }
-        
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            background: #3b82f6;
-            color: white;
-            border-radius: 4px;
-            font-size: 0.85rem;
-            margin: 0.25rem;
-        }
-        
-        .risk-level {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            font-weight: 600;
-        }
-        
-        .risk-high {
-            background: #ef4444;
-            color: white;
-        }
-        
-        .risk-medium {
-            background: #f59e0b;
-            color: white;
-        }
-        
-        .risk-low {
-            background: #10b981;
-            color: white;
-        }
-        
-        @media (max-width: 768px) {
-            h1 {
-                font-size: 2rem;
-            }
-            
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .section {
-                padding: 1rem;
-            }
-        }
+        h2 { font-size: 2rem; color: #000000; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 700; }
+        h2::before { content: '—'; font-size: 1.5rem; color: #000000; margin-right: 0.5rem; font-weight: 300; }
+        h3 { font-size: 1.5rem; color: #333333; margin: 1.5rem 0 1rem; font-weight: 600; }
+        .highlight-box { background: none; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border: 1px solid #e0e0e0; color: #111111; }
+        .metric-card { background: #f8f8f8; padding: 1.5rem; border-radius: 8px; text-align: center; border: 1px solid #e0e0e0; transition: all 0.3s ease; }
+        .metric-card:hover { transform: translateY(-5px); border-color: #000000; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
+        .metric-value { font-size: 2.5rem; font-weight: bold; color: #000000; margin-bottom: 0.5rem; }
+        .metric-label { font-size: 0.9rem; font-weight: 500; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
+        .chart-container { background: #ffffff; padding: 2rem; border-radius: 8px; margin: 2rem 0; border: 1px solid #e0e0e0; position: relative; height: 400px; }
+        .chart-title { text-align: center; margin-bottom: 1.5rem; font-size: 1.3rem; color: #000000; }
+        .table-container { overflow-x: auto; margin: 2rem 0; }
+        table { width: 100%; border-collapse: collapse; border: 1px solid #e0e0e0; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e0e0e0; }
+        th { background: #f8f8f8; color: #111111; font-weight: 700; font-size: 1.05rem; border-bottom: 2px solid #e0e0e0; }
+        tr:hover { background: #f5f5f5; }
+        .trend-item { background: #f8f8f8; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #000000; transition: all 0.3s ease; }
+        .trend-item:hover { transform: translateX(5px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
+        .trend-item h3, .trend-item h4 { margin-top: 0; margin-bottom: 0.8rem; }
+        .footer { background: #f8f8f8; padding: 2rem 0; margin-top: 4rem; border-top: 1px solid #e0e0e0; font-size: 0.9rem; color: #666666; text-align: center; }
+        ul { margin-left: 1.5rem; margin-bottom: 1rem; }
+        li { margin-bottom: 0.5rem; }
+        .risk-level { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.8rem; }
+        .risk-high { background: #ef4444; color: white; font-weight: 700; }
+        .risk-medium { background: #f59e0b; color: white; font-weight: 700; }
+        .risk-low { background: #10b981; color: white; font-weight: 700; }
+        @media (max-width: 768px) { h1 { font-size: 2rem; } .grid { grid-template-columns: 1fr; } .section { padding: 1rem; } }
     </style>
 </head>
 <body>
@@ -597,7 +373,7 @@
 
     <footer class="footer">
         <div class="container">
-            <p>© 2025 Legal AI Market Research Report | Data compiled from multiple industry sources</p>
+            <p> 2025 Legal AI Market Research Report | Data compiled from multiple industry sources</p>
             <p style="margin-top: 1rem; color: #666;">Disclaimer: This report is for informational purposes only. Market projections are based on available data and may vary.</p>
         </div>
     </footer>
@@ -613,13 +389,13 @@
                     label: 'Conservative Estimate',
                     data: [2.16, 2.42, 3.15, 4.10, 5.33, 6.93, 10.82],
                     borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    backgroundColor: 'rgba(59, 130, 246, 0.15)',
                     tension: 0.4
                 }, {
                     label: 'Optimistic Estimate',
                     data: [2.16, 3.11, 4.47, 6.42, 9.22, 13.25, 19.30],
                     borderColor: '#8b5cf6',
-                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    backgroundColor: 'rgba(139, 92, 246, 0.15)',
                     tension: 0.4
                 }]
             },
@@ -628,23 +404,53 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        labels: { color: '#e0e0e0' }
+                        position: 'right',
+                        labels: { 
+                            color: '#000000',
+                            font: {
+                                weight: 'bold',
+                                size: 14
+                            },
+                            padding: 15
+                        }
+                    },
+                    tooltip: {
+                        bodyFont: {
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        titleFont: {
+                            size: 16,
+                            weight: 'bold'
+                        },
+                        padding: 12,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)'
                     }
                 },
                 scales: {
                     y: {
                         beginAtZero: true,
                         ticks: { 
-                            color: '#e0e0e0',
+                            color: '#000000',
+                            font: {
+                                weight: 'bold',
+                                size: 12
+                            },
                             callback: function(value) {
                                 return '$' + value + 'B';
                             }
                         },
-                        grid: { color: '#333' }
+                        grid: { color: '#e0e0e0' }
                     },
                     x: {
-                        ticks: { color: '#e0e0e0' },
-                        grid: { color: '#333' }
+                        ticks: { 
+                            color: '#000000',
+                            font: {
+                                weight: 'bold',
+                                size: 12
+                            }
+                        },
+                        grid: { color: '#e0e0e0' }
                     }
                 }
             }
@@ -674,7 +480,26 @@
                 plugins: {
                     legend: {
                         position: 'right',
-                        labels: { color: '#e0e0e0' }
+                        labels: { 
+                            color: '#000000',
+                            font: {
+                                weight: 'bold',
+                                size: 14
+                            },
+                            padding: 15
+                        }
+                    },
+                    tooltip: {
+                        bodyFont: {
+                            size: 14,
+                            weight: 'bold'
+                        },
+                        titleFont: {
+                            size: 16,
+                            weight: 'bold'
+                        },
+                        padding: 12,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)'
                     }
                 }
             }
@@ -688,23 +513,23 @@
                 datasets: [{
                     label: 'Harvey AI',
                     data: [{x: 85, y: 90, r: 20}],
-                    backgroundColor: 'rgba(59, 130, 246, 0.6)'
+                    backgroundColor: 'rgba(37, 99, 235, 0.9)'
                 }, {
                     label: 'LexisNexis',
                     data: [{x: 70, y: 85, r: 25}],
-                    backgroundColor: 'rgba(139, 92, 246, 0.6)'
+                    backgroundColor: 'rgba(124, 58, 237, 0.9)'
                 }, {
                     label: 'Thomson Reuters',
                     data: [{x: 75, y: 80, r: 23}],
-                    backgroundColor: 'rgba(16, 185, 129, 0.6)'
+                    backgroundColor: 'rgba(5, 150, 105, 0.9)'
                 }, {
                     label: 'Casetext',
                     data: [{x: 65, y: 75, r: 15}],
-                    backgroundColor: 'rgba(245, 158, 11, 0.6)'
+                    backgroundColor: 'rgba(217, 119, 6, 0.9)'
                 }, {
                     label: 'Robin AI',
                     data: [{x: 60, y: 70, r: 12}],
-                    backgroundColor: 'rgba(239, 68, 68, 0.6)'
+                    backgroundColor: 'rgba(220, 38, 38, 0.9)'
                 }]
             },
             options: {
@@ -715,32 +540,44 @@
                         title: {
                             display: true,
                             text: 'Technology Innovation →',
-                            color: '#e0e0e0'
+                            color: '#000000',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
                         },
-                        ticks: { color: '#e0e0e0' },
+                        ticks: { 
+                            color: '#000000',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
                         grid: { color: '#333' }
                     },
                     y: {
                         title: {
                             display: true,
                             text: 'Market Adoption →',
-                            color: '#e0e0e0'
+                            color: '#000000',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            }
                         },
-                        ticks: { color: '#e0e0e0' },
+                        ticks: { 
+                            color: '#000000',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            }
+                        },
                         grid: { color: '#333' }
                     }
                 },
                 plugins: {
-                    legend: {
-                        labels: { color: '#e0e0e0' }
-                    },
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.dataset.label + ': Innovation ' + context.parsed.x + ', Adoption ' + context.parsed.y;
-                            }
-                        }
-                    }
+                    legend: { labels: { color: '#000000', font: { weight: 'bold', size: 14 }, padding: 15 } },
+                    tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': Innovation ' + context.parsed.x + ', Adoption ' + context.parsed.y; } } }
                 }
             }
         });
@@ -754,11 +591,11 @@
                 datasets: [{
                     label: '2024 Market Share',
                     data: [47, 28, 15, 6, 4],
-                    backgroundColor: '#3b82f6'
+                    backgroundColor: '#2563eb'
                 }, {
                     label: '2030 Projected Share',
                     data: [42, 26, 22, 7, 3],
-                    backgroundColor: '#8b5cf6'
+                    backgroundColor: '#7c3aed'
                 }]
             },
             options: {
@@ -767,24 +604,15 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        ticks: { 
-                            color: '#e0e0e0',
-                            callback: function(value) {
-                                return value + '%';
-                            }
-                        },
-                        grid: { color: '#333' }
+                        ticks: { color: '#000000', font: { weight: 'bold', size: 12 }, callback: function(value) { return value + '%'; } },
+                        grid: { color: '#e0e0e0' }
                     },
                     x: {
-                        ticks: { color: '#e0e0e0' },
-                        grid: { color: '#333' }
+                        ticks: { color: '#000000', font: { weight: 'bold', size: 12 } },
+                        grid: { color: '#e0e0e0' }
                     }
                 },
-                plugins: {
-                    legend: {
-                        labels: { color: '#e0e0e0' }
-                    }
-                }
+                plugins: { legend: { labels: { color: '#000000', font: { weight: 'bold', size: 14 } } } }
             }
         });
     </script>
