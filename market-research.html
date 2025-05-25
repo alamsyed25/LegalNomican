@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal AI Technology Market Research Report 2025</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #e0e0e0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+            padding: 3rem 0;
+            text-align: center;
+            border-bottom: 2px solid #333;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        h1 {
+            font-size: 3rem;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #a0a0a0;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .executive-summary {
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            padding: 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+            border: 1px solid #475569;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .section {
+            margin: 3rem 0;
+            padding: 2rem;
+            background: #1a1a1a;
+            border-radius: 12px;
+            border: 1px solid #333;
+            transition: transform 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(59, 130, 246, 0.1);
+        }
+        
+        h2 {
+            font-size: 2rem;
+            color: #3b82f6;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        h2::before {
+            content: '▶';
+            font-size: 1rem;
+            color: #8b5cf6;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: #60a5fa;
+            margin: 1.5rem 0 1rem;
+        }
+        
+        .highlight-box {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        
+        .metric-card {
+            background: #2d2d2d;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #444;
+            transition: all 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: #3b82f6;
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+        
+        .metric-label {
+            color: #a0a0a0;
+            font-size: 0.9rem;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .chart-container {
+            background: #2d2d2d;
+            padding: 2rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+            border: 1px solid #444;
+            position: relative;
+        }
+        
+        .chart-title {
+            text-align: center;
+            color: #60a5fa;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+        
+        canvas {
+            max-height: 400px;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #2d2d2d;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #444;
+        }
+        
+        th {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: #333;
+        }
+        
+        .trend-item {
+            background: #2d2d2d;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border-left: 4px solid #3b82f6;
+            transition: all 0.3s ease;
+        }
+        
+        .trend-item:hover {
+            transform: translateX(5px);
+            border-left-color: #8b5cf6;
+        }
+        
+        .footer {
+            background: #1a1a1a;
+            padding: 2rem 0;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 1px solid #333;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: #3b82f6;
+            color: white;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin: 0.25rem;
+        }
+        
+        .risk-level {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        
+        .risk-high {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .risk-medium {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        .risk-low {
+            background: #10b981;
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Legal AI Technology Market Research</h1>
+            <p class="subtitle">Comprehensive Analysis of AI-Powered Legal Solutions | 2025 Edition</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="executive-summary">
+            <h2>Executive Summary</h2>
+            <p>The legal AI market is experiencing unprecedented growth, with the global market size projected to reach <strong>$10.82 billion by 2030</strong>, growing at a CAGR of 28.3% from 2025. This transformation is driven by the increasing adoption of AI-powered solutions for legal research, contract analysis, e-discovery, and document review.</p>
+            
+            <div class="grid" style="margin-top: 2rem;">
+                <div class="metric-card">
+                    <div class="metric-value">$3.11B</div>
+                    <div class="metric-label">Market Size 2025</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">28.3%</div>
+                    <div class="metric-label">CAGR 2025-2030</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">$10.82B</div>
+                    <div class="metric-label">Projected 2030</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">56%</div>
+                    <div class="metric-label">Firms Using AI</div>
+                </div>
+            </div>
+        </div>
+
+        <section class="section">
+            <h2>Market Overview</h2>
+            <p>The legal technology landscape is undergoing a fundamental transformation as law firms and corporate legal departments increasingly embrace AI-powered solutions. The integration of natural language processing (NLP), machine learning, and predictive analytics has revolutionized how legal professionals approach their daily tasks.</p>
+            
+            <div class="highlight-box">
+                <h3>Key Market Drivers</h3>
+                <ul>
+                    <li>Increasing complexity and volume of legal data</li>
+                    <li>Demand for automation in legal applications</li>
+                    <li>Rising need for cost-effective legal services</li>
+                    <li>Growing adoption of cloud-based solutions</li>
+                    <li>Regulatory compliance requirements</li>
+                </ul>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Legal AI Market Growth Projection 2024-2030</h3>
+                <canvas id="marketGrowthChart"></canvas>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Market Segmentation</h2>
+            
+            <h3>By Application</h3>
+            <div class="grid">
+                <div class="metric-card">
+                    <div class="metric-value">24%</div>
+                    <div class="metric-label">Legal Research & Case Analysis</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">22%</div>
+                    <div class="metric-label">E-Discovery</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">18%</div>
+                    <div class="metric-label">Contract Management</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-value">15%</div>
+                    <div class="metric-label">Document Review</div>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Market Share by Application Type</h3>
+                <canvas id="applicationChart"></canvas>
+            </div>
+
+            <h3>By End User</h3>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>End User Segment</th>
+                            <th>Market Share 2024</th>
+                            <th>Growth Rate</th>
+                            <th>Key Drivers</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Law Firms</td>
+                            <td>47%</td>
+                            <td>Highest CAGR</td>
+                            <td>Efficiency gains, client demands</td>
+                        </tr>
+                        <tr>
+                            <td>Corporate Legal Departments</td>
+                            <td>28%</td>
+                            <td>High Growth</td>
+                            <td>Contract lifecycle management</td>
+                        </tr>
+                        <tr>
+                            <td>Government</td>
+                            <td>15%</td>
+                            <td>Moderate</td>
+                            <td>Regulatory compliance</td>
+                        </tr>
+                        <tr>
+                            <td>Others</td>
+                            <td>10%</td>
+                            <td>Steady</td>
+                            <td>Democratization of legal services</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Competitive Landscape</h2>
+            
+            <h3>Key Players Analysis</h3>
+            
+            <div class="trend-item">
+                <h4>Harvey AI</h4>
+                <p><strong>Valuation:</strong> $3-5 billion (2025 negotiations)</p>
+                <p><strong>Funding:</strong> $300M Series D (Feb 2025)</p>
+                <p><strong>Key Metrics:</strong> $75-100M ARR, 10,000+ daily active lawyers</p>
+                <p><strong>Differentiators:</strong> Custom AI models, partnerships with major law firms, integration with OpenAI, Anthropic, and Google models</p>
+            </div>
+
+            <div class="trend-item">
+                <h4>LexisNexis (Lexis+ AI)</h4>
+                <p><strong>Market Position:</strong> Established leader</p>
+                <p><strong>Key Features:</strong> Protégé AI assistant, comprehensive legal database</p>
+                <p><strong>Strengths:</strong> Authoritative content, 650+ attorney editors, DMS integrations</p>
+            </div>
+
+            <div class="trend-item">
+                <h4>Thomson Reuters (CoCounsel)</h4>
+                <p><strong>Previous:</strong> Casetext acquisition</p>
+                <p><strong>Focus:</strong> Professional-grade GenAI assistant</p>
+                <p><strong>Strengths:</strong> Trusted content, industry expertise</p>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Competitive Positioning Matrix</h3>
+                <canvas id="competitiveChart"></canvas>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Technology Trends</h2>
+            
+            <div class="trend-item">
+                <h3>🤖 Generative AI Integration</h3>
+                <p>Advanced NLP and machine learning models are enabling sophisticated legal document generation, contract analysis, and research capabilities. Leading firms are adopting multi-model approaches combining GPT-4, Claude, and proprietary models.</p>
+            </div>
+
+            <div class="trend-item">
+                <h3>☁️ Cloud-Based Solutions</h3>
+                <p>69.5% of the market is dominated by cloud-based segment, offering scalability, remote access, and reduced infrastructure costs. This trend accelerated post-pandemic and continues to drive adoption.</p>
+            </div>
+
+            <div class="trend-item">
+                <h3>🔗 Blockchain & Smart Contracts</h3>
+                <p>Emerging use of blockchain for contract management, intellectual property rights, and secure transactions. Self-executing contracts reduce intermediaries and enhance transparency.</p>
+            </div>
+
+            <div class="trend-item">
+                <h3>🎯 Specialized AI Models</h3>
+                <p>Development of domain-specific models trained on legal data, moving beyond general-purpose LLMs to achieve higher accuracy in legal contexts.</p>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Market Opportunities</h2>
+            
+            <div class="highlight-box">
+                <h3>High-Growth Segments</h3>
+                <ul>
+                    <li><strong>Legal Chatbots:</strong> Fastest growing segment with 24/7 client service capabilities</li>
+                    <li><strong>Contract Lifecycle Management:</strong> Automation of contract creation, review, and negotiation</li>
+                    <li><strong>Compliance & Risk Management:</strong> AI-driven regulatory compliance solutions</li>
+                    <li><strong>Predictive Analytics:</strong> Case outcome prediction and litigation strategy</li>
+                </ul>
+            </div>
+
+            <div class="grid">
+                <div class="trend-item">
+                    <h4>Small & Mid-Size Firms</h4>
+                    <p>Democratization of legal AI through affordable SaaS solutions. Cloud-based platforms reducing barriers to entry.</p>
+                </div>
+                <div class="trend-item">
+                    <h4>Corporate Legal Departments</h4>
+                    <p>In-house teams seeking efficiency gains and cost reduction through AI automation.</p>
+                </div>
+                <div class="trend-item">
+                    <h4>International Markets</h4>
+                    <p>Asia-Pacific showing highest growth potential with expanding legal sectors.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Regulatory Landscape</h2>
+            
+            <h3>Key Compliance Considerations</h3>
+            
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Region/Regulation</th>
+                            <th>Status</th>
+                            <th>Impact</th>
+                            <th>Risk Level</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>EU AI Act</td>
+                            <td>In Force (Aug 2024)</td>
+                            <td>Comprehensive framework, risk-based approach</td>
+                            <td><span class="risk-level risk-high">High</span></td>
+                        </tr>
+                        <tr>
+                            <td>US Federal</td>
+                            <td>Evolving (2025)</td>
+                            <td>State-level patchwork, sector-specific rules</td>
+                            <td><span class="risk-level risk-medium">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td>Colorado AI Act</td>
+                            <td>Active</td>
+                            <td>High-risk AI system regulations</td>
+                            <td><span class="risk-level risk-medium">Medium</span></td>
+                        </tr>
+                        <tr>
+                            <td>GDPR/Data Privacy</td>
+                            <td>Ongoing</td>
+                            <td>Data protection requirements</td>
+                            <td><span class="risk-level risk-high">High</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="highlight-box">
+                <h4>Compliance Requirements</h4>
+                <ul>
+                    <li>Transparency in AI decision-making</li>
+                    <li>Human oversight for high-risk applications</li>
+                    <li>Data privacy and security measures</li>
+                    <li>Bias mitigation and fairness testing</li>
+                    <li>Regular audits and documentation</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Strategic Recommendations</h2>
+            
+            <div class="trend-item">
+                <h3>For Legal AI Startups</h3>
+                <ul>
+                    <li>Focus on specialized use cases with clear ROI</li>
+                    <li>Prioritize data security and compliance from day one</li>
+                    <li>Build partnerships with established legal firms</li>
+                    <li>Develop domain-specific models for higher accuracy</li>
+                    <li>Invest in explainable AI for transparency</li>
+                </ul>
+            </div>
+
+            <div class="trend-item">
+                <h3>For Law Firms</h3>
+                <ul>
+                    <li>Start with pilot programs in specific practice areas</li>
+                    <li>Invest in training and change management</li>
+                    <li>Evaluate multiple vendors before commitment</li>
+                    <li>Ensure integration with existing systems</li>
+                    <li>Monitor regulatory developments closely</li>
+                </ul>
+            </div>
+
+            <div class="trend-item">
+                <h3>For Investors</h3>
+                <ul>
+                    <li>Look for companies with strong legal domain expertise</li>
+                    <li>Evaluate data moats and proprietary technology</li>
+                    <li>Consider regulatory compliance capabilities</li>
+                    <li>Assess scalability and market expansion potential</li>
+                    <li>Monitor customer retention and satisfaction metrics</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2>Future Outlook</h2>
+            
+            <div class="highlight-box">
+                <h3>2025-2030 Projections</h3>
+                <ul>
+                    <li><strong>Market Size:</strong> Expected to reach $10.82B-$19.3B by 2030</li>
+                    <li><strong>Adoption Rate:</strong> 80%+ of major law firms using AI by 2027</li>
+                    <li><strong>Key Growth Areas:</strong> Agentic AI, autonomous legal assistants</li>
+                    <li><strong>Consolidation:</strong> Expect M&A activity among legal tech vendors</li>
+                    <li><strong>Regulation:</strong> Comprehensive frameworks in major markets</li>
+                </ul>
+            </div>
+
+            <div class="chart-container">
+                <h3 class="chart-title">Regional Market Growth Forecast</h3>
+                <canvas id="regionalChart"></canvas>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 Legal AI Market Research Report | Data compiled from multiple industry sources</p>
+            <p style="margin-top: 1rem; color: #666;">Disclaimer: This report is for informational purposes only. Market projections are based on available data and may vary.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Market Growth Chart
+        const marketGrowthCtx = document.getElementById('marketGrowthChart').getContext('2d');
+        new Chart(marketGrowthCtx, {
+            type: 'line',
+            data: {
+                labels: ['2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+                datasets: [{
+                    label: 'Conservative Estimate',
+                    data: [2.16, 2.42, 3.15, 4.10, 5.33, 6.93, 10.82],
+                    borderColor: '#3b82f6',
+                    backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                    tension: 0.4
+                }, {
+                    label: 'Optimistic Estimate',
+                    data: [2.16, 3.11, 4.47, 6.42, 9.22, 13.25, 19.30],
+                    borderColor: '#8b5cf6',
+                    backgroundColor: 'rgba(139, 92, 246, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: { color: '#e0e0e0' }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { 
+                            color: '#e0e0e0',
+                            callback: function(value) {
+                                return '$' + value + 'B';
+                            }
+                        },
+                        grid: { color: '#333' }
+                    },
+                    x: {
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: '#333' }
+                    }
+                }
+            }
+        });
+
+        // Application Chart
+        const applicationCtx = document.getElementById('applicationChart').getContext('2d');
+        new Chart(applicationCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Legal Research', 'E-Discovery', 'Contract Management', 'Document Review', 'Compliance', 'Others'],
+                datasets: [{
+                    data: [24, 22, 18, 15, 12, 9],
+                    backgroundColor: [
+                        '#3b82f6',
+                        '#8b5cf6',
+                        '#10b981',
+                        '#f59e0b',
+                        '#ef4444',
+                        '#6b7280'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'right',
+                        labels: { color: '#e0e0e0' }
+                    }
+                }
+            }
+        });
+
+        // Competitive Chart
+        const competitiveCtx = document.getElementById('competitiveChart').getContext('2d');
+        new Chart(competitiveCtx, {
+            type: 'bubble',
+            data: {
+                datasets: [{
+                    label: 'Harvey AI',
+                    data: [{x: 85, y: 90, r: 20}],
+                    backgroundColor: 'rgba(59, 130, 246, 0.6)'
+                }, {
+                    label: 'LexisNexis',
+                    data: [{x: 70, y: 85, r: 25}],
+                    backgroundColor: 'rgba(139, 92, 246, 0.6)'
+                }, {
+                    label: 'Thomson Reuters',
+                    data: [{x: 75, y: 80, r: 23}],
+                    backgroundColor: 'rgba(16, 185, 129, 0.6)'
+                }, {
+                    label: 'Casetext',
+                    data: [{x: 65, y: 75, r: 15}],
+                    backgroundColor: 'rgba(245, 158, 11, 0.6)'
+                }, {
+                    label: 'Robin AI',
+                    data: [{x: 60, y: 70, r: 12}],
+                    backgroundColor: 'rgba(239, 68, 68, 0.6)'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Technology Innovation →',
+                            color: '#e0e0e0'
+                        },
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: '#333' }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Market Adoption →',
+                            color: '#e0e0e0'
+                        },
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: '#333' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#e0e0e0' }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': Innovation ' + context.parsed.x + ', Adoption ' + context.parsed.y;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+
+        // Regional Chart
+        const regionalCtx = document.getElementById('regionalChart').getContext('2d');
+        new Chart(regionalCtx, {
+            type: 'bar',
+            data: {
+                labels: ['North America', 'Europe', 'Asia-Pacific', 'Latin America', 'Middle East & Africa'],
+                datasets: [{
+                    label: '2024 Market Share',
+                    data: [47, 28, 15, 6, 4],
+                    backgroundColor: '#3b82f6'
+                }, {
+                    label: '2030 Projected Share',
+                    data: [42, 26, 22, 7, 3],
+                    backgroundColor: '#8b5cf6'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { 
+                            color: '#e0e0e0',
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        },
+                        grid: { color: '#333' }
+                    },
+                    x: {
+                        ticks: { color: '#e0e0e0' },
+                        grid: { color: '#333' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#e0e0e0' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
