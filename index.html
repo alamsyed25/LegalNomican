@@ -3,19 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Legal Nomicon - AI-powered legal assistant that automates contract review, legal research, and document drafting">
     <title>Legal Nomicon - AI-Powered Legal Assistant</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
-        <div class="container">
+        <div class="container header-content">
             <div class="logo">
                 <i class="fas fa-book-open"></i>
                 <h1>Legal Nomicon</h1>
             </div>
             <nav>
-                <button class="mobile-menu-btn">
+                <button class="mobile-menu-btn" aria-label="Toggle menu">
                     <i class="fas fa-bars"></i>
                 </button>
                 <ul class="nav-menu">
@@ -29,289 +30,244 @@
         </div>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <span class="badge">Enterprise-Grade AI for Legal Teams</span>
-                <h2>Cut Legal Research Time by <span class="highlight">50%</span> with AI That Cites Its Sources</h2>
-                <p>AI-powered legal assistant that automates contract review, legal research, and document drafting. SOC 2 compliant with 85% citation accuracy for enterprise law firms.</p>
-                <div class="cta-buttons">
-                    <a href="#" class="btn primary">Schedule Live Demo <i class="fas fa-arrow-right"></i></a>
-                    <a href="#" class="btn secondary">View Features</a>
-                </div>
-                <div class="features-list">
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>30-day free trial</span>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <span class="badge">Enterprise-Grade AI for Legal Teams</span>
+                    <h2>Cut Legal Research Time by <span class="highlight">50%</span> with AI That Cites Its Sources</h2>
+                    <p>AI-powered legal assistant that automates contract review, legal research, and document drafting. SOC 2 compliant with 85% citation accuracy for enterprise law firms.</p>
+                    <div class="cta-buttons">
+                        <a href="#contact" class="btn primary">Schedule Live Demo <i class="fas fa-arrow-right"></i></a>
+                        <a href="features.html" class="btn secondary">View Features</a>
                     </div>
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>SOC 2 Type II compliant</span>
-                    </div>
-                    <div class="feature">
-                        <i class="fas fa-check-circle"></i>
-                        <span>99.9% uptime SLA</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="search-demo">
-        <div class="container">
-            <div class="search-box">
-                <div class="search-header">
-                    <i class="fas fa-search"></i>
-                    <h3>Legal Research Query</h3>
-                </div>
-                <div class="search-input">
-                    <p class="query">"What are the recent precedents for force majeure clauses in commercial contracts post-COVID?"</p>
-                </div>
-                <div class="search-results">
-                    <div class="result-header">
-                        <i class="fas fa-check-circle"></i>
-                        <p>Found 12 relevant cases from 2020-2024</p>
-                    </div>
-                    <p class="result-source">Sources: Federal Courts, State Courts, Legal Journals</p>
+                    <ul class="features-list">
+                        <li class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>30-day free trial</span>
+                        </li>
+                        <li class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>SOC 2 Type II compliant</span>
+                        </li>
+                        <li class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>99.9% uptime SLA</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
+        </section>
 
-            <div class="analysis-box">
-                <div class="analysis-header">
-                    <i class="fas fa-file-alt"></i>
-                    <h3>Contract Analysis</h3>
-                </div>
-                <div class="analysis-content">
-                    <div class="analysis-row">
-                        <span>Risk Assessment</span>
-                        <span class="badge yellow">Medium Risk</span>
-                    </div>
-                    <div class="analysis-row">
-                        <span>Compliance Check</span>
-                        <span class="badge green">Compliant</span>
-                    </div>
-                    <div class="analysis-row">
-                        <span>Missing Clauses</span>
-                        <span>2 suggestions</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="features" class="features">
-        <div class="container">
-            <h2 class="section-title">Everything Your Legal Team Needs</h2>
-            <p class="section-subtitle">Streamline your entire legal workflow with AI-powered tools designed specifically for law firms and legal departments.</p>
-            
-            <div class="feature-grid">
-                <!-- Feature 1: AI-Powered Legal Research -->
-                <div class="feature-card">
-                    <div class="feature-icon">
+        <section class="search-demo">
+            <div class="container">
+                <div class="search-box">
+                    <div class="search-header">
                         <i class="fas fa-search"></i>
+                        <h3>Legal Research Query</h3>
                     </div>
-                    <h3>AI-Powered Legal Research</h3>
-                    <p>Natural language queries with real-time access to case law, statutes, and commentary. Auto-citations and source linking included.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> Chat-style interface</li>
-                        <li><i class="fas fa-check-circle"></i> Case law summaries</li>
-                        <li><i class="fas fa-check-circle"></i> Auto-citations</li>
-                        <li><i class="fas fa-check-circle"></i> Source verification</li>
-                    </ul>
+                    <div class="search-input">
+                        <p class="query">"What are the recent precedents for force majeure clauses in commercial contracts post-COVID?"</p>
+                    </div>
+                    <div class="search-results">
+                        <div class="result-header">
+                            <i class="fas fa-check-circle"></i>
+                            <p>Found 12 relevant cases from 2020-2024</p>
+                        </div>
+                        <p class="result-source">Sources: Federal Courts, State Courts, Legal Journals</p>
+                    </div>
                 </div>
 
-                <!-- Feature 2: Contract Review Assistant -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-file-contract"></i>
+                <div class="analysis-box">
+                    <div class="analysis-header">
+                        <i class="fas fa-file-alt"></i>
+                        <h3>Contract Analysis</h3>
                     </div>
-                    <h3>Contract Review Assistant</h3>
-                    <p>Upload contracts and get instant analysis. Extract key clauses, identify risks, and receive alternative language suggestions.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> PDF/DOCX support</li>
-                        <li><i class="fas fa-check-circle"></i> Risk flagging</li>
-                        <li><i class="fas fa-check-circle"></i> Clause extraction</li>
-                        <li><i class="fas fa-check-circle"></i> Alternative suggestions</li>
-                    </ul>
-                </div>
-
-                <!-- Feature 3: Document Drafting -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-book"></i>
-                    </div>
-                    <h3>Document Drafting</h3>
-                    <p>Generate NDAs, MSAs, and service agreements with prompt-based inputs. Export in multiple formats.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> Template library</li>
-                        <li><i class="fas fa-check-circle"></i> Custom generation</li>
-                        <li><i class="fas fa-check-circle"></i> Multi-format export</li>
-                        <li><i class="fas fa-check-circle"></i> Version control</li>
-                    </ul>
-                </div>
-
-                <!-- Feature 4: Collaboration Tools -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <h3>Collaboration Tools</h3>
-                    <p>Team review workflows with commenting, annotations, and role-based assignments for associates and partners.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> Side-by-side reviews</li>
-                        <li><i class="fas fa-check-circle"></i> Role assignments</li>
-                        <li><i class="fas fa-check-circle"></i> Comment threads</li>
-                        <li><i class="fas fa-check-circle"></i> Approval flows</li>
-                    </ul>
-                </div>
-
-                <!-- Feature 5: Enterprise Security -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Enterprise Security</h3>
-                    <p>SOC 2 Type II compliant with role-based access control, encryption, and secure cloud storage.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> SOC 2 compliance</li>
-                        <li><i class="fas fa-check-circle"></i> RBAC</li>
-                        <li><i class="fas fa-check-circle"></i> Data encryption</li>
-                        <li><i class="fas fa-check-circle"></i> Audit logging</li>
-                    </ul>
-                </div>
-
-                <!-- Feature 6: Integrations -->
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-plug"></i>
-                    </div>
-                    <h3>Integrations</h3>
-                    <p>Seamlessly connect with iManage, NetDocuments, and other legal tools via secure APIs.</p>
-                    <ul class="feature-list">
-                        <li><i class="fas fa-check-circle"></i> iManage integration</li>
-                        <li><i class="fas fa-check-circle"></i> NetDocuments sync</li>
-                        <li><i class="fas fa-check-circle"></i> REST API</li>
-                        <li><i class="fas fa-check-circle"></i> Automated workflows</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="pricing" class="stats">
-        <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item">
-                    <h3>99.9%</h3>
-                    <p>Uptime SLA</p>
-                </div>
-                <div class="stat-item">
-                    <h3>85%</h3>
-                    <p>Citation Accuracy</p>
-                </div>
-                <div class="stat-item">
-                    <h3>&lt;3s</h3>
-                    <p>Response Time</p>
-                </div>
-                <div class="stat-item">
-                    <h3>1000+</h3>
-                    <p>Concurrent Users</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="security" class="security">
-        <div class="container">
-            <h2>Enterprise-Grade Security Your Clients Demand</h2>
-            <p>Built with the highest security standards for legal professionals handling sensitive client data.</p>
-            
-            <div class="security-features">
-                <div class="security-feature">
-                    <i class="fas fa-certificate"></i>
-                    <h4>SOC 2 Type II Compliant</h4>
-                    <p>Independently audited security controls and processes</p>
-                </div>
-                <div class="security-feature">
-                    <i class="fas fa-lock"></i>
-                    <h4>End-to-End Encryption</h4>
-                    <p>TLS 1.3 in transit, AES-256 at rest encryption</p>
-                </div>
-                <div class="security-feature">
-                    <i class="fas fa-user-shield"></i>
-                    <h4>Role-Based Access Control</h4>
-                    <p>Granular permissions for associates, partners, and reviewers</p>
-                </div>
-                <div class="security-feature">
-                    <i class="fas fa-clipboard-list"></i>
-                    <h4>Comprehensive Audit Logs</h4>
-                    <p>Full traceability of all user actions and system events</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="compliance">
-        <div class="container">
-            <div class="compliance-box">
-                <h3>Compliance Standards</h3>
-                <div class="compliance-grid">
-                    <div class="compliance-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>SOC 2 Type II</span>
-                    </div>
-                    <div class="compliance-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>GDPR Ready</span>
-                    </div>
-                    <div class="compliance-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>HIPAA Compliant</span>
-                    </div>
-                    <div class="compliance-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>ISO 27001</span>
-                    </div>
-                    <div class="compliance-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>PCI DSS</span>
-                    </div>
-                    <div class="compliance-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Legal Industry Standards</span>
+                    <div class="analysis-content">
+                        <div class="analysis-row">
+                            <span>Risk Assessment</span>
+                            <span class="badge yellow">Medium Risk</span>
+                        </div>
+                        <div class="analysis-row">
+                            <span>Compliance Check</span>
+                            <span class="badge green">Compliant</span>
+                        </div>
+                        <div class="analysis-row">
+                            <span>Missing Clauses</span>
+                            <span>2 suggestions</span>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="contact" class="contact">
-        <div class="container">
-            <h2 class="section-title">Schedule a Live Demo</h2>
-            <p class="section-subtitle">See how Legal Nomicon can transform your legal workflow</p>
-            
-            <div class="contact-content">
-                <div class="contact-form-container">
+        <section id="features" class="features">
+            <div class="container">
+                <h2 class="section-title">Everything Your Legal Team Needs</h2>
+                <p class="section-subtitle">Streamline your entire legal workflow with AI-powered tools designed specifically for law firms and legal departments.</p>
+                
+                <div class="feature-grid">
+                    <!-- Feature 1: AI-Powered Legal Research -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <h3>AI-Powered Legal Research</h3>
+                        <p>Natural language queries with real-time access to case law, statutes, and commentary. Auto-citations and source linking included.</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> Chat-style interface</li>
+                            <li><i class="fas fa-check-circle"></i> Case law summaries</li>
+                            <li><i class="fas fa-check-circle"></i> Auto-citations</li>
+                            <li><i class="fas fa-check-circle"></i> Source verification</li>
+                        </ul>
+                    </div>
+
+                    <!-- Feature 2: Contract Review Assistant -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-contract"></i>
+                        </div>
+                        <h3>Contract Review Assistant</h3>
+                        <p>Upload contracts and get instant analysis. Extract key clauses, identify risks, and receive alternative language suggestions.</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> PDF/DOCX support</li>
+                            <li><i class="fas fa-check-circle"></i> Risk flagging</li>
+                            <li><i class="fas fa-check-circle"></i> Clause extraction</li>
+                            <li><i class="fas fa-check-circle"></i> Alternative suggestions</li>
+                        </ul>
+                    </div>
+
+                    <!-- Feature 3: Document Drafting -->
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h3>Document Drafting</h3>
+                        <p>Generate NDAs, MSAs, and service agreements with prompt-based inputs. Export in multiple formats.</p>
+                        <ul class="feature-list">
+                            <li><i class="fas fa-check-circle"></i> Template library</li>
+                            <li><i class="fas fa-check-circle"></i> Custom generation</li>
+                            <li><i class="fas fa-check-circle"></i> Multi-format export</li>
+                            <li><i class="fas fa-check-circle"></i> Version control</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="stats">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <h3>99.9%</h3>
+                        <p>Uptime SLA</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>85%</h3>
+                        <p>Citation Accuracy</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>&lt;3s</h3>
+                        <p>Response Time</p>
+                    </div>
+                    <div class="stat-item">
+                        <h3>1000+</h3>
+                        <p>Concurrent Users</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="security" class="security">
+            <div class="container">
+                <h2>Enterprise-Grade Security Your Clients Demand</h2>
+                <p>Built with the highest security standards for legal professionals handling sensitive client data.</p>
+                
+                <div class="security-features">
+                    <div class="security-feature">
+                        <i class="fas fa-certificate"></i>
+                        <h4>SOC 2 Type II Compliant</h4>
+                        <p>Independently audited security controls and processes</p>
+                    </div>
+                    <div class="security-feature">
+                        <i class="fas fa-lock"></i>
+                        <h4>End-to-End Encryption</h4>
+                        <p>TLS 1.3 in transit, AES-256 at rest encryption</p>
+                    </div>
+                    <div class="security-feature">
+                        <i class="fas fa-user-shield"></i>
+                        <h4>Role-Based Access Control</h4>
+                        <p>Granular permissions for associates, partners, and reviewers</p>
+                    </div>
+                    <div class="security-feature">
+                        <i class="fas fa-clipboard-list"></i>
+                        <h4>Comprehensive Audit Logs</h4>
+                        <p>Full traceability of all user actions and system events</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about" class="compliance">
+            <div class="container">
+                <div class="compliance-box">
+                    <h3>Compliance Standards</h3>
+                    <div class="compliance-grid">
+                        <div class="compliance-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>SOC 2 Type II</span>
+                        </div>
+                        <div class="compliance-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>GDPR Ready</span>
+                        </div>
+                        <div class="compliance-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>HIPAA Compliant</span>
+                        </div>
+                        <div class="compliance-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>ISO 27001</span>
+                        </div>
+                        <div class="compliance-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>PCI DSS</span>
+                        </div>
+                        <div class="compliance-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Legal Industry Standards</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact">
+            <div class="container">
+                <h2 class="section-title">Schedule a Live Demo</h2>
+                <p class="section-subtitle">See how Legal Nomicon can transform your legal workflow</p>
+                
+                <div class="contact-content">
                     <form id="demoForm" class="contact-form">
                         <div class="form-row">
                             <div class="form-group half">
                                 <label for="firstName">First Name*</label>
-                                <input type="text" id="firstName" name="firstName" placeholder="First Name" required>
+                                <input type="text" id="firstName" name="firstName" required>
                             </div>
                             <div class="form-group half">
                                 <label for="lastName">Last Name*</label>
-                                <input type="text" id="lastName" name="lastName" placeholder="Last Name" required>
+                                <input type="text" id="lastName" name="lastName" required>
                             </div>
                         </div>
                         
                         <div class="form-group">
                             <label for="workEmail">Work Email*</label>
-                            <input type="email" id="workEmail" name="workEmail" placeholder="name@company.com" required>
+                            <input type="email" id="workEmail" name="workEmail" required>
                         </div>
                         
                         <div class="form-group">
                             <label for="companyName">Company/Firm Name*</label>
-                            <input type="text" id="companyName" name="companyName" placeholder="Your Law Firm" required>
+                            <input type="text" id="companyName" name="companyName" required>
                         </div>
                         
                         <div class="form-group">
@@ -331,10 +287,10 @@
                             <label for="firmSize">Firm Size*</label>
                             <select id="firmSize" name="firmSize" required>
                                 <option value="" disabled selected>Select firm size</option>
-                                <option value="1-10 attorneys">1-10 attorneys</option>
-                                <option value="11-50 attorneys">11-50 attorneys</option>
-                                <option value="51-200 attorneys">51-200 attorneys</option>
-                                <option value="200+ attorneys">200+ attorneys</option>
+                                <option value="1-10">1-10 attorneys</option>
+                                <option value="11-50">11-50 attorneys</option>
+                                <option value="51-200">51-200 attorneys</option>
+                                <option value="200+">200+ attorneys</option>
                             </select>
                         </div>
                         
@@ -342,17 +298,17 @@
                             <label for="useCase">Primary Use Case*</label>
                             <select id="useCase" name="useCase" required>
                                 <option value="" disabled selected>Select primary use case</option>
-                                <option value="Contract Review & Analysis">Contract Review & Analysis</option>
-                                <option value="Legal Research & Citations">Legal Research & Citations</option>
-                                <option value="Document Drafting">Document Drafting</option>
-                                <option value="All Features">All Features</option>
-                                <option value="Other">Other</option>
+                                <option value="contract-review">Contract Review & Analysis</option>
+                                <option value="legal-research">Legal Research & Citations</option>
+                                <option value="document-drafting">Document Drafting</option>
+                                <option value="all">All Features</option>
+                                <option value="other">Other</option>
                             </select>
                         </div>
                         
                         <div class="form-group">
                             <label for="phoneNumber">Phone Number (optional)</label>
-                            <input type="tel" id="phoneNumber" name="phoneNumber" placeholder="(123) 456-7890">
+                            <input type="tel" id="phoneNumber" name="phoneNumber">
                         </div>
                         
                         <button type="submit" id="submitButton" class="btn primary submit-btn">
@@ -361,8 +317,7 @@
                         </button>
                         
                         <p class="form-disclaimer">We'll contact you within 24 hours to schedule your personalized demo</p>
-                        
-                        <div id="formMessage" class="form-message"></div>
+                        <div id="formMessage" class="form-message" role="alert" aria-live="polite"></div>
                     </form>
                 </div>
                 
@@ -399,16 +354,6 @@
                                 <p>Experience how quickly you can create custom legal documents from templates</p>
                             </div>
                         </div>
-                        
-                        <div class="preview-feature">
-                            <div class="feature-icon">
-                                <i class="fas fa-users"></i>
-                            </div>
-                            <div class="feature-content">
-                                <h4>Collaboration Tools</h4>
-                                <p>Learn how to streamline review workflows with role-based assignments</p>
-                            </div>
-                        </div>
                     </div>
                     
                     <div class="trust-signals">
@@ -435,8 +380,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
     <footer>
         <div class="container">
@@ -445,23 +390,23 @@
                     <i class="fas fa-book-open"></i>
                     <h2>Legal Nomicon</h2>
                 </div>
-                <div class="footer-links">
+                <nav class="footer-links">
                     <div class="footer-column">
                         <h3>Product</h3>
                         <ul>
-                            <li><a href="#">Features</a></li>
-                            <li><a href="#">Pricing</a></li>
-                            <li><a href="#">Security</a></li>
+                            <li><a href="#features">Features</a></li>
+                            <li><a href="#pricing">Pricing</a></li>
+                            <li><a href="#security">Security</a></li>
                             <li><a href="#">Integrations</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
                         <h3>Company</h3>
                         <ul>
-                            <li><a href="#">About</a></li>
+                            <li><a href="#about">About</a></li>
                             <li><a href="#">Careers</a></li>
                             <li><a href="#">Blog</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="#contact">Contact</a></li>
                         </ul>
                     </div>
                     <div class="footer-column">
@@ -482,15 +427,15 @@
                             <li><a href="#">GDPR</a></li>
                         </ul>
                     </div>
-                </div>
+                </nav>
             </div>
             <div class="footer-bottom">
                 <p>&copy; 2025 Legal Nomicon. All rights reserved.</p>
                 <div class="social-links">
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-linkedin"></i></a>
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
         </div>
@@ -498,4 +443,4 @@
 
     <script src="script.js"></script>
 </body>
-</html>
+</html> 

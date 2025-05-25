@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Legal Nomicon | AI-Powered Legal Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-book-open"></i>
+                <h1>Legal Nomicon</h1>
+            </div>
+            <nav>
+                <a href="/" class="btn secondary">Back to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="demo-page">
+        <section class="demo-welcome">
+            <div class="container">
+                <h1>Welcome to Your Interactive Demo</h1>
+                <p class="demo-subtitle">Experience the power of AI-assisted legal work</p>
+                
+                <div class="demo-features">
+                    <div class="demo-feature">
+                        <h2>Contract Analysis</h2>
+                        <div class="demo-content">
+                            <textarea id="contractInput" placeholder="Paste your contract here for analysis..."></textarea>
+                            <button id="analyzeContract" class="btn primary">Analyze Contract</button>
+                            <div id="analysisResults" class="results-panel"></div>
+                        </div>
+                    </div>
+
+                    <div class="demo-feature">
+                        <h2>Legal Research</h2>
+                        <div class="demo-content">
+                            <input type="text" id="researchQuery" placeholder="Enter your legal research question...">
+                            <button id="searchLegal" class="btn primary">Search</button>
+                            <div id="searchResults" class="results-panel"></div>
+                        </div>
+                    </div>
+
+                    <div class="demo-feature">
+                        <h2>Document Generation</h2>
+                        <div class="demo-content">
+                            <select id="documentType">
+                                <option value="">Select document type...</option>
+                                <option value="nda">Non-Disclosure Agreement</option>
+                                <option value="employment">Employment Contract</option>
+                                <option value="service">Service Agreement</option>
+                            </select>
+                            <button id="generateDoc" class="btn primary">Generate Document</button>
+                            <div id="documentPreview" class="results-panel"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Demo functionality
+            const elements = {
+                contractInput: document.getElementById('contractInput'),
+                analyzeContract: document.getElementById('analyzeContract'),
+                analysisResults: document.getElementById('analysisResults'),
+                researchQuery: document.getElementById('researchQuery'),
+                searchLegal: document.getElementById('searchLegal'),
+                searchResults: document.getElementById('searchResults'),
+                documentType: document.getElementById('documentType'),
+                generateDoc: document.getElementById('generateDoc'),
+                documentPreview: document.getElementById('documentPreview')
+            };
+
+            // Contract Analysis Demo
+            elements.analyzeContract.addEventListener('click', async () => {
+                const contract = elements.contractInput.value;
+                if (!contract) {
+                    alert('Please paste a contract for analysis');
+                    return;
+                }
+
+                elements.analysisResults.innerHTML = `
+                    <div class="analysis-item">
+                        <h4>Risk Assessment</h4>
+                        <span class="badge yellow">Medium Risk</span>
+                        <p>Identified potential issues in liability clauses</p>
+                    </div>
+                    <div class="analysis-item">
+                        <h4>Key Terms</h4>
+                        <ul>
+                            <li>Payment Terms: Net 30</li>
+                            <li>Contract Duration: 12 months</li>
+                            <li>Termination Notice: 60 days</li>
+                        </ul>
+                    </div>
+                `;
+            });
+
+            // Legal Research Demo
+            elements.searchLegal.addEventListener('click', async () => {
+                const query = elements.researchQuery.value;
+                if (!query) {
+                    alert('Please enter a research query');
+                    return;
+                }
+
+                elements.searchResults.innerHTML = `
+                    <div class="search-result">
+                        <h4>Relevant Cases</h4>
+                        <ul>
+                            <li>Smith v. Jones (2022) - Similar precedent</li>
+                            <li>Legal Corp v. Tech Inc (2023) - Related ruling</li>
+                        </ul>
+                    </div>
+                    <div class="search-result">
+                        <h4>Statutes</h4>
+                        <ul>
+                            <li>Commercial Code §2-207</li>
+                            <li>State Law Title 15, Chapter 3</li>
+                        </ul>
+                    </div>
+                `;
+            });
+
+            // Document Generation Demo
+            elements.generateDoc.addEventListener('click', async () => {
+                const docType = elements.documentType.value;
+                if (!docType) {
+                    alert('Please select a document type');
+                    return;
+                }
+
+                elements.documentPreview.innerHTML = `
+                    <div class="document-preview">
+                        <h4>Generated ${docType.toUpperCase()}</h4>
+                        <p>Document preview will appear here...</p>
+                        <button class="btn secondary">Download Document</button>
+                    </div>
+                `;
+            });
+        });
+    </script>
+
+    <style>
+        .demo-page {
+            padding: 40px 0;
+            background-color: var(--secondary-dark);
+        }
+
+        .demo-welcome {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .demo-subtitle {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .demo-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .demo-feature {
+            background-color: var(--secondary-light);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+        }
+
+        .demo-feature h2 {
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .demo-content {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .demo-content textarea,
+        .demo-content input,
+        .demo-content select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            background-color: var(--secondary-dark);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .demo-content textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .results-panel {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            background-color: var(--secondary-dark);
+        }
+
+        .analysis-item,
+        .search-result {
+            margin-bottom: 15px;
+        }
+
+        .analysis-item h4,
+        .search-result h4 {
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .analysis-item ul,
+        .search-result ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .analysis-item ul li,
+        .search-result ul li {
+            margin-bottom: 5px;
+            color: var(--text-muted);
+        }
+
+        .document-preview {
+            text-align: center;
+        }
+
+        .document-preview button {
+            margin-top: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .demo-features {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</body>
+</html> 

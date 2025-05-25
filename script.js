@@ -1,201 +1,175 @@
-document.addEventListener('DOMContentLoaded', function() {
-    // Mobile menu toggle
-    const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-    const navMenu = document.querySelector('.nav-menu');
-    
-    if (mobileMenuBtn && navMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
-            navMenu.classList.toggle('active');
+document.addEventListener('DOMContentLoaded', () => {
+    // Cache DOM elements
+    const elements = {
+        mobileMenuBtn: document.querySelector('.mobile-menu-btn'),
+        navMenu: document.querySelector('.nav-menu'),
+        demoForm: document.getElementById('demoForm'),
+        submitButton: document.getElementById('submitButton'),
+        formMessage: document.getElementById('formMessage'),
+        animatedElements: document.querySelectorAll('.feature-card, .security-feature, .stat-item, .preview-feature')
+    };
+
+    // Mobile menu handling
+    if (elements.mobileMenuBtn && elements.navMenu) {
+        elements.mobileMenuBtn.addEventListener('click', () => {
+            elements.navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (event) => {
+            if (!event.target.closest('nav') && elements.navMenu.classList.contains('active')) {
+                elements.navMenu.classList.remove('active');
+            }
         });
     }
-    
-    // Close menu when clicking outside
-    document.addEventListener('click', function(event) {
-        // Close mobile menu when clicking outside
-        if (!event.target.closest('nav') && navMenu && navMenu.classList.contains('active')) {
-            navMenu.classList.remove('active');
-        }
-    });
-    
-    // Smooth scrolling for anchor links
+
+    // Smooth scrolling
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', (e) => {
             e.preventDefault();
-            
-            const targetId = this.getAttribute('href');
+            const targetId = anchor.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
-                
-                // Close mobile menu if open
-                if (navMenu && navMenu.classList.contains('active')) {
-                    navMenu.classList.remove('active');
-                }
+                targetElement.scrollIntoView({ behavior: 'smooth' });
+                elements.navMenu?.classList.remove('active');
             }
         });
     });
-    
-    // Add animation on scroll
-    const animateOnScroll = function() {
-        const elements = document.querySelectorAll('.feature-card, .security-feature, .stat-item, .preview-feature');
-        
-        elements.forEach(element => {
+
+    // Scroll animations
+    const animateOnScroll = () => {
+        elements.animatedElements.forEach(element => {
             const elementPosition = element.getBoundingClientRect().top;
-            const windowHeight = window.innerHeight;
-            
-            if (elementPosition < windowHeight - 100) {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }
+            const shouldAnimate = elementPosition < window.innerHeight - 100;
+            element.style.opacity = shouldAnimate ? '1' : '0';
+            element.style.transform = shouldAnimate ? 'translateY(0)' : 'translateY(20px)';
         });
     };
-    
-    // Set initial state for animation
-    document.querySelectorAll('.feature-card, .security-feature, .stat-item, .preview-feature').forEach(element => {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(20px)';
-        element.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    });
-    
-    // Run animation on load and scroll
-    window.addEventListener('load', animateOnScroll);
-    window.addEventListener('scroll', animateOnScroll);
-    
-    // Demo Form Handling
-    const demoForm = document.getElementById('demoForm');
-    const submitButton = document.getElementById('submitButton');
-    const formMessage = document.getElementById('formMessage');
-    
-    if (demoForm) {
-        // Form state management
-        const formState = {
-            firstName: '',
-            lastName: '',
-            workEmail: '',
-            companyName: '',
-            jobTitle: '',
-            firmSize: '',
-            useCase: '',
-            phoneNumber: '',
-            isSubmitting: false,
-            hasError: false,
-            errorMessage: '',
-            successMessage: ''
-        };
-        
-        // Handle input changes
-        const handleInputChange = (e) => {
-            const { name, value } = e.target;
-            formState[name] = value;
-        };
-        
-        // Add event listeners to all form inputs
-        const formInputs = demoForm.querySelectorAll('input, select');
-        formInputs.forEach(input => {
-            input.addEventListener('change', handleInputChange);
-            input.addEventListener('input', handleInputChange);
+
+    // Initialize animations
+    elements.animatedElements.forEach(element => {
+        Object.assign(element.style, {
+            opacity: '0',
+            transform: 'translateY(20px)',
+            transition: 'opacity 0.5s ease, transform 0.5s ease'
         });
-        
+    });
+
+    // Form handling
+    if (elements.demoForm) {
+        const formState = {
+            data: {
+                firstName: '',
+                lastName: '',
+                workEmail: '',
+                companyName: '',
+                jobTitle: '',
+                firmSize: '',
+                useCase: '',
+                phoneNumber: ''
+            },
+            isSubmitting: false
+        };
+
         // Form validation
         const validateForm = () => {
-            // Reset error state
-            formState.hasError = false;
-            formState.errorMessage = '';
-            
-            // Required fields
             const requiredFields = [
-                { name: 'firstName', label: 'First Name' },
-                { name: 'lastName', label: 'Last Name' },
-                { name: 'workEmail', label: 'Work Email' },
-                { name: 'companyName', label: 'Company/Firm Name' },
-                { name: 'jobTitle', label: 'Job Title' },
-                { name: 'firmSize', label: 'Firm Size' },
-                { name: 'useCase', label: 'Primary Use Case' }
+                ['firstName', 'First Name'],
+                ['lastName', 'Last Name'],
+                ['workEmail', 'Work Email'],
+                ['companyName', 'Company/Firm Name'],
+                ['jobTitle', 'Job Title'],
+                ['firmSize', 'Firm Size'],
+                ['useCase', 'Primary Use Case']
             ];
-            
+
             // Check required fields
-            for (const field of requiredFields) {
-                if (!formState[field.name]) {
-                    formState.hasError = true;
-                    formState.errorMessage = `${field.label} is required`;
-                    return false;
-                }
+            const missingField = requiredFields.find(([key, label]) => !formState.data[key]);
+            if (missingField) {
+                return { isValid: false, message: `${missingField[1]} is required` };
             }
-            
-            // Validate email format
+
+            // Validate email
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(formState.workEmail)) {
-                formState.hasError = true;
-                formState.errorMessage = 'Please enter a valid email address';
-                return false;
+            if (!emailRegex.test(formState.data.workEmail)) {
+                return { isValid: false, message: 'Please enter a valid email address' };
             }
-            
-            return true;
+
+            return { isValid: true };
         };
-        
-        // Form submission
-        demoForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Don't submit if already submitting
-            if (formState.isSubmitting) return;
-            
-            // Validate form
-            if (!validateForm()) {
-                showFormMessage(formState.errorMessage, 'error');
-                return;
-            }
-            
-            // Set submitting state
-            formState.isSubmitting = true;
-            submitButton.classList.add('loading');
-            
-            try {
-                // Simulate API call with timeout
-                await new Promise(resolve => setTimeout(resolve, 1500));
-                
-                // Success
-                formState.successMessage = 'Thank you! We will contact you shortly to schedule your demo.';
-                showFormMessage(formState.successMessage, 'success');
-                
-                // Reset form
-                demoForm.reset();
-                Object.keys(formState).forEach(key => {
-                    if (key !== 'isSubmitting' && key !== 'hasError' && key !== 'errorMessage' && key !== 'successMessage') {
-                        formState[key] = '';
-                    }
-                });
-            } catch (error) {
-                // Error
-                formState.hasError = true;
-                formState.errorMessage = 'There was an error submitting your request. Please try again.';
-                showFormMessage(formState.errorMessage, 'error');
-            } finally {
-                // Reset submitting state
-                formState.isSubmitting = false;
-                submitButton.classList.remove('loading');
-            }
-        });
-        
+
         // Show form message
-        function showFormMessage(message, type) {
-            formMessage.textContent = message;
-            formMessage.className = 'form-message';
-            formMessage.classList.add(type);
-            
-            // Scroll to message
-            formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            
-            // Hide message after 5 seconds if it's a success message
+        const showFormMessage = (message, type) => {
+            Object.assign(elements.formMessage, {
+                textContent: message,
+                className: `form-message ${type}`
+            });
+
+            elements.formMessage.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
             if (type === 'success') {
                 setTimeout(() => {
-                    formMessage.style.display = 'none';
+                    elements.formMessage.style.display = 'none';
                 }, 5000);
             }
-        }
+        };
+
+        // Handle form submission
+        elements.demoForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (formState.isSubmitting) return;
+
+            const validation = validateForm();
+            if (!validation.isValid) {
+                showFormMessage(validation.message, 'error');
+                return;
+            }
+
+            formState.isSubmitting = true;
+            elements.submitButton.classList.add('loading');
+
+            try {
+                // Real API call
+                const response = await fetch('/api/submit-demo-form', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formState.data)
+                });
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    showFormMessage('Thank you! Redirecting to demo...', 'success');
+                    // Redirect to demo page after 1.5 seconds
+                    setTimeout(() => {
+                        window.location.href = result.demoUrl;
+                    }, 1500);
+                } else {
+                    throw new Error(result.message);
+                }
+            } catch (error) {
+                showFormMessage('There was an error submitting your request. Please try again.', 'error');
+            } finally {
+                formState.isSubmitting = false;
+                elements.submitButton.classList.remove('loading');
+            }
+        });
+
+        // Handle input changes
+        elements.demoForm.querySelectorAll('input, select').forEach(input => {
+            const handleChange = ({ target }) => {
+                formState.data[target.name] = target.value;
+            };
+            input.addEventListener('change', handleChange);
+            input.addEventListener('input', handleChange);
+        });
     }
+
+    // Initialize animations
+    window.addEventListener('load', animateOnScroll);
+    window.addEventListener('scroll', animateOnScroll);
 });
