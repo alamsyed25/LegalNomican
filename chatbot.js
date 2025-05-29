@@ -38,8 +38,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // New chat button functionality
-    newChatButton.addEventListener('click', function() {
-        // Clear chat messages except the first AI welcome message
+    newChatButton.addEventListener('click', async function() {
+        // Clear chat messages
         while (chatMessages.children.length > 1) {
             chatMessages.removeChild(chatMessages.lastChild);
         }
@@ -48,6 +48,11 @@ document.addEventListener('DOMContentLoaded', function() {
         demoItems.forEach(item => {
             item.classList.remove('active');
         });
+        
+        // Reset session ID and start a new session
+        sessionId = null;
+        localStorage.removeItem('chatSessionId');
+        await initChatSession();
         
         // Close mobile sidebar if open
         if (window.innerWidth <= 768) {
@@ -122,12 +127,53 @@ document.addEventListener('DOMContentLoaded', function() {
         chatInput.focus();
     }
     
+    // Chat session management
+    let sessionId = localStorage.getItem('chatSessionId') || null;
+    
+    // Initialize chat session if needed
+    async function initChatSession() {
+        if (!sessionId) {
+            try {
+                const response = await fetch('/api/chat/start', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    sessionId = data.sessionId;
+                    localStorage.setItem('chatSessionId', sessionId);
+                    
+                    // Add welcome message if chat is empty
+                    if (chatMessages.children.length <= 1) {
+                        addMessage(data.welcomeMessage, 'ai');
+                    }
+                } else {
+                    console.error('Failed to start chat session');
+                }
+            } catch (error) {
+                console.error('Error starting chat session:', error);
+            }
+        }
+    }
+    
+    // Initialize chat session on page load
+    initChatSession();
+    
     // Send message function
-    function sendMessage() {
+    async function sendMessage() {
         const message = chatInput.value.trim();
         
         // Don't send empty messages
         if (message === '') return;
+        
+        // Ensure we have a session
+        if (!sessionId) {
+            await initChatSession();
+        }
         
         // Disable send button while processing
         sendButton.disabled = true;
@@ -145,21 +191,46 @@ document.addEventListener('DOMContentLoaded', function() {
         // Scroll to bottom
         scrollToBottom();
         
-        // Simulate AI response after a delay
-        setTimeout(() => {
+        try {
+            // Send message to API
+            const response = await fetch('/api/chat/message', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sessionId,
+                    message
+                })
+            });
+            
+            const data = await response.json();
+            
             // Hide typing indicator
             hideTypingIndicator();
             
-            // Generate and add AI response
-            const aiResponse = generateAIResponse(message);
-            addMessage(aiResponse, 'ai');
+            if (data.success) {
+                // Add AI response to chat
+                addMessage(data.response, 'ai');
+            } else {
+                // Show error message
+                addMessage('Sorry, I encountered an error processing your request. Please try again.', 'ai');
+                console.error('API error:', data.message);
+            }
+        } catch (error) {
+            // Hide typing indicator
+            hideTypingIndicator();
             
+            // Show error message
+            addMessage('Sorry, I encountered a connection error. Please check your internet connection and try again.', 'ai');
+            console.error('Fetch error:', error);
+        } finally {
             // Re-enable send button
             sendButton.disabled = false;
             
             // Scroll to bottom again after AI response
             scrollToBottom();
-        }, 1500 + Math.random() * 1000); // 1.5-2.5 second delay for typing simulation
+        }
     }
     
     // Show typing indicator
@@ -206,11 +277,32 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.insertBefore(messageDiv, typingIndicator);
     }
     
-    // Format message with paragraphs and lists
+    // Format message with markdown-like syntax support
     function formatMessage(message) {
-        // For demo purposes, we'll just return the message as is
-        // In a real app, you would parse markdown or HTML
-        return `<p>${message}</p>`;
+        if (!message) return '<p>No message content</p>';
+        
+        // Handle markdown-like formatting
+        let formattedMessage = message;
+        
+        // Convert markdown headings and bold text
+        formattedMessage = formattedMessage.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        
+        // Convert bullet points
+        formattedMessage = formattedMessage.replace(/^- (.+)$/gm, '<li>$1</li>');
+        formattedMessage = formattedMessage.replace(/(<li>.+<\/li>\n?)+/g, '<ul>$&</ul>');
+        
+        // Convert paragraphs (split by double newline)
+        const paragraphs = formattedMessage.split(/\n\n/);
+        formattedMessage = paragraphs.map(p => {
+            // Skip wrapping if it's already a list or other HTML element
+            if (p.trim().startsWith('<ul>') || p.trim().startsWith('<ol>') || 
+                p.trim().startsWith('<p>') || p.trim().startsWith('<h')) {
+                return p;
+            }
+            return `<p>${p.replace(/\n/g, '<br>')}</p>`;
+        }).join('');
+        
+        return formattedMessage;
     }
     
     // Get current time in 12-hour format
@@ -231,8 +323,9 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
     
-    // Generate AI response based on user input (mock function)
-    function generateAIResponse(userMessage) {
+    // This function is no longer needed as we're using the API
+    // Keeping it for demo mode fallback if the API is unavailable
+    function generateFallbackResponse(userMessage) {
         // Convert to lowercase for easier matching
         const message = userMessage.toLowerCase();
         
