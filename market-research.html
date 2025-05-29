@@ -4,49 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Legal AI Technology Market Research Report 2025</title>
+    <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #ffffff; color: #111111; line-height: 1.6; overflow-x: hidden; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
-        header { background: #000000; padding: 3rem 0; text-align: center; border-bottom: 2px solid #e0e0e0; position: relative; overflow: hidden; }
-        header::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(120, 120, 120, 0.1) 0%, transparent 70%); animation: pulse 4s ease-in-out infinite; }
-        @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.5; } 50% { transform: scale(1.1); opacity: 0.8; } }
-        
-        h1 { font-size: 3rem; color: #ffffff; margin-bottom: 1rem; position: relative; z-index: 1; font-weight: 700; letter-spacing: -0.5px; }
-        .subtitle { font-size: 1.2rem; color: #cccccc; position: relative; z-index: 1; font-weight: 300; }
-        .executive-summary { background: #f8f8f8; padding: 2rem; border-radius: 12px; margin: 2rem 0; border: 1px solid #e0e0e0; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
-        .section { margin: 3rem 0; padding: 2rem; background: #ffffff; border-radius: 12px; border: 1px solid #e0e0e0; transition: transform 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); }
-        .section:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08); }
-        
-        h2 { font-size: 2rem; color: #000000; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; font-weight: 700; }
-        h2::before { content: '—'; font-size: 1.5rem; color: #000000; margin-right: 0.5rem; font-weight: 300; }
-        h3 { font-size: 1.5rem; color: #333333; margin: 1.5rem 0 1rem; font-weight: 600; }
-        .highlight-box { background: none; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border: 1px solid #e0e0e0; color: #111111; }
-        .metric-card { background: #f8f8f8; padding: 1.5rem; border-radius: 8px; text-align: center; border: 1px solid #e0e0e0; transition: all 0.3s ease; }
-        .metric-card:hover { transform: translateY(-5px); border-color: #000000; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); }
-        .metric-value { font-size: 2.5rem; font-weight: bold; color: #000000; margin-bottom: 0.5rem; }
-        .metric-label { font-size: 0.9rem; font-weight: 500; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0; }
-        .chart-container { background: #ffffff; padding: 2rem; border-radius: 8px; margin: 2rem 0; border: 1px solid #e0e0e0; position: relative; height: 400px; }
-        .chart-title { text-align: center; margin-bottom: 1.5rem; font-size: 1.3rem; color: #000000; }
-        .table-container { overflow-x: auto; margin: 2rem 0; }
-        table { width: 100%; border-collapse: collapse; border: 1px solid #e0e0e0; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid #e0e0e0; }
-        th { background: #f8f8f8; color: #111111; font-weight: 700; font-size: 1.05rem; border-bottom: 2px solid #e0e0e0; }
-        tr:hover { background: #f5f5f5; }
-        .trend-item { background: #f8f8f8; padding: 1.5rem; border-radius: 8px; margin: 1rem 0; border-left: 4px solid #000000; transition: all 0.3s ease; }
-        .trend-item:hover { transform: translateX(5px); box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); }
-        .trend-item h3, .trend-item h4 { margin-top: 0; margin-bottom: 0.8rem; }
-        .footer { background: #f8f8f8; padding: 2rem 0; margin-top: 4rem; border-top: 1px solid #e0e0e0; font-size: 0.9rem; color: #666666; text-align: center; }
-        ul { margin-left: 1.5rem; margin-bottom: 1rem; }
-        li { margin-bottom: 0.5rem; }
-        .risk-level { display: inline-block; padding: 0.3rem 0.8rem; border-radius: 4px; font-size: 0.8rem; }
-        .risk-high { background: #ef4444; color: white; font-weight: 700; }
-        .risk-medium { background: #f59e0b; color: white; font-weight: 700; }
-        .risk-low { background: #10b981; color: white; font-weight: 700; }
-        @media (max-width: 768px) { h1 { font-size: 2rem; } .grid { grid-template-columns: 1fr; } .section { padding: 1rem; } }
-    </style>
 </head>
 <body>
     <header>
@@ -98,7 +57,7 @@
 
             <div class="chart-container">
                 <h3 class="chart-title">Legal AI Market Growth Projection 2024-2030</h3>
-                <canvas id="marketGrowthChart"></canvas>
+                <canvas id="marketGrowthChart" height="400"></canvas>
             </div>
         </section>
 
@@ -127,7 +86,7 @@
 
             <div class="chart-container">
                 <h3 class="chart-title">Market Share by Application Type</h3>
-                <canvas id="applicationChart"></canvas>
+                <canvas id="applicationChart" height="400"></canvas>
             </div>
 
             <h3>By End User</h3>
@@ -200,7 +159,7 @@
 
             <div class="chart-container">
                 <h3 class="chart-title">Competitive Positioning Matrix</h3>
-                <canvas id="competitiveChart"></canvas>
+                <canvas id="competitiveChart" height="400"></canvas>
             </div>
         </section>
 
@@ -366,7 +325,7 @@
 
             <div class="chart-container">
                 <h3 class="chart-title">Regional Market Growth Forecast</h3>
-                <canvas id="regionalChart"></canvas>
+                <canvas id="regionalChart" height="400"></canvas>
             </div>
         </section>
     </main>
@@ -379,241 +338,243 @@
     </footer>
 
     <script>
-        // Market Growth Chart
-        const marketGrowthCtx = document.getElementById('marketGrowthChart').getContext('2d');
-        new Chart(marketGrowthCtx, {
-            type: 'line',
-            data: {
-                labels: ['2024', '2025', '2026', '2027', '2028', '2029', '2030'],
-                datasets: [{
-                    label: 'Conservative Estimate',
-                    data: [2.16, 2.42, 3.15, 4.10, 5.33, 6.93, 10.82],
-                    borderColor: '#3b82f6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.15)',
-                    tension: 0.4
-                }, {
-                    label: 'Optimistic Estimate',
-                    data: [2.16, 3.11, 4.47, 6.42, 9.22, 13.25, 19.30],
-                    borderColor: '#8b5cf6',
-                    backgroundColor: 'rgba(139, 92, 246, 0.15)',
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: { 
-                            color: '#000000',
-                            font: {
-                                weight: 'bold',
-                                size: 14
-                            },
-                            padding: 15
-                        }
-                    },
-                    tooltip: {
-                        bodyFont: {
-                            size: 14,
-                            weight: 'bold'
-                        },
-                        titleFont: {
-                            size: 16,
-                            weight: 'bold'
-                        },
-                        padding: 12,
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)'
-                    }
+        document.addEventListener('DOMContentLoaded', function() {
+            // Market Growth Chart
+            const marketGrowthCtx = document.getElementById('marketGrowthChart').getContext('2d');
+            new Chart(marketGrowthCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2024', '2025', '2026', '2027', '2028', '2029', '2030'],
+                    datasets: [{
+                        label: 'Conservative Estimate',
+                        data: [2.16, 2.42, 3.15, 4.10, 5.33, 6.93, 10.82],
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.15)',
+                        tension: 0.4
+                    }, {
+                        label: 'Optimistic Estimate',
+                        data: [2.16, 3.11, 4.47, 6.42, 9.22, 13.25, 19.30],
+                        borderColor: '#8b5cf6',
+                        backgroundColor: 'rgba(139, 92, 246, 0.15)',
+                        tension: 0.4
+                    }]
                 },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: { 
-                            color: '#000000',
-                            font: {
-                                weight: 'bold',
-                                size: 12
-                            },
-                            callback: function(value) {
-                                return '$' + value + 'B';
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { 
+                                color: '#000000',
+                                font: {
+                                    weight: 'bold',
+                                    size: 14
+                                },
+                                padding: 15
                             }
                         },
-                        grid: { color: '#e0e0e0' }
-                    },
-                    x: {
-                        ticks: { 
-                            color: '#000000',
-                            font: {
-                                weight: 'bold',
-                                size: 12
-                            }
-                        },
-                        grid: { color: '#e0e0e0' }
-                    }
-                }
-            }
-        });
-
-        // Application Chart
-        const applicationCtx = document.getElementById('applicationChart').getContext('2d');
-        new Chart(applicationCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Legal Research', 'E-Discovery', 'Contract Management', 'Document Review', 'Compliance', 'Others'],
-                datasets: [{
-                    data: [24, 22, 18, 15, 12, 9],
-                    backgroundColor: [
-                        '#3b82f6',
-                        '#8b5cf6',
-                        '#10b981',
-                        '#f59e0b',
-                        '#ef4444',
-                        '#6b7280'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'right',
-                        labels: { 
-                            color: '#000000',
-                            font: {
-                                weight: 'bold',
-                                size: 14
-                            },
-                            padding: 15
-                        }
-                    },
-                    tooltip: {
-                        bodyFont: {
-                            size: 14,
-                            weight: 'bold'
-                        },
-                        titleFont: {
-                            size: 16,
-                            weight: 'bold'
-                        },
-                        padding: 12,
-                        backgroundColor: 'rgba(0, 0, 0, 0.8)'
-                    }
-                }
-            }
-        });
-
-        // Competitive Chart
-        const competitiveCtx = document.getElementById('competitiveChart').getContext('2d');
-        new Chart(competitiveCtx, {
-            type: 'bubble',
-            data: {
-                datasets: [{
-                    label: 'Harvey AI',
-                    data: [{x: 85, y: 90, r: 20}],
-                    backgroundColor: 'rgba(37, 99, 235, 0.9)'
-                }, {
-                    label: 'LexisNexis',
-                    data: [{x: 70, y: 85, r: 25}],
-                    backgroundColor: 'rgba(124, 58, 237, 0.9)'
-                }, {
-                    label: 'Thomson Reuters',
-                    data: [{x: 75, y: 80, r: 23}],
-                    backgroundColor: 'rgba(5, 150, 105, 0.9)'
-                }, {
-                    label: 'Casetext',
-                    data: [{x: 65, y: 75, r: 15}],
-                    backgroundColor: 'rgba(217, 119, 6, 0.9)'
-                }, {
-                    label: 'Robin AI',
-                    data: [{x: 60, y: 70, r: 12}],
-                    backgroundColor: 'rgba(220, 38, 38, 0.9)'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Technology Innovation →',
-                            color: '#000000',
-                            font: {
-                                size: 16,
-                                weight: 'bold'
-                            }
-                        },
-                        ticks: { 
-                            color: '#000000',
-                            font: {
+                        tooltip: {
+                            bodyFont: {
                                 size: 14,
                                 weight: 'bold'
-                            }
-                        },
-                        grid: { color: '#333' }
-                    },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Market Adoption →',
-                            color: '#000000',
-                            font: {
+                            },
+                            titleFont: {
                                 size: 16,
                                 weight: 'bold'
+                            },
+                            padding: 12,
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)'
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { 
+                                color: '#000000',
+                                font: {
+                                    weight: 'bold',
+                                    size: 12
+                                },
+                                callback: function(value) {
+                                    return '$' + value + 'B';
+                                }
+                            },
+                            grid: { color: '#e0e0e0' }
+                        },
+                        x: {
+                            ticks: { 
+                                color: '#000000',
+                                font: {
+                                    weight: 'bold',
+                                    size: 12
+                                }
+                            },
+                            grid: { color: '#e0e0e0' }
+                        }
+                    }
+                }
+            });
+
+            // Application Chart
+            const applicationCtx = document.getElementById('applicationChart').getContext('2d');
+            new Chart(applicationCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Legal Research', 'E-Discovery', 'Contract Management', 'Document Review', 'Compliance', 'Others'],
+                    datasets: [{
+                        data: [24, 22, 18, 15, 12, 9],
+                        backgroundColor: [
+                            '#3b82f6',
+                            '#8b5cf6',
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444',
+                            '#6b7280'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: { 
+                                color: '#000000',
+                                font: {
+                                    weight: 'bold',
+                                    size: 14
+                                },
+                                padding: 15
                             }
                         },
-                        ticks: { 
-                            color: '#000000',
-                            font: {
+                        tooltip: {
+                            bodyFont: {
                                 size: 14,
                                 weight: 'bold'
-                            }
-                        },
-                        grid: { color: '#333' }
+                            },
+                            titleFont: {
+                                size: 16,
+                                weight: 'bold'
+                            },
+                            padding: 12,
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)'
+                        }
                     }
-                },
-                plugins: {
-                    legend: { labels: { color: '#000000', font: { weight: 'bold', size: 14 }, padding: 15 } },
-                    tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': Innovation ' + context.parsed.x + ', Adoption ' + context.parsed.y; } } }
                 }
-            }
-        });
+            });
 
-        // Regional Chart
-        const regionalCtx = document.getElementById('regionalChart').getContext('2d');
-        new Chart(regionalCtx, {
-            type: 'bar',
-            data: {
-                labels: ['North America', 'Europe', 'Asia-Pacific', 'Latin America', 'Middle East & Africa'],
-                datasets: [{
-                    label: '2024 Market Share',
-                    data: [47, 28, 15, 6, 4],
-                    backgroundColor: '#2563eb'
-                }, {
-                    label: '2030 Projected Share',
-                    data: [42, 26, 22, 7, 3],
-                    backgroundColor: '#7c3aed'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: { color: '#000000', font: { weight: 'bold', size: 12 }, callback: function(value) { return value + '%'; } },
-                        grid: { color: '#e0e0e0' }
-                    },
-                    x: {
-                        ticks: { color: '#000000', font: { weight: 'bold', size: 12 } },
-                        grid: { color: '#e0e0e0' }
-                    }
+            // Competitive Chart
+            const competitiveCtx = document.getElementById('competitiveChart').getContext('2d');
+            new Chart(competitiveCtx, {
+                type: 'bubble',
+                data: {
+                    datasets: [{
+                        label: 'Harvey AI',
+                        data: [{x: 85, y: 90, r: 20}],
+                        backgroundColor: 'rgba(37, 99, 235, 0.9)'
+                    }, {
+                        label: 'LexisNexis',
+                        data: [{x: 70, y: 85, r: 25}],
+                        backgroundColor: 'rgba(124, 58, 237, 0.9)'
+                    }, {
+                        label: 'Thomson Reuters',
+                        data: [{x: 75, y: 80, r: 23}],
+                        backgroundColor: 'rgba(5, 150, 105, 0.9)'
+                    }, {
+                        label: 'Casetext',
+                        data: [{x: 65, y: 75, r: 15}],
+                        backgroundColor: 'rgba(217, 119, 6, 0.9)'
+                    }, {
+                        label: 'Robin AI',
+                        data: [{x: 60, y: 70, r: 12}],
+                        backgroundColor: 'rgba(220, 38, 38, 0.9)'
+                    }]
                 },
-                plugins: { legend: { labels: { color: '#000000', font: { weight: 'bold', size: 14 } } } }
-            }
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Technology Innovation →',
+                                color: '#000000',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: { 
+                                color: '#000000',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: { color: '#333' }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Market Adoption →',
+                                color: '#000000',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            },
+                            ticks: { 
+                                color: '#000000',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: { color: '#333' }
+                        }
+                    },
+                    plugins: {
+                        legend: { labels: { color: '#000000', font: { weight: 'bold', size: 14 } }, padding: 15 },
+                        tooltip: { callbacks: { label: function(context) { return context.dataset.label + ': Innovation ' + context.parsed.x + ', Adoption ' + context.parsed.y; } } }
+                    }
+                }
+            });
+
+            // Regional Chart
+            const regionalCtx = document.getElementById('regionalChart').getContext('2d');
+            new Chart(regionalCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['North America', 'Europe', 'Asia-Pacific', 'Latin America', 'Middle East & Africa'],
+                    datasets: [{
+                        label: '2024 Market Share',
+                        data: [47, 28, 15, 6, 4],
+                        backgroundColor: '#2563eb'
+                    }, {
+                        label: '2030 Projected Share',
+                        data: [42, 26, 22, 7, 3],
+                        backgroundColor: '#7c3aed'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: { color: '#000000', font: { weight: 'bold', size: 12 }, callback: function(value) { return value + '%'; } },
+                            grid: { color: '#e0e0e0' }
+                        },
+                        x: {
+                            ticks: { color: '#000000', font: { weight: 'bold', size: 12 } },
+                            grid: { color: '#e0e0e0' }
+                        }
+                    },
+                    plugins: { legend: { labels: { color: '#000000', font: { weight: 'bold', size: 14 } } } }
+                }
+            });
         });
     </script>
 </body>

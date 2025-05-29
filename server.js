@@ -44,11 +44,16 @@ app.use(cors({
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// Serve static files
+// Serve static files from multiple directories
+app.use(express.static(__dirname)); // Serve from root
 app.use(express.static(path.join(__dirname, 'public')));
 
 // MongoDB connection
 const connectDB = async () => {
+   if (!process.env.MONGODB_URI) {
+       console.warn('Warning: MONGODB_URI not set. Skipping MongoDB connection. Running in static/demo mode.');
+       return;
+   }
    try {
        const conn = await mongoose.connect(process.env.MONGODB_URI, {
            useNewUrlParser: true,

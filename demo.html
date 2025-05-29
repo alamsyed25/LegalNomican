@@ -9,13 +9,15 @@
 </head>
 <body>
     <header>
-        <div class="container">
+        <div class="container header-content">
             <div class="logo">
-                <i class="fas fa-book-open"></i>
-                <h1>Legal Nomicon</h1>
+                <a href="index.html">
+                    <i class="fas fa-book-open"></i>
+                    <h1>Legal Nomicon</h1>
+                </a>
             </div>
             <nav>
-                <a href="/" class="btn secondary">Back to Home</a>
+                <a href="index.html" class="btn secondary">Back to Home</a>
             </nav>
         </div>
     </header>
@@ -147,109 +149,5 @@
             });
         });
     </script>
-
-    <style>
-        .demo-page {
-            padding: 40px 0;
-            background-color: var(--secondary-dark);
-        }
-
-        .demo-welcome {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .demo-subtitle {
-            color: var(--text-muted);
-            margin-bottom: 30px;
-        }
-
-        .demo-features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .demo-feature {
-            background-color: var(--secondary-light);
-            border-radius: var(--border-radius);
-            padding: 20px;
-            box-shadow: var(--box-shadow);
-        }
-
-        .demo-feature h2 {
-            margin-bottom: 20px;
-            font-size: 1.5rem;
-        }
-
-        .demo-content {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .demo-content textarea,
-        .demo-content input,
-        .demo-content select {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius);
-            background-color: var(--secondary-dark);
-            color: var(--text-light);
-            font-size: 1rem;
-        }
-
-        .demo-content textarea {
-            min-height: 150px;
-            resize: vertical;
-        }
-
-        .results-panel {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: var(--border-radius);
-            background-color: var(--secondary-dark);
-        }
-
-        .analysis-item,
-        .search-result {
-            margin-bottom: 15px;
-        }
-
-        .analysis-item h4,
-        .search-result h4 {
-            margin-bottom: 10px;
-            color: var(--primary-color);
-        }
-
-        .analysis-item ul,
-        .search-result ul {
-            list-style: none;
-            padding: 0;
-        }
-
-        .analysis-item ul li,
-        .search-result ul li {
-            margin-bottom: 5px;
-            color: var(--text-muted);
-        }
-
-        .document-preview {
-            text-align: center;
-        }
-
-        .document-preview button {
-            margin-top: 15px;
-        }
-
-        @media (max-width: 768px) {
-            .demo-features {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
 </body>
 </html> 
