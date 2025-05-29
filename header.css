@@ -1,28 +1,13 @@
 /* 
  * Header Styles for Legal Nomicon
- * Matches the reference design exactly
+ * Simplified and aligned with main design system
  */
 
-:root {
-    /* Professional color palette based on reference image */
-    --header-bg: #ffffff;
-    --header-border: #f0f0f0;
-    --nav-text: #000000;
-    --nav-text-hover: #333333;
-    --btn-primary-bg: #000000;
-    --btn-primary-hover: #333333;
-    --btn-secondary-bg: #ffffff;
-    --btn-secondary-border: #e5e5e5;
-    --btn-secondary-hover: #f5f5f5;
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --transition-smooth: all 0.2s ease;
-}
-
 header {
-    padding: 16px 0;  /* Match the reference image padding */
-    border-bottom: 1px solid var(--header-border);
-    background: var(--header-bg);
-    transition: var(--transition-smooth);
+    padding: var(--space-2) 0;
+    border-bottom: 1px solid var(--primary-accent);
+    background: var(--background-main);
+    transition: var(--transition);
     position: relative;
     z-index: 1000;
 }
@@ -31,168 +16,257 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
+    flex-wrap: wrap;
+    gap: var(--space-2);
 }
 
-/* Logo styling */
+/* Mobile-first header layout */
+@media (max-width: 576px) {
+    .header-content {
+        justify-content: center;
+        text-align: center;
+    }
+    
+    .logo {
+        margin-bottom: var(--space-1);
+    }
+    
+    nav {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+/* Logo styling - consistent with global styles */
 .logo a {
-    color: #000000 !important; /* Black text color as in reference */
-    text-decoration: none !important;
-    font-family: 'Georgia', 'Times New Roman', serif; /* Serif font as in reference */
-    font-size: 1.8rem;  /* Match reference size */
-    font-weight: 600;  /* Semi-bold weight */
+    color: var(--text-main);
+    text-decoration: none;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: clamp(1.5rem, 4vw, 2.25rem);
+    font-weight: 500;
     display: flex;
     align-items: center;
-    gap: 10px;
-    transition: var(--transition-smooth);
+    gap: var(--space-1);
+    transition: var(--transition);
 }
 
 .logo a i {
-    font-size: 1.8rem;
-    color: #000000; /* Black icon as in reference */
+    font-size: clamp(1.25rem, 3vw, 1.75rem);
+    color: var(--text-main);
 }
 
-.logo a:hover {
-    opacity: 0.9;
-}
-
-/* Navigation styling */
+/* Navigation styling - mobile first */
 nav {
     display: flex;
     align-items: center;
-    gap: 20px; /* Match reference spacing */
+    justify-content: space-between;
+    gap: var(--space-2);
+    position: relative;
+    width: 100%;
 }
 
+/* Navigation menu - mobile first */
 nav .nav-menu {
-    display: flex;
-    gap: 30px; /* Match reference spacing between nav items */
-    position: static;
-    background: none;
-    flex-direction: row;
-    padding: 0;
-    width: auto;
+    display: none; /* Hidden by default on mobile */
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--background-card);
+    flex-direction: column;
+    padding: var(--space-2);
     margin: 0;
     list-style: none;
+    z-index: 100;
+    box-shadow: var(--shadow-md);
+    border-radius: 0 0 var(--border-radius) var(--border-radius);
+}
+
+nav .nav-menu.active {
+    display: flex;
+}
+
+nav .nav-menu li {
+    margin: var(--space-1) 0;
 }
 
 nav .nav-menu li a {
-    color: var(--nav-text);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    font-weight: 400; /* Regular font weight as in reference */
+    color: var(--text-main);
+    font-family: inherit;
+    font-weight: 400;
     font-size: 1rem;
     text-decoration: none;
-    position: relative;
-    transition: var(--transition-smooth);
-    padding: 5px 0;
-}
-
-/* Simple hover effect for navigation links */
-nav .nav-menu li a:hover {
-    color: var(--nav-text-hover);
-    text-decoration: underline;
-}
-
-/* Button styling */
-.nav-buttons {
+    transition: var(--transition);
+    padding: var(--space-1) 0;
+    display: block;
+    min-height: 2.75rem; /* Touch friendly */
     display: flex;
-    gap: 12px;
     align-items: center;
 }
 
-.btn.secondary.pricing-nav-btn {
-    background: var(--btn-secondary-bg);
-    color: var(--nav-text);
-    border: 1px solid var(--btn-secondary-border);
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    font-weight: 400;
-    font-size: 0.9rem;
-    transition: var(--transition-smooth);
-    text-decoration: none;
+/* Navigation link hover effect */
+nav .nav-menu li a:hover {
+    color: var(--primary-color);
+    text-decoration: underline;
 }
 
+/* Button container */
+.nav-buttons {
+    display: flex;
+    gap: var(--space-1);
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+/* Navigation buttons */
+.btn.secondary.pricing-nav-btn,
+.btn.primary.schedule-btn {
+    padding: 0.75rem 1rem;
+    min-height: 2.75rem;
+    font-family: inherit;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+/* Button hover states */
 .btn.secondary.pricing-nav-btn:hover {
-    background: var(--btn-secondary-hover);
+    background: var(--primary-accent);
 }
 
 .btn.primary.schedule-btn {
-    background: var(--btn-primary-bg);
-    color: #fff;
-    padding: 8px 16px;
-    border-radius: 4px;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    font-weight: 400;
-    font-size: 0.9rem;
+    background: var(--text-main);
+    color: var(--text-light);
     border: none;
-    transition: var(--transition-smooth);
-    text-decoration: none;
 }
 
 .btn.primary.schedule-btn:hover {
-    background: var(--btn-primary-hover);
+    opacity: 0.9;
+    transform: translateY(-1px);
 }
 
-/* Scrolled header state - simple shadow only */
+/* Scrolled header state */
 header.scrolled {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
 }
 
-/* Mobile menu button */
+/* Mobile menu button - touch friendly */
 .mobile-menu-btn {
-    display: none;
+    display: block;
     background: transparent;
     border: none;
-    color: var(--nav-text);
-    font-size: 1.2rem;
+    color: var(--text-main);
+    font-size: 1.25rem;
     cursor: pointer;
-    padding: 8px;
-    transition: var(--transition-smooth);
+    padding: var(--space-1);
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+    transition: var(--transition);
 }
 
 .mobile-menu-btn:hover {
     opacity: 0.7;
 }
 
-/* Responsive styles */
-@media (max-width: 768px) {
+/* Focus states for accessibility */
+.mobile-menu-btn:focus-visible,
+.btn:focus-visible,
+nav .nav-menu li a:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+/* Responsive styles - consistent with main breakpoints */
+
+/* Tablet (768px-1024px) */
+@media (min-width: 768px) and (max-width: 1023px) {
     .mobile-menu-btn {
-        display: block;
+        display: none;
     }
     
     nav {
-        gap: 10px;
+        width: auto;
     }
     
     nav .nav-menu {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: #ffffff;
-        flex-direction: column;
-        padding: 15px 20px;
-        z-index: 100;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        gap: 15px;
-        border-top: 1px solid var(--header-border);
+        display: flex;
+        position: static;
+        flex-direction: row;
+        padding: 0;
+        background: none;
+        box-shadow: none;
+        width: auto;
+        gap: var(--space-2);
     }
     
-    nav .nav-menu.active {
-        display: flex;
+    nav .nav-menu li {
+        margin: 0;
     }
     
     .nav-buttons {
-        display: flex;
-        flex-direction: row;
+        margin-left: var(--space-2);
     }
     
     .btn.secondary.pricing-nav-btn,
     .btn.primary.schedule-btn {
-        padding: 6px 12px;
-        font-size: 0.85rem;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1024px) {
+    .mobile-menu-btn {
+        display: none;
+    }
+    
+    nav {
+        width: auto;
+    }
+    
+    nav .nav-menu {
+        display: flex;
+        position: static;
+        flex-direction: row;
+        padding: 0;
+        background: none;
+        box-shadow: none;
+        width: auto;
+        gap: var(--space-3);
+    }
+    
+    nav .nav-menu li {
+        margin: 0;
+    }
+    
+    .nav-buttons {
+        margin-left: var(--space-3);
+        gap: var(--space-2);
+    }
+    
+    .btn.secondary.pricing-nav-btn,
+    .btn.primary.schedule-btn {
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Large screens (>1200px) */
+@media (min-width: 1200px) {
+    nav .nav-menu {
+        gap: var(--space-4);
+    }
+    
+    .nav-buttons {
+        gap: var(--space-3);
+        margin-left: var(--space-4);
+    }
+    
+    .btn.secondary.pricing-nav-btn,
+    .btn.primary.schedule-btn {
+        padding: 0.75rem 1.25rem;
     }
 }

@@ -1,0 +1,151 @@
+/* 
+ * Footer Styles for Legal Nomicon
+ * Consistent footer component with proper spacing and accessibility
+ */
+
+footer {
+    background: var(--background-main);
+    color: var(--text-main);
+    border-top: 1px solid var(--primary-accent);
+    padding: var(--space-4) 0 var(--space-2);
+    margin-top: var(--space-5);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.footer-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-bottom: var(--space-2);
+}
+
+.footer-logo i {
+    font-size: 1.5rem;
+    color: var(--text-main);
+}
+
+.footer-logo h2 {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin: 0;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: var(--space-4); /* 48px gap between sections */
+    width: 100%;
+}
+
+.footer-column h3 {
+    font-size: 1.125rem;
+    margin-bottom: var(--space-2);
+    font-weight: 500;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1); /* 12px gap between links */
+}
+
+.footer-column ul li {
+    margin: 0;
+}
+
+.footer-column ul li a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: var(--transition-fast);
+    display: inline-block;
+    padding: 0.25rem 0;
+}
+
+.footer-column ul li a:hover {
+    color: var(--text-main);
+    text-decoration: underline;
+}
+
+.footer-column ul li a:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+.footer-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: var(--space-3); /* 32px margin above copyright */
+    margin-top: var(--space-3);
+    border-top: 1px solid var(--primary-accent);
+    text-align: center;
+}
+
+.footer-bottom p {
+    margin-bottom: var(--space-2);
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.social-links {
+    display: flex;
+    gap: var(--space-2);
+}
+
+.social-links a {
+    color: var(--text-muted);
+    font-size: 1.25rem;
+    transition: var(--transition-fast);
+}
+
+.social-links a:hover {
+    color: var(--text-main);
+}
+
+.social-links a:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Tablet (768px-1024px) */
+@media (min-width: 768px) {
+    .footer-links {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .footer-bottom {
+        flex-direction: row;
+        text-align: left;
+    }
+    
+    .footer-bottom p {
+        margin-bottom: 0;
+    }
+}
+
+/* Desktop (>1024px) */
+@media (min-width: 1024px) {
+    .footer-content {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    
+    .footer-logo {
+        margin-bottom: 0;
+    }
+    
+    .footer-links {
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-5);
+    }
+}
