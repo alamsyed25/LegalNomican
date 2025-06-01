@@ -1,0 +1,34 @@
+/* Chatbot Interface Styles - Aligned with Design System */
+/* Using variables from main design system */
+
+/* Additional chatbot-specific variables */
+:root {
+    /* Chat accent colors - using primary color as base */
+    --chat-primary: var(--primary-color);
+    --chat-primary-light: rgba(17, 17, 17, 0.8);
+    --chat-primary-dark: #000000;
+    
+    /* Chat backgrounds */
+    --chat-bg: var(--background-main);
+    --chat-sidebar-bg: var(--background-card);
+    --chat-main-bg: var(--background-soft);
+    
+    /* Message bubbles */
+    --chat-user-bubble: var(--primary-color);
+    --chat-ai-bubble: var(--background-card);
+    
+    /* Borders */
+    --chat-border: var(--primary-accent);
+}
+
+/* Main layout - Mobile First */
+.chat-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 140px); /* Adjust for header and footer */
+    background-color: var(--chat-bg);
+    margin: 0;
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}

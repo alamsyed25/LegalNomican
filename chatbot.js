@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // DOM Elements
     const chatInput = document.querySelector('.chat-input');
     const sendButton = document.querySelector('.chat-send-btn');
+    const chatUploadBtn = document.getElementById('chat-upload-btn'); // New upload button
+    const chatFileInput = document.getElementById('chat-file-input'); // New file input
     const chatMessages = document.querySelector('.chat-messages');
     const typingIndicator = document.querySelector('.typing-indicator');
     const newChatButton = document.querySelector('.new-chat-btn');
@@ -29,6 +31,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Send message on button click
     sendButton.addEventListener('click', sendMessage);
     
+    // Event listener for the new upload button
+    if (chatUploadBtn && chatFileInput) {
+        chatUploadBtn.addEventListener('click', () => {
+            chatFileInput.click(); // Trigger click on hidden file input
+        });
+
+        // Event listener for file selection
+        chatFileInput.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                console.log('File selected:', file.name);
+                uploadFile(file);
+                // Clear the file input so the same file can be re-uploaded if needed
+                chatFileInput.value = ''; 
+            } else {
+                console.log('No file selected');
+            }
+        });
+    }
+
     // Send message on Enter key (but allow Shift+Enter for new line)
     chatInput.addEventListener('keydown', function(e) {
         if (e.key === 'Enter' && !e.shiftKey) {
@@ -137,9 +159,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const response = await fetch('/api/chat/start', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
                     }
                 });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
                 
                 const data = await response.json();
                 
@@ -152,10 +179,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         addMessage(data.welcomeMessage, 'ai');
                     }
                 } else {
-                    console.error('Failed to start chat session');
+                    console.error('Failed to start chat session:', data.message || 'Unknown error');
+                    // Fallback to local session ID if API fails
+                    sessionId = 'local-' + Date.now();
+                    localStorage.setItem('chatSessionId', sessionId);
+                    addMessage("Welcome to Legal Nomicon! I'm here to help with your legal questions.", 'ai');
                 }
             } catch (error) {
                 console.error('Error starting chat session:', error);
+                // Fallback to local session ID if API is unavailable
+                sessionId = 'local-' + Date.now();
+                localStorage.setItem('chatSessionId', sessionId);
+                addMessage("Welcome to Legal Nomicon! I'm here to help with your legal questions.", 'ai');
             }
         }
     }
@@ -393,4 +428,43 @@ Set reasonable caps on potential damages.</p>
     
     // Initial scroll to bottom
     scrollToBottom();
+
+    // Function to handle file upload
+    async function uploadFile(file) {
+        addMessage(`Uploading "${file.name}"...`, 'system');
+        chatUploadBtn.disabled = true;
+        sendButton.disabled = true; // Also disable send button during upload
+
+        const formData = new FormData();
+        formData.append('document', file); // 'document' is the field name server will expect
+        if (sessionId) {
+            formData.append('sessionId', sessionId);
+        }
+
+        try {
+            const response = await fetch('/api/chat/upload-document', {
+                method: 'POST',
+                body: formData,
+                // Headers are not explicitly set for 'Content-Type' with FormData;
+                // the browser sets it to 'multipart/form-data' automatically with the correct boundary.
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                addMessage(`Successfully uploaded and processed "${file.name}". ${result.message || 'You can now ask questions about it.'}`, 'system');
+                // Optionally, store document context or ID received from backend if needed for ai-service.js
+                // e.g., currentDocumentContext = result.documentContext;
+            } else {
+                addMessage(`Error uploading "${file.name}": ${result.error || 'Unknown server error'}`, 'system');
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            addMessage(`Failed to upload "${file.name}". Network error or server unavailable.`, 'system');
+        } finally {
+            chatUploadBtn.disabled = false;
+            // Re-enable send button only if chatInput has text
+            sendButton.disabled = chatInput.value.trim() === ''; 
+        }
+    }
 });

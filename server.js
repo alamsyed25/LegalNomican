@@ -29,9 +29,14 @@ app.use('/api', routes);
 app.use(express.static(__dirname)); // Serve from root
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve static files for all other routes
+// Serve chatbot.html at the /chat route
+app.get('/chat', (req, res) => {
+    res.sendFile(path.join(__dirname, 'chatbot.html'));
+});
+
+// Serve index.html for all other routes
 app.get('*', (req, res) => {
-   res.sendFile(path.join(__dirname, 'index.html'));
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;

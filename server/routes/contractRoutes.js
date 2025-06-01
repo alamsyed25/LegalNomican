@@ -6,10 +6,11 @@ const {
     analyzeContractText, 
     extractContractClauses 
 } = require('../controllers/contractController');
+const { trackContractReview } = require('../middleware/usageTracker');
 
-// Contract analysis routes
-router.post('/upload', upload, uploadAndAnalyzeContract);
-router.post('/analyze', analyzeContractText);
+// Contract analysis routes with usage tracking
+router.post('/upload', trackContractReview, upload, uploadAndAnalyzeContract);
+router.post('/analyze', trackContractReview, analyzeContractText);
 router.post('/extract-clauses', extractContractClauses);
 
 module.exports = router;

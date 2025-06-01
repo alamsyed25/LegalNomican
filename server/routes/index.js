@@ -1,15 +1,19 @@
 const express = require('express');
 const router = express.Router();
 
-// Import route modules
+// Import route modules (existing ones first)
 const demoRoutes = require('./demoRoutes');
 const chatRoutes = require('./chatRoutes');
 const healthRoutes = require('./healthRoutes');
+
+// Working routes
 const legalResearchRoutes = require('./legalResearchRoutes');
 const contractRoutes = require('./contractRoutes');
+
+// TEST: Add document generation routes
 const documentGenerationRoutes = require('./documentGenerationRoutes');
 
-// Apply route modules
+// Apply all route modules
 router.use('/demo', demoRoutes);
 router.use('/chat', chatRoutes);
 router.use('/health', healthRoutes);
