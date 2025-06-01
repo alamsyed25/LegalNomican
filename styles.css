@@ -567,4 +567,51 @@ nav .nav-menu li a:hover {
     transform: translateX(3px);
 }
 
+/* Security Section Grid */
+.security-features {
+    display: grid;
+    gap: var(--space-3, 1.5rem); /* Using theme variable for gap */
+}
+
+.security-feature {
+    padding: var(--space-2, 1rem); /* Using theme variable for padding */
+    /* Add a light border and subtle shadow for a slightly more defined look, can be removed if too much */
+    /* border: 1px solid var(--border-color, #DDDDDD); */
+    /* border-radius: var(--border-radius-sm, 0.25rem); */
+    /* box-shadow: var(--shadow-sm, 0 2px 4px rgba(0,0,0,0.04)); */
+}
+
+.security-feature i {
+    font-size: 2.5rem; /* Larger, more prominent icons */
+    margin-bottom: var(--space-2, 1rem);
+    color: var(--primary-color, #1A1A1A); /* Using primary theme color for icons */
+    display: block; /* Ensures the icon is on its own line and margin-bottom works as expected */
+}
+
+.security-feature h4 {
+    font-size: 1.25rem; /* Standardized heading size */
+    margin-bottom: var(--space-1, 0.5rem);
+    color: var(--text-main);
+}
+
+.security-feature p {
+    font-size: 1rem;
+    color: var(--text-muted, #555555);
+    line-height: 1.5;
+}
+
+/* Responsive Grid: 2x2 on tablets and larger */
+@media (min-width: 768px) {
+    .security-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile: Single column (this is often default for grid items if not otherwise specified, but explicit for clarity) */
+@media (max-width: 767px) {
+    .security-features {
+        grid-template-columns: 1fr;
+    }
+}
+
 

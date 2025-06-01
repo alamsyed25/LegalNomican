@@ -5,11 +5,12 @@
 
 header {
     padding: var(--space-2) 0;
-    border-bottom: 1px solid var(--border-color);
-    background: var(--background-main);
+    border-bottom: 1px solid #333333; /* Darker border for dark theme */
+    background: #1A1A1A; /* Dark background */
     transition: var(--transition);
     position: relative;
     z-index: 1000;
+    color: #FFFFFF; /* Set default text color to white for all text in header */
 }
 
 .header-content {
@@ -39,20 +40,31 @@ header {
 
 /* Logo styling - consistent with global styles */
 .logo a {
-    color: var(--text-main);
+    color: #DDDDDD; /* Default color for the link, icon will inherit this if not overridden */
     text-decoration: none;
     font-family: 'Roboto', Arial, Helvetica, sans-serif;
-    font-size: clamp(1.5rem, 4vw, 2.0rem); /* Slightly adjusted max size */
-    font-weight: 700;
+    font-weight: 500; /* Match nav link font weight */
     display: flex;
     align-items: center;
     gap: var(--space-1);
     transition: var(--transition);
+    /* text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); Removed for better visibility */
+}
+
+.logo a h1 {
+    color: #DCDCDC !important; /* Test with a slightly different light grey */
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    font-weight: 500 !important; /* Match nav link font weight */
+    font-size: clamp(1.75rem, 4.5vw, 2.25rem) !important; /* Restore original clamped size */
+    margin: 0;
+    padding: 0;
+    display: inline; 
+    line-height: normal; 
 }
 
 .logo a i {
     font-size: clamp(1.25rem, 3vw, 1.5rem); /* Slightly adjusted max size */
-    color: var(--primary-color);
+    color: #DCDCDC !important; /* Match H1 color for consistency in this test */
 }
 
 /* Navigation styling - mobile first */
@@ -91,7 +103,7 @@ nav .nav-menu li {
 }
 
 nav .nav-menu li a {
-    color: var(--text-muted);
+    color: #DDDDDD; /* Light grey navigation links */
     font-family: 'Roboto', Arial, Helvetica, sans-serif;
     font-weight: 500;
     font-size: 1rem;
@@ -105,7 +117,7 @@ nav .nav-menu li a {
 }
 
 nav .nav-menu li a:hover {
-    color: var(--primary-color);
+    color: #FFFFFF; /* White hover for navigation links */
     text-decoration: none; /* Keep no underline for nav links */
 }
 
@@ -150,7 +162,7 @@ header.scrolled {
     display: block;
     background: transparent;
     border: none;
-    color: var(--text-main);
+    color: #FFFFFF; /* White mobile menu button */
     font-size: 1.5rem;
     cursor: pointer;
     padding: var(--space-1);
@@ -161,7 +173,7 @@ header.scrolled {
 }
 
 .mobile-menu-btn:hover {
-    color: var(--primary-color);
+    color: #DDDDDD; /* Light grey hover for mobile menu button */
 }
 
 /* Focus states for accessibility */
