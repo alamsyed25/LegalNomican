@@ -1,15 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
 /* Legal Nomicon Design System - Mobile First Approach */
 
 :root {
-    /* Color System */
-    --primary-color: #111111;
-    --primary-accent: #eaeae2;
-    --background-main: #fafaf7;
-    --background-soft: #f3f3ef;
-    --background-card: #ffffff;
-    --text-main: #111111;
-    --text-muted: #666666;
-    --text-light: #ffffff;
+    /* Color System - Strict B&W Theme */
+    --primary-color: var(--text-main); /* Was #3A7CA5 - Now uses main text color */
+    --primary-color-rgb: 26, 26, 26;   /* Corresponds to #1A1A1A */
+    --primary-accent: #EEEEEE;         /* Light Gray (was #EBF4FA - Light Blue Accent) */
+    --background-main: #FFFFFF;
+    --background-soft: #F7F7F7;
+    --background-card: #FFFFFF;
+    --text-main: #1A1A1A;       /* Near Black */
+    --text-muted: #555555;      /* Dark Grey */
+    --text-on-accent: var(--text-main); /* Text on light gray accent, was #FFFFFF */
+    --border-color: #DDDDDD;     /* Light Grey for borders */
     
     /* Spacing Scale (8px increments) */
     --space-1: 0.5rem;  /* 8px */
@@ -24,9 +28,11 @@
     --border-radius-lg: 0.75rem; /* 12px */
     
     /* Shadows */
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.05);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+    --shadow-color-rgb: 0, 0, 0;
+    --shadow-sm: 0 2px 4px rgba(var(--shadow-color-rgb), 0.04);
+    --shadow-md: 0 4px 8px rgba(var(--shadow-color-rgb), 0.06);
+    --shadow-lg: 0 10px 20px rgba(var(--shadow-color-rgb), 0.07);
+    --shadow-xl: 0 20px 40px rgba(var(--shadow-color-rgb), 0.08);
     
     /* Transitions */
     --transition-fast: all 0.15s ease;
@@ -44,7 +50,7 @@ html {
 }
 
 body {
-    font-family: 'Inter', Arial, Helvetica, sans-serif;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
     background: var(--background-main);
     color: var(--text-main);
     line-height: 1.6;
@@ -55,13 +61,17 @@ body {
 
 /* Typography Scale - Mobile First with Responsive Scaling */
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Georgia', 'Times New Roman', serif;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
     color: var(--text-main);
-    font-weight: 500;
+    font-weight: 500; /* Default medium, overridden below */
     letter-spacing: -0.01em;
     margin-top: 0;
     margin-bottom: var(--space-2);
+    line-height: 1.3; /* General line height for headings */
 }
+
+h1 { font-weight: 700; }
+h2 { font-weight: 600; }
 
 h1 {
     font-size: clamp(2rem, 5vw, 3rem);
@@ -98,6 +108,16 @@ p {
     margin-bottom: var(--space-2);
 }
 
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 /* Layout & Container */
 .container {
     width: 100%;
@@ -124,25 +144,54 @@ header {
     margin-bottom: var(--space-3);
 }
 
-/* Buttons & Interactive Elements - Touch-friendly */
+/* Buttons & Interactive Elements - B&W Theme */
 .btn, button, input[type="submit"] {
-    background: var(--text-main);
-    color: var(--text-light);
-    border: none;
-    border-radius: var(--border-radius);
-    padding: 0.75rem 1.25rem; /* Minimum 44px touch target */
-    min-height: 2.75rem;
-    min-width: 2.75rem;
-    font-size: 1rem;
-    font-family: inherit;
-    font-weight: 500;
-    cursor: pointer;
-    box-shadow: var(--shadow-sm);
-    transition: var(--transition);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     text-decoration: none;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    padding: 0.65rem 1.2rem;
+    min-height: 2.75rem; /* Maintain touch target size */
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: 1px solid var(--border-color);
+    background-color: transparent;
+    color: var(--text-main);
+    box-shadow: none;
+}
+
+.btn:hover, button:hover, input[type="submit"]:hover {
+    background-color: var(--background-soft);
+    border-color: var(--text-muted);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--background-main); /* Ensure white text on black primary buttons */
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color);
+    filter: brightness(90%);
+    border-color: var(--primary-color);
+    color: var(--background-main); /* Ensure text color remains white on hover */
+}
+
+.btn-secondary {
+    background-color: var(--background-card);
+    color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-secondary:hover {
+    background-color: var(--primary-accent);
+    border-color: var(--primary-color);
+    color: var(--primary-color);
 }
 
 .btn:hover, button:hover, input[type="submit"]:hover {
@@ -430,3 +479,92 @@ nav .nav-menu li a:hover {
         gap: var(--space-4);
     }
 }
+
+/* Features Section Modernization */
+.features {
+    padding: var(--space-5) 0;
+    background-color: var(--background-soft);
+}
+
+.features .section-title,
+.features .section-subtitle {
+    text-align: center;
+    margin-bottom: var(--space-2);
+}
+
+.features .section-subtitle {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: var(--space-4);
+    color: var(--text-muted);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-3);
+}
+
+.feature-card {
+    background: var(--background-card);
+    border-radius: var(--border-radius-lg);
+    padding: var(--space-3);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition), box-shadow var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.feature-card .feature-icon {
+    font-size: 2.5rem; /* Larger icons */
+    color: var(--primary-color);
+    margin-bottom: var(--space-2);
+    background-color: var(--primary-accent);
+    padding: var(--space-2);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem; /* Slightly larger title */
+    color: var(--text-main);
+    margin-bottom: var(--space-1);
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex-grow: 1; /* Ensure cards in a row have same height */
+}
+
+.feature-card .learn-more-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: var(--space-2);
+    display: inline-flex;
+    align-items: center;
+}
+
+.feature-card .learn-more-link i {
+    margin-left: var(--space-1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.feature-card .learn-more-link:hover i {
+    transform: translateX(3px);
+}
+
+

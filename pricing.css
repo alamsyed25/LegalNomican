@@ -1,0 +1,245 @@
+:root {
+    --pricing-text-color: #333;
+    --pricing-primary-color: #2c3e50; /* Dark blue/charcoal for popular button & badge */
+    --pricing-border-color: #ddd;
+    --pricing-card-bg: #fff;
+    --pricing-section-bg: #f9f9f9; /* Light gray background for the section */
+    --pricing-font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Common, clean sans-serif */
+    --pricing-check-color: #2c3e50; /* Same as primary for consistency */
+}
+
+body {
+    font-family: var(--pricing-font-family);
+    margin: 0;
+    padding: 0;
+    background-color: var(--pricing-section-bg); /* Ensure body bg matches if section doesn't fill viewport */
+    color: var(--pricing-text-color);
+}
+
+.pricing-section {
+    padding: 80px 20px; /* Increased padding */
+    text-align: center;
+}
+
+.pricing-section .container {
+    max-width: 1140px; /* Standard container width */
+    margin: 0 auto;
+}
+
+.pricing-main-title {
+    font-size: 2.8rem; /* Slightly larger title */
+    font-weight: 600;
+    color: var(--pricing-text-color);
+    margin-bottom: 15px;
+}
+
+.pricing-subtitle {
+    font-size: 1.1rem; /* Slightly larger subtitle */
+    color: #555; /* Darker gray for better readability */
+    margin-bottom: 60px; /* More space before cards */
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+}
+
+.pricing-plans-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    align-items: stretch; /* Ensure cards are same height */
+}
+
+.pricing-plan-card {
+    background-color: var(--pricing-card-bg);
+    border: 1px solid var(--pricing-border-color);
+    border-radius: 8px;
+    padding: 35px; /* Increased padding inside card */
+    width: 100%;
+    max-width: 350px; /* Slightly wider cards */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.pricing-plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.pricing-plan-card.popular {
+    border-top: 4px solid var(--pricing-primary-color);
+    box-shadow: 0 10px 30px rgba(44,62,80,0.15);
+    transform: translateY(-15px); /* Make popular card stand out more */
+}
+
+.popular-badge {
+    background-color: var(--pricing-primary-color);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 4px;
+    position: absolute;
+    top: -15px; /* Adjust to sit nicely on the border or slightly above */
+    left: 50%;
+    transform: translateX(-50%);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.plan-title {
+    font-size: 1.6rem; /* Slightly larger plan title */
+    font-weight: 600;
+    color: var(--pricing-text-color);
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.plan-price {
+    font-size: 3rem; /* Larger price */
+    font-weight: 700; /* Bolder price */
+    color: var(--pricing-text-color);
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.plan-price-period {
+    font-size: 1rem;
+    font-weight: normal;
+    color: #777;
+    margin-left: 4px;
+}
+
+.plan-price.custom-price {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--pricing-text-color);
+    margin-bottom: 20px;
+}
+
+.plan-description {
+    font-size: 0.95rem; /* Slightly larger description */
+    color: #555;
+    margin-bottom: 30px;
+    line-height: 1.6;
+    min-height: 50px; /* Adjust as needed for alignment */
+    text-align: center;
+}
+
+.plan-features-list {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 35px; /* More space before button */
+    flex-grow: 1;
+}
+
+.plan-features-list li {
+    font-size: 0.95rem;
+    color: var(--pricing-text-color);
+    margin-bottom: 15px; /* More space between features */
+    display: flex;
+    align-items: flex-start;
+    overflow-wrap: break-word; /* Ensure long words break and wrap */
+    word-break: break-word; /* Additional rule for word breaking */
+    /* Hyphens can also be considered if needed: hyphens: auto; */
+}
+
+.plan-features-list li .fa-check {
+    color: var(--pricing-check-color);
+    margin-right: 12px; /* More space after check icon */
+    margin-top: 4px;
+    font-size: 0.9em;
+}
+
+.plan-button {
+    display: block;
+    width: 100%;
+    padding: 14px 20px; /* Larger button padding */
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+    margin-top: auto;
+    cursor: pointer;
+}
+
+.plan-button:hover {
+    transform: translateY(-2px);
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: var(--pricing-primary-color);
+    border: 2px solid var(--pricing-primary-color);
+}
+
+.btn-outline:hover {
+    background-color: var(--pricing-primary-color);
+    color: #fff;
+}
+
+.btn-filled {
+    background-color: var(--pricing-primary-color);
+    color: #fff;
+    border: 2px solid var(--pricing-primary-color);
+}
+
+.btn-filled:hover {
+    background-color: #1f2c3a; /* Darken primary color on hover */
+    border-color: #1f2c3a;
+}
+
+.enterprise-features li {
+    font-size: 0.9rem; /* Adjust if needed for enterprise plan */
+}
+
+/* Responsive adjustments */
+@media (max-width: 991px) { /* Tablet */
+    .pricing-plans-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .pricing-plan-card {
+        max-width: 500px;
+        transform: translateY(0) !important; /* Reset popular card transform for stacking */
+        margin-bottom: 30px; /* Add space between stacked cards */
+    }
+    .pricing-plan-card:last-child {
+        margin-bottom: 0;
+    }
+    .pricing-plan-card.popular {
+        order: -1; /* Ensure popular card is on top when stacked */
+    }
+}
+
+@media (max-width: 767px) { /* Mobile */
+    .pricing-section {
+        padding: 60px 15px;
+    }
+    .pricing-main-title {
+        font-size: 2.2rem;
+    }
+    .pricing-subtitle {
+        font-size: 1rem;
+        margin-bottom: 40px;
+    }
+    .plan-title {
+        font-size: 1.4rem;
+    }
+    .plan-price {
+        font-size: 2.5rem;
+    }
+    .plan-price.custom-price {
+        font-size: 1.6rem;
+    }
+    .pricing-plan-card {
+        padding: 25px;
+    }
+}

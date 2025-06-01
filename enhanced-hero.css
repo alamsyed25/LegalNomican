@@ -1,16 +1,13 @@
 /* Enhanced Hero Section Styles */
 .enhanced-hero {
     min-height: 100vh;
-    background: 
-        radial-gradient(circle at 20% 80%, rgba(74, 107, 255, 0.05) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(106, 131, 255, 0.05) 0%, transparent 50%),
-        linear-gradient(135deg, #f8f9fa 0%, #eef1f5 100%);
+    background: var(--background-main);
     position: relative;
     display: flex;
     align-items: center;
-    padding: 80px 0;
+    padding: 100px 0;
     overflow: hidden;
-    color: #333333;
+    color: var(--text-main);
 }
 
 .hero-grid {
@@ -29,14 +26,14 @@
     align-items: center;
     gap: 8px;
     padding: 10px 18px;
-    background: rgba(74, 107, 255, 0.1);
-    border: 1px solid rgba(74, 107, 255, 0.2);
+    background: var(--primary-accent);
+    border: 1px solid var(--primary-color);
     border-radius: 50px;
     font-size: 0.95rem;
     font-weight: 600;
     margin-bottom: 24px;
     animation: fadeInUp 0.8s ease-out 0.2s both;
-    color: #333333;
+    color: var(--primary-color);
 }
 
 .hero-badge i {
@@ -45,28 +42,31 @@
 
 .hero-title {
     font-size: clamp(2.75rem, 5vw, 4.5rem);
-    font-weight: 800;
+    font-weight: 700; /* Adjusted from 800 for Roboto */
     line-height: 1.1;
     margin-bottom: 28px;
     animation: fadeInUp 0.8s ease-out 0.4s both;
-    color: #333333;
+    color: var(--text-main);
     letter-spacing: -0.02em;
+    text-shadow: none; /* Removed shadow for cleaner look */
 }
 
 .hero-title .highlight {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--primary-color);
+    background: none;
+    -webkit-background-clip: unset;
+    background-clip: unset;
+    text-shadow: none;
 }
 
 .hero-subtitle {
-    font-size: 1.35rem;
+    font-size: 1.25rem; /* Slightly adjusted */
     line-height: 1.6;
-    color: #666666;
+    color: var(--text-muted);
     margin-bottom: 32px;
     animation: fadeInUp 0.8s ease-out 0.6s both;
     max-width: 90%;
+    font-weight: 400;
 }
 
 .trust-metrics {
@@ -85,43 +85,30 @@
 .metric-value {
     font-size: 2rem;
     font-weight: 700;
-    color: #333333;
+    color: var(--text-main);
     margin-bottom: 4px;
 }
 
 .metric-label {
     font-size: 0.9rem;
-    color: #666666;
-}
-
-.btn-primary {
-    background: linear-gradient(135deg, #3a4edc, #5a6ff0);
-    color: white;
-    box-shadow: 0 8px 25px rgba(74, 107, 255, 0.3);
-    font-weight: 600;
-    padding: 16px 32px;
-    font-size: 1.1rem;
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 35px rgba(74, 107, 255, 0.4);
+    color: var(--text-muted);
 }
 
 .text-link {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    color: #3a4edc;
+    color: var(--primary-color);
     font-weight: 500;
     text-decoration: none;
     padding: 16px 0;
     font-size: 1.1rem;
-    transition: var(--transition);
+    transition: color var(--transition-fast), filter var(--transition-fast);
 }
 
 .text-link:hover {
-    color: #2a3cbe;
+    color: var(--primary-color);
+    filter: brightness(85%);
     text-decoration: underline;
 }
 
@@ -137,14 +124,14 @@
     align-items: center;
     gap: 10px;
     font-size: 1rem;
-    background: rgba(74, 107, 255, 0.08);
+    background: var(--background-soft);
     padding: 12px 18px;
     border-radius: 50px;
-    color: #333333;
+    color: var(--text-muted);
 }
 
 .feature-item i {
-    color: #3a4edc;
+    color: var(--primary-color);
     font-size: 1.1rem;
 }
 
@@ -154,11 +141,11 @@
 }
 
 .demo-card {
-    background: #ffffff;
-    border: 1px solid rgba(0, 0, 0, 0.08);
-    border-radius: 20px;
+    background: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg); /* Using theme variable */
     padding: 32px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    box-shadow: var(--shadow-md);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     max-width: 500px;
     width: 100%;
@@ -166,7 +153,7 @@
 
 .demo-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--shadow-lg);
 }
 
 #interactive-demo {
@@ -183,12 +170,12 @@
 .demo-avatar {
     width: 40px;
     height: 40px;
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    background: var(--primary-color);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: white;
+    color: var(--background-main); /* Ensure white icon/text on black background */
 }
 
 .demo-info h4 {
@@ -202,18 +189,19 @@
 }
 
 .demo-query {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 12px;
+    background: var(--background-soft);
+    border-radius: var(--border-radius-lg);
     padding: 20px;
     margin-bottom: 24px;
-    border-left: 4px solid #3a4edc;
+    border-left: 4px solid var(--primary-color);
     position: relative;
 }
 
 .demo-query p {
     font-style: italic;
     line-height: 1.5;
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-main);
+    margin: 0;
 }
 
 .demo-query::after {
@@ -223,7 +211,7 @@
     left: 0;
     width: 100%;
     height: 2px;
-    background: linear-gradient(to right, #3a4edc, transparent);
+    background: linear-gradient(to right, var(--primary-color), transparent);
     animation: typing 2s ease-in-out infinite;
 }
 
@@ -244,9 +232,9 @@
     align-items: center;
     gap: 12px;
     padding: 14px 18px;
-    background: rgba(255, 255, 255, 0.07);
-    border-radius: 10px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: var(--background-card);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
     margin-bottom: 10px;
     transition: transform 0.2s ease;
 }
@@ -256,25 +244,25 @@
 }
 
 .result-item i {
-    color: rgba(255, 255, 255, 0.9);
+    color: var(--text-muted);
 }
 
 .accuracy-indicator {
-    background: rgba(40, 167, 69, 0.15);
-    border: 1px solid rgba(40, 167, 69, 0.25);
+    background: var(--primary-accent);
+    border: 1px solid var(--primary-color);
 }
 
 .accuracy-indicator i {
-    color: rgb(40, 167, 69);
+    color: var(--primary-color);
 }
 
 .time-indicator {
-    background: rgba(74, 107, 255, 0.15);
-    border: 1px solid rgba(74, 107, 255, 0.25);
+    background: var(--primary-accent);
+    border: 1px solid var(--primary-color);
 }
 
 .time-indicator i {
-    color: rgb(74, 107, 255);
+    color: var(--primary-color);
 }
 
 .demo-interaction {
@@ -284,17 +272,18 @@
 }
 
 .demo-try-btn {
-    background: rgba(255, 255, 255, 0.1);
-    color: rgba(255, 255, 255, 0.9);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 8px;
+    background: transparent;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
     padding: 12px 24px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all var(--transition-fast);
 }
 
 .demo-try-btn:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--background-soft);
+    border-color: var(--text-muted);
     transform: translateY(-2px);
 }
 
@@ -447,10 +436,10 @@
 
 /* Enterprise-Ready Solution Section */
 .trust-signals {
-    background: #ffffff;
-    border-radius: 16px;
+    background: var(--background-card);
+    border-radius: var(--border-radius-lg);
     padding: 32px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    box-shadow: var(--shadow-lg);
     margin-top: 60px;
 }
 
@@ -458,7 +447,7 @@
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 24px;
-    color: #333333;
+    color: var(--text-main);
 }
 
 .trust-badges {
@@ -473,19 +462,19 @@
     align-items: center;
     gap: 12px;
     padding: 12px 16px;
-    background: #f8f9fa;
-    border-radius: 8px;
+    background: var(--background-soft);
+    border-radius: var(--border-radius);
     min-width: 200px;
 }
 
 .trust-badge i {
     font-size: 1.25rem;
-    color: #3a4edc;
+    color: var(--primary-color);
 }
 
 .trust-badge span {
     font-weight: 500;
-    color: #333333;
+    color: var(--text-main);
 }
 
 .enterprise-cta {
