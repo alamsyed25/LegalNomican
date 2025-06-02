@@ -7,11 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **Input Validation**
+  - Added `express-validator` for request validation
+  - Implemented validation middleware for chat and document generation endpoints
+  - Added centralized error handling for validation failures
+
+- **Security Enhancements**
+  - Added `express-mongo-sanitize` to prevent NoSQL injection
+  - Added `xss-clean` for basic XSS protection (note: marked for future replacement)
+  - Implemented input sanitization middleware for all incoming requests
+
 ### Changed
+- **Memory Management**
+  - Added automated cleanup for `uploadedDocumentContext` to prevent memory leaks
+  - Implemented 24-hour TTL for document context entries
+
+- **Code Organization**
+  - Consolidated document parsing logic into `documentGenerationService.js`
+  - Removed redundant code from `chatController.js`
+  - Standardized error handling with new `handleError` utility
+
 - **Project Configuration** (`package.json`):
-  - Added `setup` script: `node scripts/setup.js`.
-  - Updated dependency versions for `multer`, `mammoth`, `joi`, `bcryptjs`, and `jsonwebtoken`.
-  - Ensured all core dependencies like `compression`, `cors`, `dotenv`, `express`, `express-rate-limit`, `helmet`, `mongoose`, and `pdf-parse` are correctly listed.
+  - Added `express-validator`, `express-mongo-sanitize`, and `xss-clean` as dependencies
+  - Added `setup` script: `node scripts/setup.js`
+  - Updated dependency versions for `multer`, `mammoth`, `joi`, `bcryptjs`, and `jsonwebtoken`
+  - Ensured all core dependencies like `compression`, `cors`, `dotenv`, `express`, `express-rate-limit`, `helmet`, `mongoose`, and `pdf-parse` are correctly listed
+
+### Fixed
+- **Bug Fixes**
+  - Fixed memory leak in chat session handling
+  - Corrected error response format in validation middleware
+  - Ensured consistent error handling across all API endpoints
 
 
 ## [0.2.0] - 2025-05-31

@@ -1,12 +1,28 @@
 const ChatConversation = require('../models/ChatConversation');
 const { generateSessionId } = require('../utils/helpers');
 const { generateAIResponse } = require('../utils/ai-service');
+const { handleError } = require('../utils/errorHandler');
+const { extractTextFromBuffer } = require('../services/documentGenerationService');
 const multer = require('multer');
-const pdfParse = require('pdf-parse');
-const mammoth = require('mammoth');
 const path = require('path');
 
 const uploadedDocumentContext = {}; // Simple in-memory store for document text
+
+// Function to clean up old document contexts
+const cleanupOldDocuments = () => {
+    const now = Date.now();
+    Object.keys(uploadedDocumentContext).forEach(sessionId => {
+        const doc = uploadedDocumentContext[sessionId];
+        // Check if the document context is older than 24 hours
+        if (now - doc.timestamp > 24 * 60 * 60 * 1000) { // 24 hours in milliseconds
+            console.log(`Cleaning up old document context for session ${sessionId}, file ${doc.fileName}`);
+            delete uploadedDocumentContext[sessionId];
+        }
+    });
+};
+
+// Run cleanup every hour
+setInterval(cleanupOldDocuments, 60 * 60 * 1000); // 1 hour in milliseconds
 
 // Multer setup for file uploads
 const storage = multer.memoryStorage(); // Store files in memory
@@ -48,10 +64,8 @@ const processMessage = async (req, res) => {
         const { sessionId, message } = req.body;
         
         if (!sessionId || !message) {
-            return res.status(400).json({
-                success: false,
-                message: 'Session ID and message are required'
-            });
+            // Pass a new error object with a statusCode for client errors
+            return handleError(res, new Error('Session ID and message are required'), 400);
         }
         
         // Find or create conversation
@@ -89,11 +103,7 @@ const processMessage = async (req, res) => {
         });
         
     } catch (error) {
-        console.error('Chat message error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Error processing message. Please try again.'
-        });
+        handleError(res, error); // Defaults to 500 if error.statusCode is not set
     }
 };
 
@@ -107,37 +117,11 @@ const handleFileUpload = [ // Use an array to apply multer middleware first
     async (req, res) => {
         try {
             if (!req.file) {
-                return res.status(400).json({ success: false, error: 'No file uploaded.' });
+                return handleError(res, new Error('No file uploaded.'), 400);
             }
 
             const file = req.file;
-            let extractedText = '';
-
-            if (file.mimetype === 'application/pdf') {
-                const data = await pdfParse(file.buffer);
-                extractedText = data.text;
-            } else if (file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-                const { value } = await mammoth.extractRawText({ buffer: file.buffer });
-                extractedText = value;
-            } else if (file.mimetype === 'application/msword') {
-                // Mammoth can sometimes handle .doc, but it's less reliable than for .docx
-                // For simplicity, we'll try. A more robust solution might involve a dedicated .doc parser.
-                try {
-                    const { value } = await mammoth.extractRawText({ buffer: file.buffer });
-                    extractedText = value;
-                } catch (mammothError) {
-                    console.warn(`Mammoth failed to parse .doc file ${file.originalname}:`, mammothError);
-                    return res.status(400).json({ success: false, error: 'Could not parse .doc file. Please try converting to DOCX or PDF.' });
-                }
-            } else if (file.mimetype === 'text/plain') {
-                extractedText = file.buffer.toString('utf8');
-            } else {
-                return res.status(400).json({ success: false, error: 'Unsupported file type processed. This should have been caught by fileFilter.' });
-            }
-
-            if (!extractedText.trim()) {
-                 return res.status(400).json({ success: false, error: 'Could not extract text from the document or the document is empty.' });
-            }
+            const extractedText = await extractTextFromBuffer(file.buffer, file.mimetype, file.originalname);
 
             // For now, we're not storing the text or linking it to the session directly in DB
             // We'll just send a success message with a snippet
@@ -165,11 +149,15 @@ const handleFileUpload = [ // Use an array to apply multer middleware first
             });
 
         } catch (error) {
-            console.error('File upload error:', error);
-            if (error.message.startsWith('File type not supported')) {
-                 return res.status(400).json({ success: false, error: error.message });
+            // Check if the error is one of the specific client-side errors we expect
+            if (error.message.includes('Unsupported file type') || 
+                error.message.includes('Could not parse') || 
+                error.message.includes('File type not supported') || // from multer's fileFilter
+                error.message.includes('Could not extract text')) {
+                return handleError(res, error, 400); // Pass the original error, it has the message
             }
-            res.status(500).json({ success: false, error: 'Error processing file. Please try again.' });
+            // For any other errors, treat as a server error
+            handleError(res, error); // Defaults to 500
         }
     }
 ];

@@ -1,8 +1,10 @@
 const { 
     generateDocument, 
     getAvailableTemplates, 
-    validateTemplateData 
+    validateTemplateData,
+    getTemplate 
 } = require('../services/documentGenerationService');
+const { handleError } = require('../utils/errorHandler');
 
 /**
  * Get available document templates
@@ -18,11 +20,7 @@ const getTemplates = (req, res) => {
             data: templates
         });
     } catch (error) {
-        console.error('Get templates error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Error retrieving templates'
-        });
+        handleError(res, error);
     }
 };
 
@@ -36,27 +34,20 @@ const createDocument = async (req, res) => {
         const { templateType, data } = req.body;
         
         if (!templateType) {
-            return res.status(400).json({
-                success: false,
-                message: 'Template type is required'
-            });
+            return handleError(res, new Error('Template type is required'), 400);
         }
         
         if (!data || typeof data !== 'object') {
-            return res.status(400).json({
-                success: false,
-                message: 'Template data is required'
-            });
+            return handleError(res, new Error('Template data is required'), 400);
         }
         
         // Validate template data
         const validation = validateTemplateData(templateType, data);
         if (!validation.isValid) {
-            return res.status(400).json({
-                success: false,
-                message: 'Invalid template data',
-                errors: validation.errors
-            });
+            // Create an error object that includes details for the handleError function
+            const validationError = new Error('Invalid template data');
+            validationError.details = validation.errors;
+            return handleError(res, validationError, 400);
         }
         
         // Generate document
@@ -68,11 +59,7 @@ const createDocument = async (req, res) => {
         });
         
     } catch (error) {
-        console.error('Document generation error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Error generating document'
-        });
+        handleError(res, error);
     }
 };
 
@@ -113,29 +100,29 @@ const previewTemplate = async (req, res) => {
         
         const previewData = sampleData[templateType];
         if (!previewData) {
-            return res.status(404).json({
-                success: false,
-                message: 'Template not found'
-            });
+            return handleError(res, new Error('Template not found for preview (no sample data).'), 404);
         }
         
+        const templateDetails = getTemplate(templateType); // Get full template details (synchronous)
+
+        if (!templateDetails) {
+            return handleError(res, new Error('Template details not found for preview.'), 404);
+        }
+
         const document = await generateDocument(templateType, previewData);
         
         res.json({
             success: true,
             data: {
                 ...document,
+                fields: templateDetails.fields, // Add the fields schema to the response
                 isPreview: true,
                 sampleData: previewData
             }
         });
         
     } catch (error) {
-        console.error('Template preview error:', error);
-        res.status(500).json({
-            success: false,
-            message: 'Error generating template preview'
-        });
+        handleError(res, error);
     }
 };
 

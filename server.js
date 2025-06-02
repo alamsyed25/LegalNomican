@@ -10,12 +10,20 @@ require('dotenv').config();
 // Import modules
 const { configureApp } = require('./server/config/app-config');
 const { connectDB } = require('./server/config/db-config');
+const chatRoutes = require('./server/routes/chatRoutes');
+const documentRoutes = require('./server/routes/documentRoutes');
 const routes = require('./server/routes');
+const mongoSanitize = require('express-mongo-sanitize');
+const xss = require('xss-clean');
 
 const app = express();
 
 // Configure application middleware based on environment
 configureApp(app);
+
+// Security: Sanitize user input
+app.use(xss()); // Prevent XSS attacks
+app.use(mongoSanitize()); // Prevent NoSQL query injection
 
 // Connect to MongoDB if not in test mode
 if (process.env.NODE_ENV !== 'test') {
@@ -24,6 +32,8 @@ if (process.env.NODE_ENV !== 'test') {
 
 // Apply API routes
 app.use('/api', routes);
+app.use('/api/chat', chatRoutes);
+app.use('/documents', documentRoutes);
 
 // Serve static files from multiple directories
 app.use(express.static(__dirname)); // Serve from root

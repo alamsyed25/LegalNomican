@@ -3,6 +3,9 @@
  * Handles creation of legal documents from templates
  */
 
+const pdfParse = require('pdf-parse');
+const mammoth = require('mammoth');
+
 /**
  * Generate document from template
  * @param {string} templateType - Type of document template
@@ -41,19 +44,39 @@ const getAvailableTemplates = () => {
             id: 'nda',
             title: 'Non-Disclosure Agreement',
             description: 'Standard confidentiality agreement for business relationships',
-            fields: ['disclosingParty', 'receivingParty', 'effectiveDate', 'duration']
+            fields: [
+                { id: 'disclosingParty', label: 'Disclosing Party', type: 'text', placeholder: 'Company or person disclosing information', required: true },
+                { id: 'receivingParty', label: 'Receiving Party', type: 'text', placeholder: 'Company or person receiving information', required: true },
+                { id: 'effectiveDate', label: 'Effective Date', type: 'date', placeholder: 'Date the agreement takes effect', required: true },
+                { id: 'duration', label: 'Duration', type: 'text', placeholder: 'e.g., 2 years, 5 years, etc.', required: true },
+                { id: 'governingLaw', label: 'Governing Law', type: 'text', placeholder: 'e.g., State of California', required: true } // Added governingLaw as an example
+            ]
         },
         {
             id: 'service_agreement',
             title: 'Service Agreement',
             description: 'Professional services contract template',
-            fields: ['serviceProvider', 'client', 'serviceDescription', 'paymentTerms', 'startDate']
+            fields: [
+                { id: 'serviceProvider', label: 'Service Provider', type: 'text', placeholder: 'Name of the service provider', required: true },
+                { id: 'client', label: 'Client', type: 'text', placeholder: 'Name of the client', required: true },
+                { id: 'serviceDescription', label: 'Service Description', type: 'textarea', placeholder: 'Detailed description of services to be provided', required: true },
+                { id: 'paymentTerms', label: 'Payment Terms', type: 'text', placeholder: 'e.g., $X upon signing, balance due in 30 days', required: true },
+                { id: 'startDate', label: 'Start Date', type: 'date', placeholder: 'Date services will begin', required: true },
+                { id: 'intellectualPropertyOwner', label: 'Intellectual Property Owner', type: 'text', placeholder: 'Who will own the IP?', required: true } // Added IP owner
+            ]
         },
         {
             id: 'employment_contract',
             title: 'Employment Contract',
             description: 'Standard employment agreement template',
-            fields: ['employer', 'employee', 'position', 'salary', 'startDate', 'benefits']
+            fields: [
+                { id: 'employer', label: 'Employer', type: 'text', placeholder: 'Company name', required: true },
+                { id: 'employee', label: 'Employee', type: 'text', placeholder: 'Employee full name', required: true },
+                { id: 'position', label: 'Position', type: 'text', placeholder: 'Job title/position', required: true },
+                { id: 'salary', label: 'Salary', type: 'text', placeholder: 'e.g., $75,000 per year', required: true },
+                { id: 'startDate', label: 'Start Date', type: 'date', placeholder: 'Employment start date', required: true },
+                { id: 'benefits', label: 'Benefits', type: 'textarea', placeholder: 'List of benefits (health insurance, 401k, etc.)', required: true }
+            ]
         }
     ];
 };
@@ -240,11 +263,12 @@ const validateTemplateData = (templateType, data) => {
     }
     
     const errors = [];
-    const requiredFields = template.fields;
+    const requiredFields = template.fields.map(f => f.id);
     
     requiredFields.forEach(field => {
         if (!data[field] || data[field].trim() === '') {
-            errors.push(`${field} is required`);
+            const fieldDefinition = template.fields.find(f => f.id === field);
+            errors.push(`${fieldDefinition ? fieldDefinition.label : field} is required`);
         }
     });
     
@@ -254,8 +278,47 @@ const validateTemplateData = (templateType, data) => {
     };
 };
 
+/**
+ * Extracts text from a file buffer.
+ * @param {Buffer} buffer - The file buffer.
+ * @param {string} mimetype - The mimetype of the file.
+ * @param {string} filename - The original filename (for error logging).
+ * @returns {Promise<string>} - The extracted text.
+ * @throws {Error} - If file type is unsupported or text extraction fails.
+ */
+const extractTextFromBuffer = async (buffer, mimetype, filename) => {
+    let extractedText = '';
+
+    if (mimetype === 'application/pdf') {
+        const data = await pdfParse(buffer);
+        extractedText = data.text;
+    } else if (mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        const { value } = await mammoth.extractRawText({ buffer });
+        extractedText = value;
+    } else if (mimetype === 'application/msword') {
+        try {
+            const { value } = await mammoth.extractRawText({ buffer });
+            extractedText = value;
+        } catch (mammothError) {
+            console.warn(`Mammoth failed to parse .doc file ${filename}:`, mammothError);
+            throw new Error('Could not parse .doc file. Please try converting to DOCX or PDF.');
+        }
+    } else if (mimetype === 'text/plain') {
+        extractedText = buffer.toString('utf8');
+    } else {
+        throw new Error('Unsupported file type for text extraction.');
+    }
+
+    if (!extractedText || !extractedText.trim()) {
+        throw new Error('Could not extract text from the document or the document is empty.');
+    }
+
+    return extractedText;
+};
+
 module.exports = {
     generateDocument,
     getAvailableTemplates,
-    validateTemplateData
+    validateTemplateData,
+    extractTextFromBuffer
 };
