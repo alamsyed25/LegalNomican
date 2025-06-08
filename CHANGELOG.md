@@ -18,12 +18,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added `xss-clean` for basic XSS protection (note: marked for future replacement)
   - Implemented input sanitization middleware for all incoming requests
 
+- **Testing Framework**
+  - Added Jest configuration with test environment setup
+  - Implemented basic unit tests for `documentContextService.js` and `chatController.js`
+  - Created test fixtures and mock data to support testing
+  - Added test environment configuration with `.env.test`
+
 ### Changed
 - **Memory Management**
   - Added automated cleanup for `uploadedDocumentContext` to prevent memory leaks
   - Implemented 24-hour TTL for document context entries
 
+- **CSS Modularization**
+  - Split large `enhanced-hero.css` (611 lines) into 5 modular files:
+    - `hero-base.css`: Base styles and typography
+    - `hero-metrics.css`: Trust and feature metrics styling
+    - `hero-demo.css`: Demo card and interactive components
+    - `hero-animations.css`: All animation keyframes
+    - `hero-responsive.css`: Media queries and responsive adjustments
+  - Split large `styles.css` (618 lines) into 6 modular files:
+    - `core-variables.css`: Design system variables
+    - `typography.css`: Text and font styling
+    - `layout.css`: Grid systems and containers
+    - `buttons.css`: Button variants and controls
+    - `forms.css`: Form elements and inputs
+    - `features.css`: Feature cards and sections
+    - `responsive.css`: All media queries
+  - Created main import files for modular CSS components
+
 - **Code Organization**
+  - Consolidated Redis operations into new `documentContextService.js` service
+  - Refactored `chatController.js` to use the new service
+  - Enhanced `setup.js` script with environment validation
   - Consolidated document parsing logic into `documentGenerationService.js`
   - Removed redundant code from `chatController.js`
   - Standardized error handling with new `handleError` utility

@@ -1,0 +1,94 @@
+/* 
+ * LegalNomican Buttons Styles
+ * Contains all button variants and interactive control styles
+ */
+
+/* Buttons & Interactive Elements - B&W Theme */
+.btn, button, input[type="submit"] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: var(--border-radius);
+    padding: 0.65rem 1.2rem;
+    min-height: 2.75rem; /* Minimum 44px touch target */
+    transition: var(--transition-fast);
+    cursor: pointer;
+    border: 2px solid;
+    border-color: var(--text-muted);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--background-main); /* Ensure white text on black primary buttons */
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-color);
+    filter: brightness(90%);
+    border-color: var(--primary-color);
+    color: var(--background-main); /* Ensure text color remains white on hover */
+}
+
+.btn-secondary {
+    background-color: transparent;
+    color: var(--text-main);
+    border-color: var(--text-main);
+}
+
+.btn-secondary:hover {
+    background-color: var(--text-main);
+    color: var(--background-main);
+    border-color: var(--text-main);
+}
+
+.btn-text {
+    background-color: transparent;
+    color: var(--text-main);
+    border: none;
+    padding: var(--space-1) var(--space-2);
+    min-height: auto;
+}
+
+.btn-text:hover {
+    text-decoration: underline;
+}
+
+.btn-sm {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.875rem;
+    min-height: 2.25rem;
+}
+
+.btn-lg {
+    padding: 0.8rem 1.5rem;
+    font-size: 1.125rem;
+    min-height: 3rem;
+}
+
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/* Icon buttons */
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background: var(--background-soft);
+    color: var(--text-main);
+    border: none;
+    transition: var(--transition);
+}
+
+.icon-btn:hover {
+    background: var(--primary-accent);
+}

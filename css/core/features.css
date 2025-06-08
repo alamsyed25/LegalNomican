@@ -1,0 +1,127 @@
+/* 
+ * LegalNomican Features Section Styles
+ * Contains all styles related to feature sections and cards
+ */
+
+/* Features Section Modernization */
+.features {
+    padding: var(--space-5) 0;
+    background-color: var(--background-soft);
+}
+
+.features .section-title,
+.features .section-subtitle {
+    text-align: center;
+    margin-bottom: var(--space-2);
+}
+
+.features .section-subtitle {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: var(--space-4);
+    color: var(--text-muted);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-3);
+}
+
+.feature-card {
+    background: var(--background-card);
+    border-radius: var(--border-radius-lg);
+    padding: var(--space-3);
+    box-shadow: var(--shadow-md);
+    transition: transform var(--transition), box-shadow var(--transition);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.feature-card .feature-icon {
+    font-size: 2.5rem; /* Larger icons */
+    color: var(--primary-color);
+    margin-bottom: var(--space-2);
+    background-color: var(--primary-accent);
+    padding: var(--space-2);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+}
+
+.feature-card h3 {
+    font-size: 1.5rem; /* Slightly larger title */
+    color: var(--text-main);
+    margin-bottom: var(--space-1);
+}
+
+.feature-card p {
+    font-size: 1rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex-grow: 1; /* Ensure cards in a row have same height */
+}
+
+.feature-card .learn-more-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    margin-top: var(--space-2);
+    display: inline-flex;
+    align-items: center;
+}
+
+.feature-card .learn-more-link i {
+    margin-left: var(--space-1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.feature-card .learn-more-link:hover i {
+    transform: translateX(3px);
+}
+
+/* Feature/Icon Styling */
+.feature-icon i, .feature-detail .feature-icon, .problem-icon i, .solution-icon i {
+    color: var(--text-main);
+    font-size: 1.5rem;
+    opacity: 0.9;
+}
+
+/* Security Section Styling */
+.security-features {
+    display: grid;
+    gap: var(--space-3, 1.5rem); /* Using theme variable for gap */
+}
+
+.security-feature {
+    padding: var(--space-2, 1rem);
+}
+
+.security-feature i {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-2, 1rem);
+    color: var(--primary-color, #1A1A1A);
+    display: block;
+}
+
+.security-feature h4 {
+    font-size: 1.25rem;
+    margin-bottom: var(--space-1, 0.5rem);
+    color: var(--text-main);
+}
+
+.security-feature p {
+    font-size: 1rem;
+    color: var(--text-muted, #555555);
+    line-height: 1.5;
+}

@@ -1,0 +1,15 @@
+/* 
+ * LegalNomican Main Stylesheet
+ * Modular version that imports all component CSS files
+ */
+
+/* Core Components */
+@import url('./core/core-variables.css');
+@import url('./core/typography.css');
+@import url('./core/layout.css');
+@import url('./core/buttons.css');
+@import url('./core/forms.css');
+@import url('./core/features.css');
+@import url('./core/responsive.css');
+
+/* This file replaces the original monolithic styles.css with a modular approach */

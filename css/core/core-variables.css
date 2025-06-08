@@ -1,0 +1,43 @@
+/* 
+ * LegalNomican Core Variables
+ * Contains design system variables and theme settings
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+    /* Color System - Strict B&W Theme */
+    --primary-color: var(--text-main); /* Was #3A7CA5 - Now uses main text color */
+    --primary-color-rgb: 26, 26, 26;   /* Corresponds to #1A1A1A */
+    --primary-accent: #EEEEEE;         /* Light Gray (was #EBF4FA - Light Blue Accent) */
+    --background-main: #FFFFFF;
+    --background-soft: #F7F7F7;
+    --background-card: #FFFFFF;
+    --text-main: #1A1A1A;       /* Near Black */
+    --text-muted: #555555;      /* Dark Grey */
+    --text-on-accent: var(--text-main); /* Text on light gray accent, was #FFFFFF */
+    --border-color: #DDDDDD;     /* Light Grey for borders */
+    
+    /* Spacing Scale (8px increments) */
+    --space-1: 0.5rem;  /* 8px */
+    --space-2: 1rem;    /* 16px */
+    --space-3: 1.5rem;  /* 24px */
+    --space-4: 2rem;    /* 32px */
+    --space-5: 3rem;    /* 48px */
+    
+    /* Border Radius */
+    --border-radius-sm: 0.25rem; /* 4px */
+    --border-radius: 0.5rem;     /* 8px */
+    --border-radius-lg: 0.75rem; /* 12px */
+    
+    /* Shadows */
+    --shadow-color-rgb: 0, 0, 0;
+    --shadow-sm: 0 2px 4px rgba(var(--shadow-color-rgb), 0.04);
+    --shadow-md: 0 4px 8px rgba(var(--shadow-color-rgb), 0.06);
+    --shadow-lg: 0 10px 20px rgba(var(--shadow-color-rgb), 0.07);
+    --shadow-xl: 0 20px 40px rgba(var(--shadow-color-rgb), 0.08);
+    
+    /* Transitions */
+    --transition-fast: all 0.15s ease;
+    --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}

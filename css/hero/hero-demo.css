@@ -1,0 +1,104 @@
+/* Demo Card and Interactive Demo Styling */
+.hero-visual {
+    position: relative;
+    animation: slideInRight 0.8s ease-out;
+}
+
+.demo-card {
+    background: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg); /* Using theme variable */
+    padding: 32px;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 500px;
+    width: 100%;
+}
+
+.demo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+#interactive-demo {
+    position: relative;
+}
+
+.demo-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.demo-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--background-main); /* Ensure white icon/text on black background */
+}
+
+.demo-info h4 {
+    font-size: 1.1rem;
+    margin-bottom: 4px;
+}
+
+.demo-info p {
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+/* Lawyer Input Styling */
+.research-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+.lawyer-input {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 5px;
+}
+
+.user-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--background-soft);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+}
+
+.input-content {
+    background: var(--background-soft);
+    border-radius: var(--border-radius-lg);
+    padding: 15px;
+    position: relative;
+    flex: 1;
+    border-left: 4px solid var(--primary-color);
+}
+
+.input-content p {
+    font-style: italic;
+    margin: 0;
+    color: var(--text-muted);
+}
+
+/* Loading optimization */
+.hero-content > * {
+    content-visibility: auto;
+}
+
+.demo-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 0 500px;
+}

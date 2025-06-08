@@ -1,0 +1,154 @@
+# LegalNomican Backend Documentation
+
+This document provides an overview of the backend architecture, features, and key components of the LegalNomican application.
+
+## 1. Project Structure
+
+The backend follows a modular structure to promote separation of concerns, maintainability, and scalability. Key directories within the `server` folder (unless specified otherwise) include:
+
+-   `config/`: Contains environment-specific configurations (development, testing, production) and database connection settings.
+-   `models/`: Defines Mongoose schemas for database collections (e.g., User, ChatSession, Document).
+-   `controllers/`: Houses the business logic for different features. Each controller handles requests, interacts with services/models, and sends responses.
+    -   `chatController.js`: Manages chatbot interactions, message handling, document uploads, and context management.
+    -   `documentGenerationController.js`: Handles requests for generating legal documents based on templates and user data.
+    -   `authController.js`: (Assumed, to be added/confirmed for future user authentication and authorization).
+-   `routes/`: Defines API endpoints and maps them to controller functions. Express router is used for modular routing.
+    -   `chatRoutes.js`: Routes related to chatbot functionalities.
+    -   `documentRoutes.js`: Routes for document generation.
+    -   `authRoutes.js`: (Assumed for future user authentication).
+-   `services/`: Contains services that encapsulate specific business logic or interact with external systems.
+    -   `documentGenerationService.js`: Logic for parsing document templates and populating them with data. Includes text extraction from buffers.
+    -   `documentContextService.js`: Manages storage and retrieval of document context for chat sessions, utilizing Redis.
+-   `middleware/`: Custom middleware functions.
+    -   `validationHandler.js`: Handles results from `express-validator` and uses the centralized error handler.
+    -   (Other middleware like authentication, logging can be placed here).
+-   `utils/`: Utility functions shared across the application.
+    -   `errorHandler.js`: Centralized error handling mechanism for consistent API error responses.
+-   `tests/` (located in project root): Contains unit and integration tests.
+    -   `unit/`: Unit tests for individual modules/functions.
+    -   `integration/`: (Assumed for future integration tests for API endpoints).
+    -   `fixtures/`: Test data and mock objects.
+    -   `setup.js`: Setup file for the testing environment.
+
+## 2. Environment Configuration
+
+The application uses environment variables for configuration, managed via `.env` files at the project root.
+
+-   A `.env.example` file serves as a template.
+-   Environment-specific files like `.env.development`, `.env.test`, `.env.production` are used to load configurations based on the `NODE_ENV` variable.
+-   Key configurations include database connection strings (MongoDB URI), API keys, server port (PORT), Redis URL (REDIS_URL), and JWT secrets (JWT_SECRET).
+
+## 3. Core Features and Functionality
+
+### 3.1. Chatbot
+
+-   **Message Handling**: Processes user messages and interacts with AI models (currently mocked in development environments).
+-   **Document Upload & Context**:
+    -   Users can upload documents (PDF, DOCX, TXT) to provide context for chat sessions via the `/api/chat/upload` endpoint.
+    -   Text is extracted from uploaded documents using the `extractTextFromBuffer` function located in `server/services/documentGenerationService.js`.
+    -   Uploaded document context is stored using Redis for efficient caching and retrieval. The Redis connection is configured via `REDIS_URL` (e.g., `redis://localhost:6379`).
+    -   A cleanup mechanism in `server/controllers/chatController.js` automatically removes `uploadedDocumentContext` entries older than 24 hours. This process runs hourly to prevent memory leaks and manage cache size.
+-   **Input Validation**: User inputs for chat messages (e.g., `sessionId`, `message` for the `/api/chat/message` endpoint) are validated using `express-validator`, as defined in `server/routes/chatRoutes.js`.
+-   **Input Sanitization**: All incoming requests, including chat messages, are sanitized against NoSQL injection (using `express-mongo-sanitize`) and basic XSS attacks (using `xss-clean`). These middlewares are applied globally in `server.js`.
+
+### 3.2. Document Generation
+
+-   **Template-Based Generation**: Generates legal documents based on predefined templates and user-provided data via the `/api/documents/generate` endpoint.
+-   **Input Validation**: Inputs for document generation (e.g., `templateType`, `data`) are validated using `express-validator`, as defined in `server/routes/documentRoutes.js`.
+-   **Input Sanitization**: Similar to the chatbot, inputs are sanitized globally.
+
+## 4. Database
+
+-   **MongoDB**: The primary NoSQL database used for persistent storage.
+-   **Mongoose**: ODM (Object Data Modeling) library used to interact with MongoDB, define schemas (in `server/models/`), and manage data.
+-   Database connections are configured per environment via `server/config/db.js` and environment variables.
+
+## 5. Caching
+
+-   **Redis**: Used for caching, particularly for storing document context related to chat sessions.
+-   The application connects to a Redis instance, typically a Dockerized one named `legalnomican-redis`, accessible via the `REDIS_URL`.
+-   Successful Redis integration is confirmed by server startup logs and functionality in the chat context management.
+
+## 6. Error Handling
+
+-   A centralized error handling utility is implemented in `server/utils/errorHandler.js`.
+-   This utility (`handleError`) ensures consistent error responses (structure and status codes) across the API.
+-   Controllers, such as `chatController.js` and `documentGenerationController.js`, utilize this function for standardized error management.
+
+## 7. Security
+
+-   **Input Sanitization**:
+    -   `express-mongo-sanitize`: Applied globally to protect against NoSQL injection attacks by stripping out prohibited characters (e.g., `$`, `.`) from request bodies, query parameters, and headers.
+    -   `xss-clean`: Applied globally to provide basic protection against Cross-Site Scripting (XSS) attacks by sanitizing user input. (Note: `xss-clean` is deprecated; consider replacing it with a more actively maintained library like `dompurify` when appropriate).
+-   **Input Validation**: `express-validator` is used to validate incoming data for specific API endpoints, ensuring data integrity and adherence to expected formats before processing by controllers.
+-   **Vulnerability Management**: `npm audit fix` has been run to address known vulnerabilities in project dependencies, enhancing the overall security posture.
+
+## 8. Code Quality and Maintainability
+
+-   **Modularity**: The codebase is organized into distinct modules (controllers, services, routes, models, utils) with single responsibilities, improving clarity and ease of maintenance.
+-   **DRY (Don't Repeat Yourself) Principle**: Efforts have been made to avoid code duplication. For example, document text extraction logic was consolidated into the `extractTextFromBuffer` function in `documentGenerationService.js`.
+-   **File Size Management**: Large files have been refactored into smaller, more focused units (e.g., `server.js` was broken down, and `chatbot.css` was split into modular CSS files). This aligns with the preference for files under 200-300 lines.
+-   **JSDoc Comments**: Added to functions and modules to improve code understanding and facilitate auto-generated documentation if needed.
+
+## 9. Testing
+
+-   The project includes a testing setup configured in `tests/setup.js`.
+-   Unit tests are written for various components, such as `chatController.test.js` and `documentContextService.test.js`, located in the `tests/unit/` directory.
+-   Test fixtures and mock data are stored in `tests/fixtures/` (e.g., `chatMessages.js`).
+-   Tests are run in a specific test environment, often configured via `.env.test`.
+
+## 10. Setup and Running the Backend
+
+1.  **Prerequisites**:
+    *   Node.js (check `.nvmrc` or `package.json` for version) and npm
+    *   MongoDB instance (local, Docker, or cloud-based)
+    *   Docker (if running Redis in a container)
+2.  **Installation**:
+    ```bash
+    git clone <your_repository_url>
+    cd LegalNomican
+    npm install
+    ```
+3.  **Environment Configuration**:
+    *   Copy `env.example` to a new file for your environment (e.g., `.env` or `.env.development`).
+    *   Update the variables: `MONGO_URI`, `REDIS_URL`, `PORT`, `NODE_ENV`, `JWT_SECRET`, etc.
+4.  **Start Redis (using Docker, if applicable)**:
+    ```bash
+    docker run -d --name legalnomican-redis -p 6379:6379 redis
+    ```
+    (This command was used as per memory `6c98e2c6-7c82-4217-b605-fcce81f61e88`.)
+5.  **Run the server**:
+    *   For development (with auto-reloading, if `nodemon` is configured in `package.json` scripts):
+        ```bash
+        npm run dev
+        ```
+    *   For production:
+        ```bash
+        npm start
+        ```
+    The server typically runs on the port specified by the `PORT` environment variable (e.g., 3001).
+
+## 11. Key API Endpoints
+
+(This section provides a high-level overview. Refer to `server/routes/` for detailed definitions, including all middleware and validation.)
+
+### Chat API (Base Path: `/api/chat`)
+
+-   **`POST /message`**: Sends a message to the chatbot.
+    -   **Validation**: `sessionId` (string, not empty), `message` (string, not empty).
+    -   **Request Body**: `{ "sessionId": "string", "message": "string", "contextId": "string (optional)" }`
+    -   **Response**: Chatbot's reply.
+-   **`POST /upload`**: Uploads a document to be used as context for the chat.
+    -   **Request**: `multipart/form-data` with a file field (e.g., `document`).
+    -   **Response**: Success message, potentially with a `contextId` or `sessionId`.
+
+### Document Generation API (Base Path: `/api/documents`)
+
+-   **`POST /generate`**: Requests the generation of a legal document.
+    -   **Validation**: `templateType` (string, not empty), `data` (object, not empty).
+    -   **Request Body**: `{ "templateType": "string", "data": {} }`
+    -   **Response**: Generated document content or a link/ID to retrieve it.
+
+---
+
+This documentation should be reviewed and kept up-to-date as the backend evolves.

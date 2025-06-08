@@ -3,13 +3,9 @@ const { generateSessionId } = require('../utils/helpers');
 const { generateAIResponse } = require('../utils/ai-service');
 const { handleError } = require('../utils/errorHandler');
 const { extractTextFromBuffer } = require('../services/documentGenerationService');
-const redisClient = require('../config/redis-config'); // Updated Redis client
+const documentContextService = require('../services/documentContextService'); // New document context service
 const multer = require('multer');
 const path = require('path');
-
-// Constants for Redis
-const DOCUMENT_CONTEXT_TTL = 24 * 60 * 60; // 24 hours in seconds
-const DOCUMENT_CONTEXT_PREFIX = 'doc:ctx:';
 
 // Multer setup for file uploads (in memory)
 const storage = multer.memoryStorage();
@@ -47,53 +43,13 @@ const documentUpload = multer({
     }
 }).single('document');
 
-/**
- * Get document context key for Redis
- * @param {string} sessionId - The session ID
- * @returns {string} - The Redis key for the document context
- */
-const getDocumentContextKey = (sessionId) => {
-    return `${DOCUMENT_CONTEXT_PREFIX}${sessionId}`;
-};
+// Document context key management is now handled by documentContextService
 
-/**
- * Store document context in Redis
- * @param {string} sessionId - The session ID
- * @param {Object} documentData - The document data to store { fileName, text, uploadedAt }
- * @returns {Promise<boolean>} - True if successful
- */
-const storeDocumentContextInRedis = async (sessionId, documentData) => {
-    try {
-        const key = getDocumentContextKey(sessionId);
-        // Use options object for EX as per redis v4 client.set method
-        await redisClient.set(key, documentData, { EX: DOCUMENT_CONTEXT_TTL });
-        console.log(`Stored document context in Redis for session ${sessionId}, key ${key}`);
-        return true;
-    } catch (error) {
-        console.error(`Error storing document context in Redis for session ${sessionId}:`, error);
-        // Do not re-throw here, allow controller to handle user response
-        return false;
-    }
-};
+// Document context storage is now handled by documentContextService.store
 
-/**
- * Get document context from Redis
- * @param {string} sessionId - The session ID
- * @returns {Promise<Object|null>} - The document context or null if not found or error
- */
-const getDocumentContextFromRedis = async (sessionId) => {
-    try {
-        const key = getDocumentContextKey(sessionId);
-        const data = await redisClient.get(key); // redisClient.get already parses JSON if possible
-        if (data) {
-            console.log(`Retrieved document context from Redis for session ${sessionId}, key ${key}`);
-        }
-        return data; // Will be null if key doesn't exist
-    } catch (error) {
-        console.error(`Error getting document context from Redis for session ${sessionId}:`, error);
-        return null; // Return null on error to prevent breaking chat flow
-    }
-};
+// Document context retrieval is now handled by documentContextService.get
+
+// Document context deletion is now handled by documentContextService.remove
 
 /**
  * Delete document context from Redis
@@ -102,9 +58,8 @@ const getDocumentContextFromRedis = async (sessionId) => {
  */
 const deleteDocumentContextFromRedis = async (sessionId) => {
     try {
-        const key = getDocumentContextKey(sessionId);
-        const deleted = await redisClient.del(key);
-        console.log(`Document context for session ${sessionId} (key: ${key}) deletion attempt, result: ${deleted}`);
+        const deleted = await documentContextService.remove(sessionId);
+        console.log(`Document context for session ${sessionId} deletion attempt, result: ${deleted}`);
         return true; // Consider it success even if key didn't exist
     } catch (error) {
         console.error(`Error deleting document context from Redis for session ${sessionId}:`, error);
@@ -143,7 +98,7 @@ const processMessage = async (req, res) => {
         conversation.messages.push({ sender: 'user', content: message });
         
         let documentTextForAI = null;
-        const documentContext = await getDocumentContextFromRedis(sessionId);
+        let documentContext = await documentContextService.get(sessionId);
         
         if (documentContext && documentContext.text) {
             documentTextForAI = documentContext.text;
@@ -215,7 +170,7 @@ const uploadDocument = (req, res) => {
                 uploadedAt: new Date().toISOString()
             };
 
-            const stored = await storeDocumentContextInRedis(sessionId, documentData);
+            const stored = await documentContextService.store(sessionId, documentData);
             if (!stored) {
                 // storeDocumentContextInRedis logs the error internally
                 return handleError(res, new Error('Failed to store document context. Please try again.'), 500);
@@ -245,7 +200,7 @@ const clearDocumentContext = async (req, res) => {
             return handleError(res, new Error('Session ID is required to clear context.'), 400);
         }
         
-        const cleared = await deleteDocumentContextFromRedis(sessionId);
+        const cleared = await documentContextService.remove(sessionId);
         if (cleared) {
             res.json({ success: true, message: 'Document context cleared successfully.', sessionId });
         } else {

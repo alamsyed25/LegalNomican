@@ -1,0 +1,131 @@
+/* 
+ * LegalNomican Responsive Styles
+ * Contains all media queries and responsive adjustments
+ */
+
+/* Tablet Styles (768px-1024px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .container {
+        padding-left: var(--space-3);
+        padding-right: var(--space-3);
+    }
+    
+    .mobile-menu-btn {
+        display: none;
+    }
+    
+    nav .nav-menu {
+        display: flex;
+        position: static;
+        width: auto;
+        background: none;
+        flex-direction: row;
+        padding: 0;
+        box-shadow: none;
+        gap: var(--space-3);
+    }
+    
+    nav .nav-menu li {
+        margin: 0;
+    }
+    
+    .chart-container {
+        height: 400px;
+    }
+    
+    section, .section {
+        margin-bottom: var(--space-5);
+        padding: var(--space-4) 0;
+    }
+    
+    /* Grid adjustments */
+    .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .grid-3 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .grid-4 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Security features grid */
+    .security-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Desktop Styles (1024px+) */
+@media (min-width: 1024px) {
+    .container {
+        padding-left: var(--space-3);
+        padding-right: var(--space-3);
+    }
+    
+    .mobile-menu-btn {
+        display: none;
+    }
+    
+    nav .nav-menu {
+        display: flex;
+        position: static;
+        width: auto;
+        background: none;
+        flex-direction: row;
+        padding: 0;
+        box-shadow: none;
+        gap: var(--space-3);
+    }
+    
+    nav .nav-menu li {
+        margin: 0;
+    }
+    
+    .chart-container {
+        height: 400px;
+    }
+    
+    section, .section {
+        margin-bottom: var(--space-5);
+        padding: var(--space-4) 0;
+    }
+    
+    /* Grid adjustments */
+    .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .grid-3 {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .grid-4 {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    /* Security features grid */
+    .security-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Large Desktop Styles (1200px+) */
+@media (min-width: 1200px) {
+    .container {
+        padding-left: var(--space-4);
+        padding-right: var(--space-4);
+    }
+    
+    nav .nav-menu {
+        gap: var(--space-4);
+    }
+}
+
+/* Mobile Styles (below 768px) */
+@media (max-width: 767px) {
+    .security-features {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,130 @@
+/* 
+ * LegalNomican Layout Styles
+ * Contains grid systems, containers, and structural components
+ */
+
+/* Layout & Container */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: var(--space-2); /* 16px on mobile */
+    padding-right: var(--space-2);
+}
+
+section, .section {
+    margin-bottom: var(--space-4);
+}
+
+/* Header & Footer */
+header, footer {
+    background: var(--background-main);
+    color: var(--text-main);
+    border-bottom: 1px solid var(--primary-accent);
+    padding: var(--space-2) 0;
+}
+
+header {
+    margin-bottom: var(--space-3);
+}
+
+/* Section Components */
+.features-hero, .about-hero, .about-cta, .cta-section {
+    background: #f8f9fa;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--space-4);
+    padding: var(--space-4);
+}
+
+/* Responsive Layouts */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: calc(-1 * var(--space-2));
+    margin-right: calc(-1 * var(--space-2));
+}
+
+.col {
+    flex: 1 0 0%;
+    padding-left: var(--space-2);
+    padding-right: var(--space-2);
+    max-width: 100%;
+}
+
+/* Grid System */
+.grid {
+    display: grid;
+    gap: var(--space-3);
+}
+
+.grid-2 {
+    grid-template-columns: 1fr;
+}
+
+.grid-3 {
+    grid-template-columns: 1fr;
+}
+
+.grid-4 {
+    grid-template-columns: 1fr;
+}
+
+/* Chart containers */
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+    margin-bottom: var(--space-3);
+}
+
+.chart-container canvas {
+    height: 100% !important;
+    width: 100% !important;
+    display: block;
+}
+
+/* Mobile Navigation Menu */
+nav .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: var(--background-card);
+    flex-direction: column;
+    padding: var(--space-2);
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+}
+
+nav .nav-menu.active {
+    display: flex;
+}
+
+nav .nav-menu li {
+    margin-bottom: var(--space-1);
+    width: 100%;
+}
+
+nav .nav-menu a {
+    display: block;
+    padding: var(--space-1);
+    width: 100%;
+}
+
+.mobile-menu-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    font-size: 1.25rem;
+    padding: var(--space-1);
+    min-height: 2.75rem;
+    min-width: 2.75rem;
+    cursor: pointer;
+    transition: var(--transition);
+}

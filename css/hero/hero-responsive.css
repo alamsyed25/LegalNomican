@@ -1,0 +1,121 @@
+/* Hero Section Responsive Styles */
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .enhanced-hero {
+        padding: 60px 0;
+    }
+    
+    .hero-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+    }
+    
+    .hero-title {
+        font-size: clamp(2.25rem, 8vw, 3rem);
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+        max-width: 100%;
+    }
+    
+    .trust-metrics {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .metric {
+        align-items: center;
+        min-width: 120px;
+    }
+
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .btn-primary {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+        padding: 14px 24px;
+    }
+
+    .features-list {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .demo-card {
+        padding: 20px;
+        margin: 0 auto;
+    }
+    
+    .research-flow {
+        gap: 15px;
+    }
+    
+    .lawyer-input {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .input-content {
+        border-left: none;
+        border-top: 4px solid var(--primary-color);
+    }
+    
+    .collaborative-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .action-btn {
+        width: 100%;
+    }
+}
+
+/* Tablet adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hero-grid {
+        gap: 30px;
+    }
+    
+    .hero-title {
+        font-size: clamp(2.5rem, 4vw, 3.5rem);
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .features-list {
+        flex-wrap: wrap;
+    }
+    
+    .demo-card {
+        max-width: 450px;
+    }
+    
+    .research-flow {
+        gap: 18px;
+    }
+    
+    .ai-processing {
+        padding-left: 8px;
+    }
+    
+    .collaborative-actions {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    .action-btn {
+        flex: 1;
+        min-width: 140px;
+    }
+}

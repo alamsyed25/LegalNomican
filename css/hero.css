@@ -1,0 +1,19 @@
+/* 
+ * Hero Component CSS
+ * Modularized version of the original enhanced-hero.css
+ */
+
+/* Import all modular components */
+@import url('./hero/hero-base.css');
+@import url('./hero/hero-metrics.css');
+@import url('./hero/hero-demo.css');
+@import url('./hero/hero-animations.css');
+@import url('./hero/hero-responsive.css');
+
+/* Root variables for hero components */
+:root {
+    --primary-dark: #0056b3;
+    --background-hover: rgba(255, 255, 255, 0.08);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+}
