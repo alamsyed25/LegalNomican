@@ -188,103 +188,176 @@
     font-size: 0.875rem;
 }
 
-.demo-query {
-    background: var(--background-soft);
-    border-radius: var(--border-radius-lg);
-    padding: 20px;
-    margin-bottom: 24px;
-    border-left: 4px solid var(--primary-color);
-    position: relative;
+/* Lawyer Input Styling */
+.research-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.demo-query p {
+.lawyer-input {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 5px;
+}
+
+.user-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--background-soft);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+}
+
+.input-content {
+    background: var(--background-soft);
+    border-radius: var(--border-radius-lg);
+    padding: 15px;
+    position: relative;
+    flex: 1;
+    border-left: 4px solid var(--primary-color);
+}
+
+.input-content p {
     font-style: italic;
     line-height: 1.5;
     color: var(--text-main);
     margin: 0;
 }
 
-.demo-query::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(to right, var(--primary-color), transparent);
-    animation: typing 2s ease-in-out infinite;
-}
-
-@keyframes typing {
-    0% { width: 0; }
-    50% { width: 100%; }
-    100% { width: 0; }
-}
-
-.demo-results {
+/* AI Processing Steps */
+.ai-processing {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
+    margin: 15px 0;
+    padding-left: 10px;
+    border-left: 2px dashed var(--border-color);
+}
+
+.process-step {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--background-soft);
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+    transition: transform var(--transition-fast);
+}
+
+.process-step i {
+    color: var(--primary-color);
+}
+
+/* Key Results Section */
+.key-results {
+    background: var(--background-soft);
+    border-radius: var(--border-radius-lg);
+    padding: 16px;
+    margin-top: 5px;
+}
+
+.key-results h5 {
+    font-size: 1rem;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-main);
+}
+
+.key-results h5 i {
+    color: var(--primary-color);
 }
 
 .result-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 14px 18px;
+    padding: 10px 12px;
     background: var(--background-card);
     border-radius: var(--border-radius);
     border: 1px solid var(--border-color);
-    margin-bottom: 10px;
-    transition: transform 0.2s ease;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    transition: transform var(--transition-fast);
+    cursor: pointer;
 }
 
 .result-item:hover {
-    transform: translateX(5px);
+    transform: translateY(-2px);
+    background: var(--background-hover);
 }
 
 .result-item i {
-    color: var(--text-muted);
-}
-
-.accuracy-indicator {
-    background: var(--primary-accent);
-    border: 1px solid var(--primary-color);
-}
-
-.accuracy-indicator i {
     color: var(--primary-color);
 }
 
-.time-indicator {
-    background: var(--primary-accent);
-    border: 1px solid var(--primary-color);
-}
-
-.time-indicator i {
-    color: var(--primary-color);
-}
-
-.demo-interaction {
-    margin-top: 24px;
+/* Collaborative Actions */
+.collaborative-actions {
     display: flex;
+    gap: 12px;
+    margin-top: 24px;
     justify-content: center;
 }
 
-.demo-try-btn {
-    background: transparent;
-    color: var(--text-main);
-    border: 1px solid var(--border-color);
+.action-btn {
+    padding: 12px 18px;
     border-radius: var(--border-radius);
-    padding: 12px 24px;
+    font-size: 0.95rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all var(--transition-fast);
+    border: none;
 }
 
-.demo-try-btn:hover {
-    background: var(--background-soft);
-    border-color: var(--text-muted);
+.action-btn.continue {
+    background: var(--primary-color);
+    color: white;
+}
+
+.action-btn.continue:hover {
+    background: var(--primary-dark);
     transform: translateY(-2px);
+}
+
+.action-btn.export {
+    background: var(--background-soft);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.action-btn.export:hover {
+    background: var(--background-hover);
+    transform: translateY(-2px);
+}
+
+/* Add CSS Variables for new colors */
+:root {
+    --primary-dark: #0056b3;
+    --background-hover: rgba(255, 255, 255, 0.08);
+}
+
+/* Professional Workflow Visualization */
+.research-flow {
+    position: relative;
+    animation: fadeInUp 0.8s ease-out 0.6s both;
+}
+
+/* Enhance the demo card for a more professional look */
+.demo-card {
+    background: var(--background-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    padding: 24px;
+    box-shadow: var(--shadow-md);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    max-width: 500px;
+    width: 100%;
 }
 
 /* Removed floating elements */
@@ -396,8 +469,32 @@
     }
     
     .demo-card {
-        padding: 24px;
+        padding: 20px;
         margin: 0 auto;
+    }
+    
+    .research-flow {
+        gap: 15px;
+    }
+    
+    .lawyer-input {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .input-content {
+        border-left: none;
+        border-top: 4px solid var(--primary-color);
+    }
+    
+    .collaborative-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .action-btn {
+        width: 100%;
     }
 }
 
@@ -421,6 +518,24 @@
     
     .demo-card {
         max-width: 450px;
+    }
+    
+    .research-flow {
+        gap: 18px;
+    }
+    
+    .ai-processing {
+        padding-left: 8px;
+    }
+    
+    .collaborative-actions {
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    .action-btn {
+        flex: 1;
+        min-width: 140px;
     }
 }
 

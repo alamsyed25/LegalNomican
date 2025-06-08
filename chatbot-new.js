@@ -301,31 +301,50 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Upload file
     async function uploadFile(file) {
+        console.log('Upload function called with file:', file.name, 'size:', file.size);
+        
+        if (!sessionId) {
+            console.warn('No sessionId found. Upload aborted.');
+            addMessage("You need to start a chat session before uploading files. Try sending a message first.", 'ai');
+            return;
+        }
+        console.log('Using sessionId:', sessionId);
+        
         const formData = new FormData();
-        formData.append('file', file);
+        formData.append('document', file);
+        formData.append('sessionId', sessionId);
+        console.log('FormData created with document and sessionId');
         
         showTypingIndicator();
         
         try {
-            const response = await fetch('/api/chat/upload', {
+            console.log('Sending file upload request to /api/chat/upload-document');
+            const response = await fetch('/api/chat/upload-document', {
                 method: 'POST',
                 body: formData
             });
             
+            console.log('Received response:', response.status, response.statusText);
+            
             if (!response.ok) {
-                throw new Error(`Upload failed: ${response.statusText}`);
+                const errorText = await response.text();
+                console.error('Response not OK:', response.status, response.statusText, 'Error text:', errorText);
+                throw new Error(`Upload failed: ${response.statusText} (${response.status}) - ${errorText}`);
             }
             
             const result = await response.json();
+            console.log('Response JSON:', result);
             
             if (result.success) {
+                console.log('Upload successful');
                 addMessage(`I've received your file: ${file.name}. How can I help you with it?`, 'ai');
             } else {
+                console.error('Upload result indicates failure:', result.message);
                 throw new Error(result.message || 'Failed to process file');
             }
         } catch (error) {
             console.error('Error uploading file:', error);
-            addMessage("I couldn't process that file. Please try again or upload a different file.", 'ai');
+            addMessage(`I couldn't process that file: ${error.message}. Please try again or upload a different file.`, 'ai');
         } finally {
             hideTypingIndicator();
         }

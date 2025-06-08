@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { body } = require('express-validator');
-const { startChatSession, processMessage, handleFileUpload } = require('../controllers/chatController');
+const { startChatSession, processMessage, uploadDocument } = require('../controllers/chatController');
 const { validateRequest } = require('../middleware/validationHandler');
 
 // Chat routes
@@ -14,6 +14,6 @@ router.post('/message',
     validateRequest,
     processMessage
 );
-router.post('/upload-document', handleFileUpload);
+router.post('/upload-document', uploadDocument);
 
 module.exports = router;

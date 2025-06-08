@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Route Debugger</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 20px 0;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    .method-POST {
+      color: #28a745;
+      font-weight: bold;
+    }
+    .method-GET {
+      color: #007bff;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Route Debugger</h1>
+  <div id="output">Loading routes...</div>
+
+  <script>
+    async function fetchRoutes() {
+      try {
+        const response = await fetch('/debug/routes');
+        const data = await response.json();
+        
+        const displayRoutes = (routes, title) => {
+          if (!routes || !routes.length) return `<h3>${title}: No routes found</h3>`;
+          
+          return `
+            <h2>${title} (${routes.length})</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Path</th>
+                  <th>Methods</th>
+                  <th>Handler</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${routes.map(route => `
+                  <tr>
+                    <td>${route.path}</td>
+                    <td>${route.methods.map(m => `<span class="method-${m}">${m}</span>`).join(', ')}</td>
+                    <td>${route.handler}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+        };
+        
+        document.getElementById('output').innerHTML = `
+          ${displayRoutes(data.chatRoutes, 'Chat Routes')}
+          ${displayRoutes(data.uploadRoutes, 'Upload Routes')}
+          ${displayRoutes(data.routes, 'All Routes')}
+        `;
+      } catch (error) {
+        document.getElementById('output').innerHTML = `<p>Error loading routes: ${error.message}</p>`;
+      }
+    }
+    
+    fetchRoutes();
+  </script>
+</body>
+</html>
