@@ -1,4 +1,10 @@
+// server/config/db-config.js - Enhanced version
 const mongoose = require('mongoose');
+
+/**
+ * Database connection state management
+ */
+let isConnected = false;
 
 /**
  * Get the appropriate MongoDB connection string based on environment
@@ -29,6 +35,12 @@ const getMongoURI = () => {
  * @returns {Promise} - MongoDB connection promise
  */
 const connectDB = async () => {
+    // Return early if already connected
+    if (isConnected) {
+        console.log('MongoDB already connected');
+        return mongoose.connection;
+    }
+
     const uri = getMongoURI();
     
     if (!uri) {
@@ -43,21 +55,36 @@ const connectDB = async () => {
             useUnifiedTopology: true,
             serverSelectionTimeoutMS: 5000,
             socketTimeoutMS: 45000,
+            // Add connection pooling
+            maxPoolSize: process.env.NODE_ENV === 'production' ? 20 : 10,
+            minPoolSize: process.env.NODE_ENV === 'production' ? 5 : 2,
+            // Automatically close connection after period of inactivity
+            maxIdleTimeMS: 30000,
+            // Buffer commands until connection is established
+            bufferCommands: false,
+            bufferMaxEntries: 0
         };
         
-        // Add production-specific options
-        if (process.env.NODE_ENV === 'production') {
-            options.maxPoolSize = 20;
-            options.minPoolSize = 5;
-        } else {
-            options.maxPoolSize = 10;
-        }
-        
         const conn = await mongoose.connect(uri, options);
+        
+        // Set connection state
+        isConnected = true;
+        
+        // Handle connection events
+        mongoose.connection.on('disconnected', () => {
+            isConnected = false;
+            console.log('MongoDB disconnected');
+        });
+        
+        mongoose.connection.on('error', (error) => {
+            isConnected = false;
+            console.error('MongoDB connection error:', error);
+        });
         
         console.log(`MongoDB Connected: ${conn.connection.host} (${process.env.NODE_ENV || 'development'} environment)`);
         return conn;
     } catch (error) {
+        isConnected = false;
         console.error('Database connection error:', error);
         
         // Retry connection after delay in production or development, but not in test
@@ -70,6 +97,25 @@ const connectDB = async () => {
     }
 };
 
+/**
+ * Gracefully close database connection
+ */
+const disconnectDB = async () => {
+    if (isConnected) {
+        await mongoose.connection.close();
+        isConnected = false;
+        console.log('MongoDB connection closed');
+    }
+};
+
+/**
+ * Check if database is connected
+ * @returns {boolean} - Connection status
+ */
+const isDBConnected = () => isConnected;
+
 module.exports = {
-    connectDB
+    connectDB,
+    disconnectDB,
+    isDBConnected
 };

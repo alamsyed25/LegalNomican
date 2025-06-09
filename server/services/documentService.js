@@ -1,128 +1,129 @@
+// server/services/documentService.js - Unified document handling
 const pdfParse = require('pdf-parse');
 const mammoth = require('mammoth');
-const fs = require('fs').promises;
 
 /**
- * Extract text content from various document formats
- * @param {Object} file - Multer file object
- * @returns {Promise<Object>} - Extracted text and metadata
+ * Unified Document Service
+ * Handles both document processing and generation
  */
-const extractTextFromDocument = async (file) => {
-    try {
-        const { mimetype, path: filePath, originalname } = file;
+class DocumentService {
+    constructor() {
+        this.supportedTypes = {
+            'application/pdf': this.extractFromPDF,
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document': this.extractFromDocx,
+            'application/msword': this.extractFromDoc,
+            'text/plain': this.extractFromText
+        };
+    }
+
+    /**
+     * Extract text from uploaded document buffer
+     * @param {Buffer} buffer - File buffer
+     * @param {string} mimetype - File MIME type
+     * @param {string} filename - Original filename
+     * @returns {Promise<string>} - Extracted text
+     */
+    async extractText(buffer, mimetype, filename) {
+        const extractor = this.supportedTypes[mimetype];
         
-        let extractedText = '';
-        let metadata = {
-            filename: originalname,
-            size: file.size,
-            mimetype,
-            pageCount: 0
-        };
-
-        switch (mimetype) {
-            case 'application/pdf':
-                const pdfResult = await extractTextFromPDF(filePath);
-                extractedText = pdfResult.text;
-                metadata.pageCount = pdfResult.numpages;
-                break;
-                
-            case 'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-            case 'application/msword':
-                extractedText = await extractTextFromWord(filePath);
-                break;
-                
-            case 'text/plain':
-                extractedText = await extractTextFromTxt(filePath);
-                break;
-                
-            default:
-                throw new Error(`Unsupported file type: ${mimetype}`);
+        if (!extractor) {
+            throw new Error(`Unsupported file type: ${mimetype}`);
         }
 
-        // Clean up temporary file
-        await fs.unlink(filePath);
-
-        return {
-            text: extractedText,
-            metadata,
-            wordCount: extractedText.split(/\s+/).length
-        };
-    } catch (error) {
-        // Clean up file if extraction fails
         try {
-            await fs.unlink(file.path);
-        } catch (unlinkError) {
-            console.error('Error cleaning up file:', unlinkError);
+            const text = await extractor.call(this, buffer);
+            
+            if (!text || !text.trim()) {
+                throw new Error('Document appears to be empty or text could not be extracted');
+            }
+
+            return text.trim();
+        } catch (error) {
+            console.error(`Text extraction failed for ${filename}:`, error);
+            throw new Error(`Failed to extract text from ${filename}: ${error.message}`);
         }
-        throw error;
-    }
-};
-
-/**
- * Extract text from PDF files
- * @param {string} filePath - Path to PDF file
- * @returns {Promise<Object>} - PDF parse result
- */
-const extractTextFromPDF = async (filePath) => {
-    const dataBuffer = await fs.readFile(filePath);
-    return await pdfParse(dataBuffer);
-};
-
-/**
- * Extract text from Word documents
- * @param {string} filePath - Path to Word document
- * @returns {Promise<string>} - Extracted text
- */
-const extractTextFromWord = async (filePath) => {
-    const result = await mammoth.extractRawText({ path: filePath });
-    return result.value;
-};
-
-/**
- * Extract text from plain text files
- * @param {string} filePath - Path to text file
- * @returns {Promise<string>} - File content
- */
-const extractTextFromTxt = async (filePath) => {
-    return await fs.readFile(filePath, 'utf-8');
-};
-
-/**
- * Validate uploaded file
- * @param {Object} file - Multer file object
- * @returns {Object} - Validation result
- */
-const validateDocument = (file) => {
-    const maxSize = (process.env.MAX_FILE_SIZE || 10) * 1024 * 1024; // Convert MB to bytes
-    const allowedTypes = [
-        'application/pdf',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'application/msword',
-        'text/plain'
-    ];
-
-    if (!file) {
-        return { isValid: false, error: 'No file provided' };
     }
 
-    if (file.size > maxSize) {
-        return { 
-            isValid: false, 
-            error: `File size exceeds ${process.env.MAX_FILE_SIZE || 10}MB limit` 
+    /**
+     * Extract text from PDF buffer
+     */
+    async extractFromPDF(buffer) {
+        const data = await pdfParse(buffer);
+        return data.text;
+    }
+
+    /**
+     * Extract text from DOCX buffer
+     */
+    async extractFromDocx(buffer) {
+        const { value } = await mammoth.extractRawText({ buffer });
+        return value;
+    }
+
+    /**
+     * Extract text from DOC buffer (legacy Word format)
+     */
+    async extractFromDoc(buffer) {
+        try {
+            const { value } = await mammoth.extractRawText({ buffer });
+            return value;
+        } catch (error) {
+            throw new Error('Could not parse .doc file. Please convert to DOCX or PDF format.');
+        }
+    }
+
+    /**
+     * Extract text from plain text buffer
+     */
+    async extractFromText(buffer) {
+        return buffer.toString('utf8');
+    }
+
+    /**
+     * Validate uploaded file
+     * @param {Object} file - Multer file object
+     * @returns {Object} - Validation result
+     */
+    validateFile(file) {
+        if (!file) {
+            return { isValid: false, error: 'No file provided' };
+        }
+
+        const maxSize = (process.env.MAX_FILE_SIZE || 10) * 1024 * 1024;
+        const allowedTypes = Object.keys(this.supportedTypes);
+
+        if (file.size > maxSize) {
+            return { 
+                isValid: false, 
+                error: `File size exceeds ${process.env.MAX_FILE_SIZE || 10}MB limit` 
+            };
+        }
+
+        if (!allowedTypes.includes(file.mimetype)) {
+            return { 
+                isValid: false, 
+                error: 'Unsupported file type. Supported formats: PDF, Word documents (.docx, .doc), and text files.' 
+            };
+        }
+
+        return { isValid: true };
+    }
+
+    /**
+     * Get file type information
+     * @param {string} mimetype - File MIME type
+     * @returns {Object} - File type info
+     */
+    getFileTypeInfo(mimetype) {
+        const typeMap = {
+            'application/pdf': { name: 'PDF', icon: 'fas fa-file-pdf' },
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document': { name: 'Word Document', icon: 'fas fa-file-word' },
+            'application/msword': { name: 'Word Document (Legacy)', icon: 'fas fa-file-word' },
+            'text/plain': { name: 'Text File', icon: 'fas fa-file-alt' }
         };
+
+        return typeMap[mimetype] || { name: 'Unknown', icon: 'fas fa-file' };
     }
+}
 
-    if (!allowedTypes.includes(file.mimetype)) {
-        return { 
-            isValid: false, 
-            error: 'Unsupported file type. Please upload PDF, Word, or text files.' 
-        };
-    }
-
-    return { isValid: true };
-};
-
-module.exports = {
-    extractTextFromDocument,
-    validateDocument
-};
+module.exports = new DocumentService();

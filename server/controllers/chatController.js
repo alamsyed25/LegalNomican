@@ -1,222 +1,195 @@
+// server/controllers/chatController.js - Improved version
 const ChatConversation = require('../models/ChatConversation');
 const { generateSessionId } = require('../utils/helpers');
 const { generateAIResponse } = require('../utils/ai-service');
 const { handleError } = require('../utils/errorHandler');
-const { extractTextFromBuffer } = require('../services/documentGenerationService');
-const documentContextService = require('../services/documentContextService'); // New document context service
+const documentService = require('../services/documentService');
+const documentContextService = require('../services/documentContextService');
+const { asyncHandler } = require('../middleware/errorMiddleware');
 const multer = require('multer');
-const path = require('path');
 
-// Multer setup for file uploads (in memory)
+// Configure multer for document uploads
 const storage = multer.memoryStorage();
 const upload = multer({
-    storage: storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
+    storage,
+    limits: { 
+        fileSize: (process.env.MAX_FILE_SIZE || 10) * 1024 * 1024 
+    },
     fileFilter: (req, file, cb) => {
-        console.log('Multer file filter processing:', file.originalname, file.mimetype);
-        const allowedTypes = /pdf|doc|docx|txt/i; // Case-insensitive
-        const mimetype = allowedTypes.test(file.mimetype);
-        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-
-        if (mimetype && extname) {
-            return cb(null, true);
+        const validation = documentService.validateFile(file);
+        if (validation.isValid) {
+            cb(null, true);
         } else {
-            cb(new Error('Only .pdf, .doc, .docx, and .txt format allowed!'));
+            cb(new Error(validation.error));
         }
     }
 });
 
-// Create an explicit instance for handling uploads
-const documentUpload = multer({
-    storage: multer.memoryStorage(),
-    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB file size limit
-    fileFilter: (req, file, cb) => {
-        console.log('Document upload processing file:', file.originalname, file.mimetype);
-        const allowedTypes = /pdf|doc|docx|txt/i;
-        const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
-        
-        if (extname) {
-            return cb(null, true);
-        } else {
-            cb(new Error('Only .pdf, .doc, .docx, and .txt format allowed!'));
-        }
-    }
-}).single('document');
-
-// Document context key management is now handled by documentContextService
-
-// Document context storage is now handled by documentContextService.store
-
-// Document context retrieval is now handled by documentContextService.get
-
-// Document context deletion is now handled by documentContextService.remove
-
-/**
- * Delete document context from Redis
- * @param {string} sessionId - The session ID
- * @returns {Promise<boolean>} - True if deleted or key didn't exist, false on error
- */
-const deleteDocumentContextFromRedis = async (sessionId) => {
-    try {
-        const deleted = await documentContextService.remove(sessionId);
-        console.log(`Document context for session ${sessionId} deletion attempt, result: ${deleted}`);
-        return true; // Consider it success even if key didn't exist
-    } catch (error) {
-        console.error(`Error deleting document context from Redis for session ${sessionId}:`, error);
-        return false;
-    }
-};
-
 /**
  * Start a new chat session
  */
-const startChatSession = (req, res) => {
+const startChatSession = asyncHandler(async (req, res) => {
     const sessionId = generateSessionId();
+    
     res.json({ 
         success: true, 
         sessionId,
         welcomeMessage: "Hello! I'm your Legal Nomicon assistant. How can I help you today?"
     });
-};
+});
 
 /**
  * Process a chat message and generate a response
  */
-const processMessage = async (req, res) => {
-    try {
-        const { sessionId, message } = req.body;
-        
-        if (!sessionId || !message) {
-            return handleError(res, new Error('Session ID and message are required'), 400);
-        }
-        
-        let conversation = await ChatConversation.findOne({ sessionId });
-        if (!conversation) {
-            conversation = new ChatConversation({ sessionId });
-        }
-        
-        conversation.messages.push({ sender: 'user', content: message });
-        
-        let documentTextForAI = null;
-        let documentContext = await documentContextService.get(sessionId);
-        
-        if (documentContext && documentContext.text) {
-            documentTextForAI = documentContext.text;
-            console.log(`Using document context for session ${sessionId} (file: ${documentContext.fileName}) for AI response.`);
-        } else {
-            console.log(`No document context found in Redis for session ${sessionId} or context is invalid.`);
-        }
-        
-        const aiResponse = await generateAIResponse(message, documentTextForAI);
-        
-        conversation.messages.push({ sender: 'ai', content: aiResponse });
-        await conversation.save();
-        
-        res.json({ success: true, response: aiResponse, sessionId });
-    } catch (error) {
-        // Log the detailed error on the server
-        console.error('Error in processMessage:', error);
-        // Send a generic error response to the client
-        handleError(res, new Error('Failed to process message due to a server error.'), 500);
+const processMessage = asyncHandler(async (req, res) => {
+    const { sessionId, message } = req.body;
+    
+    // Find or create conversation
+    let conversation = await ChatConversation.findOne({ sessionId });
+    if (!conversation) {
+        conversation = new ChatConversation({ sessionId });
     }
-};
+    
+    // Add user message
+    conversation.messages.push({ sender: 'user', content: message });
+    
+    // Get document context if available
+    const documentContext = await documentContextService.get(sessionId);
+    let documentText = null;
+    
+    if (documentContext?.text) {
+        documentText = documentContext.text;
+        console.log(`Using document context for session ${sessionId}`);
+    }
+    
+    // Generate AI response
+    const aiResponse = await generateAIResponse(message, documentText);
+    
+    // Add AI response and save
+    conversation.messages.push({ sender: 'ai', content: aiResponse });
+    await conversation.save();
+    
+    res.json({ 
+        success: true, 
+        response: aiResponse, 
+        sessionId,
+        hasContext: !!documentText
+    });
+});
 
 /**
  * Handle document upload for chat context
- * This is a single function now, not an array of middleware.
- * Multer is applied directly within.
  */
 const uploadDocument = (req, res) => {
-    console.log('Upload document handler called with headers:', req.headers['content-type']);
-    console.log('Body before multer processing:', req.body);
-    
-    // Use our enhanced document upload middleware
-    documentUpload(req, res, async (err) => {
-        if (err instanceof multer.MulterError) {
-            // A Multer error occurred when uploading.
-            console.error('Multer error during document upload:', err);
-            return handleError(res, new Error(`File upload error: ${err.message}`), 400);
-        } else if (err) {
-            // An unknown error occurred when uploading.
-            console.error('Unknown error during document upload:', err);
-            return handleError(res, new Error(err.message || 'File type not supported or other upload error'), 400);
+    upload.single('document')(req, res, asyncHandler(async (err) => {
+        if (err) {
+            if (err instanceof multer.MulterError) {
+                throw new Error(`Upload error: ${err.message}`);
+            }
+            throw err;
         }
 
-        // If file upload itself is successful
         if (!req.file) {
-            return handleError(res, new Error('No file uploaded. Please select a file.'), 400);
+            const error = new Error('No file uploaded');
+            error.statusCode = 400;
+            throw error;
         }
 
         const { sessionId } = req.body;
         if (!sessionId) {
-            // Clean up uploaded file if session ID is missing? 
-            // For memoryStorage, it's not on disk, so less critical.
-            return handleError(res, new Error('Session ID is required for document upload.'), 400);
+            const error = new Error('Session ID is required');
+            error.statusCode = 400;
+            throw error;
         }
 
-        try {
-            console.log(`Processing uploaded file: ${req.file.originalname} for session ${sessionId}`);
-            const text = await extractTextFromBuffer(req.file.buffer, req.file.originalname);
-            
-            if (!text || text.trim() === '') {
-                console.warn(`Extracted text is empty for file ${req.file.originalname}, session ${sessionId}`);
-                // Decide if this is an error or just a warning. For now, let's inform the user.
-                return handleError(res, new Error('Could not extract text from the document or document is empty.'), 400);
-            }
+        // Extract text from document
+        const text = await documentService.extractText(
+            req.file.buffer, 
+            req.file.mimetype, 
+            req.file.originalname
+        );
 
-            const documentData = {
-                fileName: req.file.originalname,
-                text: text,
-                uploadedAt: new Date().toISOString()
-            };
+        // Store in Redis with metadata
+        const documentData = {
+            fileName: req.file.originalname,
+            text,
+            uploadedAt: new Date().toISOString(),
+            fileSize: req.file.size,
+            fileType: documentService.getFileTypeInfo(req.file.mimetype)
+        };
 
-            const stored = await documentContextService.store(sessionId, documentData);
-            if (!stored) {
-                // storeDocumentContextInRedis logs the error internally
-                return handleError(res, new Error('Failed to store document context. Please try again.'), 500);
-            }
-            
-            res.json({
-                success: true,
-                message: 'Document uploaded and context stored successfully.',
-                fileName: req.file.originalname,
-                sessionId
-            });
-        } catch (processingError) {
-            // Catch errors from extractTextFromBuffer or other processing steps
-            console.error('Error processing document after upload:', processingError);
-            handleError(res, new Error('Failed to process document after upload.'), 500);
+        const stored = await documentContextService.store(sessionId, documentData);
+        
+        if (!stored) {
+            throw new Error('Failed to store document context');
         }
-    });
+
+        res.json({
+            success: true,
+            message: `Document "${req.file.originalname}" uploaded and processed successfully`,
+            fileName: req.file.originalname,
+            fileSize: req.file.size,
+            wordCount: text.split(/\s+/).length,
+            sessionId
+        });
+    }));
 };
 
 /**
- * Clear document context for a session from Redis
+ * Clear document context for a session
  */
-const clearDocumentContext = async (req, res) => {
-    try {
-        const { sessionId } = req.body;
-        if (!sessionId) {
-            return handleError(res, new Error('Session ID is required to clear context.'), 400);
-        }
-        
-        const cleared = await documentContextService.remove(sessionId);
-        if (cleared) {
-            res.json({ success: true, message: 'Document context cleared successfully.', sessionId });
-        } else {
-            // deleteDocumentContextFromRedis logs the error
-            handleError(res, new Error('Failed to clear document context or no context found.'), 500);
-        }
-    } catch (error) {
-        console.error('Error in clearDocumentContext controller:', error);
-        handleError(res, new Error('Server error while clearing document context.'), 500);
+const clearDocumentContext = asyncHandler(async (req, res) => {
+    const { sessionId } = req.body;
+    
+    if (!sessionId) {
+        const error = new Error('Session ID is required');
+        error.statusCode = 400;
+        throw error;
     }
-};
+    
+    const cleared = await documentContextService.remove(sessionId);
+    
+    if (!cleared) {
+        throw new Error('Failed to clear document context');
+    }
+
+    res.json({ 
+        success: true, 
+        message: 'Document context cleared successfully', 
+        sessionId 
+    });
+});
+
+/**
+ * Get session information including document context status
+ */
+const getSessionInfo = asyncHandler(async (req, res) => {
+    const { sessionId } = req.params;
+    
+    // Get conversation
+    const conversation = await ChatConversation.findOne({ sessionId });
+    
+    // Get document context
+    const documentContext = await documentContextService.get(sessionId);
+    
+    res.json({
+        success: true,
+        sessionId,
+        hasConversation: !!conversation,
+        messageCount: conversation?.messages?.length || 0,
+        hasDocumentContext: !!documentContext,
+        documentInfo: documentContext ? {
+            fileName: documentContext.fileName,
+            uploadedAt: documentContext.uploadedAt,
+            fileType: documentContext.fileType
+        } : null
+    });
+});
 
 module.exports = {
     startChatSession,
     processMessage,
-    uploadDocument, // Export the handler function directly
-    clearDocumentContext
-    // Note: 'upload' (multer instance) is not exported anymore as it's used internally by uploadDocument
+    uploadDocument,
+    clearDocumentContext,
+    getSessionInfo
 };

@@ -17,13 +17,18 @@ The backend follows a modular structure to promote separation of concerns, maint
     -   `documentRoutes.js`: Routes for document generation.
     -   `authRoutes.js`: (Assumed for future user authentication).
 -   `services/`: Contains services that encapsulate specific business logic or interact with external systems.
-    -   `documentGenerationService.js`: Logic for parsing document templates and populating them with data. Includes text extraction from buffers.
+    -   `documentService.js`: A unified service for document handling. Responsible for text extraction from various file types (PDF, DOCX, DOC, TXT) using buffers, file validation (size, MIME type), and providing file type metadata.
+    -   `documentGenerationService.js`: Logic for parsing document templates and populating them with data. (Text extraction is now handled by `DocumentService`).
     -   `documentContextService.js`: Manages storage and retrieval of document context for chat sessions, utilizing Redis.
 -   `middleware/`: Custom middleware functions.
-    -   `validationHandler.js`: Handles results from `express-validator` and uses the centralized error handler.
+    -   `errorMiddleware.js`: (Located in `server/middleware/errorMiddleware.js`) Contains global error handling middleware:
+        -   `validationErrorHandler`: Handles errors from `express-validator`.
+        -   `notFoundHandler`: Catches 404 errors for undefined routes.
+        -   `globalErrorHandler`: Centralized error handler for consistent API error responses, managing different error types and formatting.
+    -   `asyncHandler.js`: (Located in `server/utils/asyncHandler.js`) A wrapper for asynchronous route handlers to simplify error catching and passing to `next()`.
     -   (Other middleware like authentication, logging can be placed here).
 -   `utils/`: Utility functions shared across the application.
-    -   `errorHandler.js`: Centralized error handling mechanism for consistent API error responses.
+    -   `errorHandler.js`: Provides utility functions for creating standardized error objects. (Its role in direct response handling is largely superseded by `globalErrorHandler` in `errorMiddleware.js`).
 -   `tests/` (located in project root): Contains unit and integration tests.
     -   `unit/`: Unit tests for individual modules/functions.
     -   `integration/`: (Assumed for future integration tests for API endpoints).
@@ -37,6 +42,12 @@ The application uses environment variables for configuration, managed via `.env`
 -   A `.env.example` file serves as a template.
 -   Environment-specific files like `.env.development`, `.env.test`, `.env.production` are used to load configurations based on the `NODE_ENV` variable.
 -   Key configurations include database connection strings (MongoDB URI), API keys, server port (PORT), Redis URL (REDIS_URL), and JWT secrets (JWT_SECRET).
+-   **MongoDB Connection**: The application features robust MongoDB connection management:
+    -   Utilizes a singleton pattern to ensure a single, shared connection instance.
+    -   Connection URI is selected based on the `NODE_ENV` (development, test, production).
+    -   Implements connection pooling for efficient database interactions.
+    -   Includes automatic retry logic for connection failures (except in the test environment).
+    -   Ensures graceful disconnection from MongoDB when the server shuts down.
 
 ## 3. Core Features and Functionality
 
@@ -44,11 +55,14 @@ The application uses environment variables for configuration, managed via `.env`
 
 -   **Message Handling**: Processes user messages and interacts with AI models (currently mocked in development environments).
 -   **Document Upload & Context**:
-    -   Users can upload documents (PDF, DOCX, TXT) to provide context for chat sessions via the `/api/chat/upload` endpoint.
-    -   Text is extracted from uploaded documents using the `extractTextFromBuffer` function located in `server/services/documentGenerationService.js`.
-    -   Uploaded document context is stored using Redis for efficient caching and retrieval. The Redis connection is configured via `REDIS_URL` (e.g., `redis://localhost:6379`).
-    -   A cleanup mechanism in `server/controllers/chatController.js` automatically removes `uploadedDocumentContext` entries older than 24 hours. This process runs hourly to prevent memory leaks and manage cache size.
--   **Input Validation**: User inputs for chat messages (e.g., `sessionId`, `message` for the `/api/chat/message` endpoint) are validated using `express-validator`, as defined in `server/routes/chatRoutes.js`.
+    -   Users can upload documents (PDF, DOCX, DOC, TXT) to provide context for chat sessions via the `/api/chat/upload-document` endpoint (note the updated endpoint name).
+    -   Text extraction, file validation (size, MIME type), and file type information are handled by the `DocumentService` (`server/services/documentService.js`).
+    -   Uploaded document context (including metadata like file size and type) is stored in Redis via `documentContextService.js`. The Redis connection is configured via `REDIS_URL`.
+    -   The `chatController.js` includes logic for managing this context, and `documentContextService.js` might have its own cleanup mechanisms if implemented (e.g., TTL on Redis keys).
+-   **Session Management**:
+    -   `GET /api/chat/session/:sessionId`: Retrieves detailed session information, including the status of any associated document context.
+    -   `POST /api/chat/clear-context`: Allows clearing the document context for a given session (identified by `sessionId` in the request body).
+-   **Input Validation**: User inputs for chat messages (e.g., `sessionId`, `message` for the `/api/chat/message` endpoint) are validated using `express-validator` and `validationErrorHandler` middleware, as defined in `server/routes/chatRoutes.js`.
 -   **Input Sanitization**: All incoming requests, including chat messages, are sanitized against NoSQL injection (using `express-mongo-sanitize`) and basic XSS attacks (using `xss-clean`). These middlewares are applied globally in `server.js`.
 
 ### 3.2. Document Generation
@@ -71,9 +85,13 @@ The application uses environment variables for configuration, managed via `.env`
 
 ## 6. Error Handling
 
--   A centralized error handling utility is implemented in `server/utils/errorHandler.js`.
--   This utility (`handleError`) ensures consistent error responses (structure and status codes) across the API.
--   Controllers, such as `chatController.js` and `documentGenerationController.js`, utilize this function for standardized error management.
+-   The application employs a comprehensive, centralized error handling strategy:
+    -   **`globalErrorHandler`** (in `server/middleware/errorMiddleware.js`): Acts as the final error handler for all API requests. It catches errors passed via `next(err)`, formats them into a consistent JSON response, and sets appropriate HTTP status codes. It handles instances of `AppError` (custom operational errors) and other system/unexpected errors.
+    -   **`notFoundHandler`** (in `server/middleware/errorMiddleware.js`): Catches requests to undefined API routes and responds with a 404 error.
+    -   **`validationErrorHandler`** (in `server/middleware/errorMiddleware.js`): Specifically handles validation errors generated by `express-validator`, formatting them consistently.
+    -   **`asyncHandler`** (in `server/utils/asyncHandler.js`): A utility wrapper for asynchronous controller functions. It automatically catches promise rejections and passes them to `next()`, ensuring they are processed by the global error handlers.
+    -   **`AppError` class** (in `server/utils/appError.js`): A custom error class used to create operational errors with specific status codes and messages, which `globalErrorHandler` can identify and handle gracefully.
+    -   The old `server/utils/errorHandler.js` (with a `handleError` function) has been largely superseded by this more robust middleware-based system, though `AppError` from `appError.js` is now the primary utility for creating error objects.
 
 ## 7. Security
 
@@ -134,13 +152,22 @@ The application uses environment variables for configuration, managed via `.env`
 
 ### Chat API (Base Path: `/api/chat`)
 
--   **`POST /message`**: Sends a message to the chatbot.
+-   **`POST /start`**: Initiates a new chat session.
+    -   **Request Body**: (Potentially empty or can include initial user info/preferences if designed).
+    -   **Response**: `{ "sessionId": "string", "message": "Welcome message" }`
+-   **`POST /message`**: Sends a message within an existing chat session.
     -   **Validation**: `sessionId` (string, not empty), `message` (string, not empty).
-    -   **Request Body**: `{ "sessionId": "string", "message": "string", "contextId": "string (optional)" }`
-    -   **Response**: Chatbot's reply.
--   **`POST /upload`**: Uploads a document to be used as context for the chat.
-    -   **Request**: `multipart/form-data` with a file field (e.g., `document`).
-    -   **Response**: Success message, potentially with a `contextId` or `sessionId`.
+    -   **Request Body**: `{ "sessionId": "string", "message": "string" }`
+    -   **Response**: Chatbot's reply, e.g., `{ "reply": "string" }`.
+-   **`POST /upload-document`**: Uploads a document to associate with the current chat session for context.
+    -   **Request**: `multipart/form-data` with a file field (e.g., `document`) and a `sessionId` field.
+    -   **Response**: Success message with document metadata, e.g., `{ "message": "Document uploaded successfully", "sessionId": "string", "fileName": "string", "fileSize": number, "fileType": "string", "wordCount": number }`.
+-   **`POST /clear-context`**: Clears the document context associated with a session.
+    -   **Request Body**: `{ "sessionId": "string" }`
+    -   **Response**: Success message, e.g., `{ "message": "Document context cleared successfully", "sessionId": "string" }`.
+-   **`GET /session/:sessionId`**: Retrieves information about a specific chat session.
+    -   **URL Parameter**: `sessionId` (string).
+    -   **Response**: Session details, including document context status, e.g., `{ "sessionId": "string", "conversation": [], "documentContext": { "status": "active/inactive/missing", "fileName": "string", "fileSize": number, "fileType": "string" } }`.
 
 ### Document Generation API (Base Path: `/api/documents`)
 

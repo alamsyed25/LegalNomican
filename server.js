@@ -7,14 +7,21 @@ const compression = require('compression');
 const path = require('path');
 require('dotenv').config();
 
+// Validate environment variables immediately after loading them
+const { loadAndValidateConfig } = require('./server/config/env-validator');
+loadAndValidateConfig(); // This will exit on error if needed
+
 // Import modules
+// Import config getter after validation
+const { getConfig } = require('./server/config/env-validator'); 
 const { configureApp } = require('./server/config/app-config');
-const { connectDB } = require('./server/config/db-config');
+const { connectDB, disconnectDB } = require('./server/config/db-config');
 const chatRoutes = require('./server/routes/chatRoutes');
 const documentRoutes = require('./server/routes/documentRoutes');
 const routes = require('./server/routes');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
+const { globalErrorHandler, notFoundHandler } = require('./server/middleware/errorMiddleware');
 
 const app = express();
 
@@ -115,18 +122,51 @@ app.get('/chat', (req, res) => {
     res.sendFile(path.join(__dirname, 'chatbot.html'));
 });
 
-// Serve index.html for all other routes
+// Handle 404 for API routes or specific files not found before falling to SPA catch-all
+app.use(notFoundHandler);
+
+// Serve index.html for all other routes (SPA catch-all)
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-const PORT = process.env.PORT || 3001; // Changed default port to 3001
+// Global error handler - must be last
+app.use(globalErrorHandler);
+
+const config = getConfig(); // Use validated and processed config
+const PORT = config.port; // Changed default port to 3001
 
 // Only start the server if we're not in test mode
+let server;
 if (process.env.NODE_ENV !== 'test') {
-    app.listen(PORT, () => {
+    server = app.listen(PORT, () => {
         console.log(`Server running on port ${PORT} in ${process.env.NODE_ENV || 'development'} mode`);
     });
 }
+
+// Graceful shutdown
+const gracefulShutdown = async (signal) => {
+    console.log(`
+${signal} received. Shutting down gracefully...`);
+    if (server) {
+        server.close(async () => {
+            console.log('HTTP server closed.');
+            await disconnectDB(); // Ensure DB is disconnected
+            process.exit(0);
+        });
+    } else {
+        await disconnectDB(); // If server wasn't started (e.g. in test), still try to disconnect DB
+        process.exit(0);
+    }
+
+    // Force shutdown if server hasn't closed in time
+    setTimeout(() => {
+        console.error('Could not close connections in time, forcefully shutting down');
+        process.exit(1);
+    }, 10000); // 10 seconds
+};
+
+process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 
 module.exports = app;

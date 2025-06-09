@@ -24,6 +24,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Created test fixtures and mock data to support testing
   - Added test environment configuration with `.env.test`
 
+- **MongoDB Connection Management**
+  - Implemented robust MongoDB connection: singleton, environment-aware URI, pooling, auto-retry (dev/prod), graceful shutdown.
+- **Chat Session API**
+  - `GET /api/chat/session/:sessionId`: Retrieve session info, including document context status.
+  - `POST /api/chat/clear-context`: Clear document context for a session.
+- **Global Error Handling**
+  - Centralized error handling with `globalErrorHandler`, `notFoundHandler`, and `validationErrorHandler` middleware.
+  - `asyncHandler` wrapper for cleaner async controller logic.
+- **Document Service (`DocumentService`)**
+  - New service for unified document processing: text extraction (PDF, DOCX, DOC, TXT), file validation, and type info.
+
 ### Changed
 - **Memory Management**
   - Added automated cleanup for `uploadedDocumentContext` to prevent memory leaks
@@ -53,6 +64,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Consolidated document parsing logic into `documentGenerationService.js`
   - Removed redundant code from `chatController.js`
   - Standardized error handling with new `handleError` utility
+
+- **Chat Controller (`chatController.js`)**
+  - Refactored to use `DocumentService` for uploads, validation, and text extraction.
+  - Stores enhanced document metadata (file size, file type) in Redis.
+  - Returns detailed session and document info.
+  - Integrated `asyncHandler` for all routes.
+- **Document Processing**
+  - Text extraction logic consolidated into `DocumentService`.
+  - Removed `extractTextFromBuffer` from `documentGenerationService.js`.
+- **Middleware**
+  - Replaced old `validationHandler.js` with `validationErrorHandler` in `errorMiddleware.js`.
+  - Updated `chatRoutes.js` to use new `validationErrorHandler`.
 
 - **Project Configuration** (`package.json`):
   - Added `express-validator`, `express-mongo-sanitize`, and `xss-clean` as dependencies

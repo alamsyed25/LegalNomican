@@ -3,9 +3,6 @@
  * Handles creation of legal documents from templates
  */
 
-const pdfParse = require('pdf-parse');
-const mammoth = require('mammoth');
-
 /**
  * Generate document from template
  * @param {string} templateType - Type of document template
@@ -278,47 +275,9 @@ const validateTemplateData = (templateType, data) => {
     };
 };
 
-/**
- * Extracts text from a file buffer.
- * @param {Buffer} buffer - The file buffer.
- * @param {string} mimetype - The mimetype of the file.
- * @param {string} filename - The original filename (for error logging).
- * @returns {Promise<string>} - The extracted text.
- * @throws {Error} - If file type is unsupported or text extraction fails.
- */
-const extractTextFromBuffer = async (buffer, mimetype, filename) => {
-    let extractedText = '';
-
-    if (mimetype === 'application/pdf') {
-        const data = await pdfParse(buffer);
-        extractedText = data.text;
-    } else if (mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
-        const { value } = await mammoth.extractRawText({ buffer });
-        extractedText = value;
-    } else if (mimetype === 'application/msword') {
-        try {
-            const { value } = await mammoth.extractRawText({ buffer });
-            extractedText = value;
-        } catch (mammothError) {
-            console.warn(`Mammoth failed to parse .doc file ${filename}:`, mammothError);
-            throw new Error('Could not parse .doc file. Please try converting to DOCX or PDF.');
-        }
-    } else if (mimetype === 'text/plain') {
-        extractedText = buffer.toString('utf8');
-    } else {
-        throw new Error('Unsupported file type for text extraction.');
-    }
-
-    if (!extractedText || !extractedText.trim()) {
-        throw new Error('Could not extract text from the document or the document is empty.');
-    }
-
-    return extractedText;
-};
 
 module.exports = {
     generateDocument,
     getAvailableTemplates,
-    validateTemplateData,
-    extractTextFromBuffer
+    validateTemplateData
 };
