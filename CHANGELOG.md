@@ -8,15 +8,66 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Document Versioning System**
+  - Added `DocumentVersion` model to track document history
+  - Implemented version creation on document updates
+  - Added endpoints to retrieve version history
+  - Integrated with existing document management system
+
+- **Document Comparison**
+  - Added `ComparisonResult` model to store comparison data
+  - Implemented `DocumentComparisonService` for diff calculations
+  - Added endpoints for comparing documents and versions
+  - Support for multiple diff algorithms (character, word, line, sentence)
+  - Added comparison history and reporting
+
+- **API Endpoints**
+  - `POST /api/documents` - Create a new document
+  - `PUT /api/documents/:id` - Update a document
+  - `GET /api/documents/:id` - Get a document
+  - `GET /api/documents/:id/versions` - Get document version history
+  - `GET /api/compare/:documentId1` - Compare document with previous version
+  - `GET /api/compare/:documentId1/:documentId2` - Compare two documents
+  - `GET /api/compare/version/:versionId1/:versionId2` - Compare two specific versions
+  - `GET /api/comparisons` - Get comparison history
+  - `GET /api/comparisons/:id` - Get specific comparison result
+
 - **Input Validation**
   - Added `express-validator` for request validation
-  - Implemented validation middleware for chat and document generation endpoints
+  - Implemented validation middleware for all document and comparison endpoints
   - Added centralized error handling for validation failures
 
 - **Security Enhancements**
   - Added `express-mongo-sanitize` to prevent NoSQL injection
   - Added `xss-clean` for basic XSS protection (note: marked for future replacement)
   - Implemented input sanitization middleware for all incoming requests
+
+- **Template System**
+  - Implemented robust `Template` model with sections, variables, and conditional rendering
+  - Created comprehensive `templateService.js` for document template management with:
+    - Template CRUD operations with versioning and soft-delete
+    - Advanced validation for template structure, sections, and variables
+    - Section-based template composition with conditional display logic
+    - Support for multiple variable types (text, number, date, boolean, select)
+    - Handlebars template engine integration with extended helper functions
+    - Markdown processing capabilities using marked
+    - Template categorization, tagging, and rating system
+  - Implemented RESTful API routes in `templateRoutes.js` for all template operations
+  - Added features for template discovery (categories, popular templates, tags)
+
+- **Document Comparison System**
+  - Added `documentComparisonService.js` for comprehensive document comparison with:
+    - Multiple comparison types (character, word, line, sentence)
+    - Detailed change tracking and statistics
+    - Export functionality in multiple formats (HTML, JSON, CSV)
+    - HTML visualization of differences with styling
+  - Implemented `DocumentVersion` model for tracking document history and versions
+  - Created `ComparisonResult` model for storing and retrieving comparison results
+  - Added RESTful API routes in `documentComparisonRoutes.js` for comparison operations:
+    - Compare any two documents
+    - Compare specific document versions
+    - Access comparison history
+    - Export comparison results
 
 - **Testing Framework**
   - Added Jest configuration with test environment setup
@@ -78,7 +129,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated `chatRoutes.js` to use new `validationErrorHandler`.
 
 - **Project Configuration** (`package.json`):
-  - Added `express-validator`, `express-mongo-sanitize`, and `xss-clean` as dependencies
+  - Added `express-validator`, `express-mongo-sanitize`, `xss-clean`, `marked`, and `handlebars` as dependencies
   - Added `setup` script: `node scripts/setup.js`
   - Updated dependency versions for `multer`, `mammoth`, `joi`, `bcryptjs`, and `jsonwebtoken`
   - Ensured all core dependencies like `compression`, `cors`, `dotenv`, `express`, `express-rate-limit`, `helmet`, `mongoose`, and `pdf-parse` are correctly listed

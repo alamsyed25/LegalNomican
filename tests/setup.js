@@ -9,7 +9,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 let mongoServer;
 
-// Setup function to be called before tests
+// Setup function to be called before each test file
 const setupTestDB = async () => {
   // Use in-memory MongoDB server for tests to avoid affecting real data
   mongoServer = await MongoMemoryServer.create();
@@ -33,14 +33,14 @@ const teardownTestDB = async () => {
   await mongoServer.stop();
 };
 
-// Set up global beforeAll and afterAll hooks
-global.beforeAll(async () => {
+// Set up beforeAll and afterAll hooks
+const beforeAllHook = async () => {
   await setupTestDB();
-});
+};
 
-global.afterAll(async () => {
+const afterAllHook = async () => {
   await teardownTestDB();
-});
+};
 
 // Mock Redis client
 jest.mock('../server/config/redis-config', () => {
@@ -51,3 +51,11 @@ jest.mock('../server/config/redis-config', () => {
     exists: jest.fn(() => Promise.resolve(0)),
   };
 });
+
+// Export the setup and teardown functions for use in individual test files
+module.exports = {
+  setupTestDB,
+  teardownTestDB,
+  beforeAll: beforeAllHook,
+  afterAll: afterAllHook
+};

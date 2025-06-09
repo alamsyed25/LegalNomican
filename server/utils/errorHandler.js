@@ -2,6 +2,19 @@
  * Centralized Error Handler for LegalNomican API
  */
 
+class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+
+    this.statusCode = statusCode;
+    this.status = `${statusCode}`.startsWith('4') ? 'fail' : 'error';
+    this.isOperational = true; // Operational errors are expected, programming errors are bugs
+
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+
 /**
  * Sends a standardized error response.
  * Logs the error server-side, especially for 500-level errors.
@@ -45,4 +58,5 @@ const handleError = (res, error, defaultStatusCode = 500) => {
 
 module.exports = {
     handleError,
+    AppError,
 };

@@ -1,0 +1,63 @@
+CONFIDENTIALITY AGREEMENT
+
+This Confidentiality Agreement (the "Agreement") is entered into as of June 9, 2025 (the "Effective Date") by and between:
+
+PARTY A: Legal Nomicon Technologies, Inc., a Delaware corporation with its principal place of business at 123 Tech Avenue, San Francisco, CA 94105 ("Disclosing Party")
+
+AND
+
+PARTY B: ABC Consulting Group, LLC, a New York limited liability company with its principal place of business at 456 Business Plaza, New York, NY 10001 ("Receiving Party")
+
+WHEREAS, the Disclosing Party possesses certain confidential and proprietary information relating to its legal AI technology, business strategies, and client data; and
+
+WHEREAS, the Receiving Party desires to receive such confidential information for the purpose of evaluating a potential business relationship with the Disclosing Party;
+
+NOW, THEREFORE, in consideration of the mutual covenants contained herein, the parties agree as follows:
+
+1. DEFINITION OF CONFIDENTIAL INFORMATION
+   "Confidential Information" means any information disclosed by the Disclosing Party to the Receiving Party, either directly or indirectly, in writing, orally or by inspection of tangible objects, which is designated as "Confidential," "Proprietary," or some similar designation, or that should reasonably be understood to be confidential given the nature of the information and the circumstances of disclosure. Confidential Information includes, but is not limited to:
+   (a) Technical information, algorithms, source code, data models, and training methodologies;
+   (b) Business information, marketing plans, financial data, and customer lists;
+   (c) Legal documents, templates, and proprietary legal analysis methodologies;
+   (d) Any other information that would reasonably be considered non-public or proprietary.
+
+2. EXCLUSIONS FROM CONFIDENTIAL INFORMATION
+   Confidential Information shall not include any information that:
+   (a) Was in the Receiving Party's possession prior to receipt from the Disclosing Party;
+   (b) Is or becomes publicly available through no fault of the Receiving Party;
+   (c) Is rightfully received by the Receiving Party from a third party without a duty of confidentiality;
+   (d) Is independently developed by the Receiving Party without use of the Disclosing Party's Confidential Information;
+   (e) Is disclosed by the Receiving Party with the Disclosing Party's prior written approval.
+
+3. OBLIGATIONS OF RECEIVING PARTY
+   The Receiving Party shall:
+   (a) Use the Confidential Information only for the purpose of evaluating a potential business relationship with the Disclosing Party;
+   (b) Restrict disclosure of Confidential Information solely to those employees or agents with a need to know such information and who are bound by confidentiality obligations no less restrictive than those contained herein;
+   (c) Use at least the same degree of care to maintain the confidentiality of the Confidential Information as it uses for its own confidential information, but in no event less than reasonable care;
+   (d) Notify the Disclosing Party immediately upon discovery of any unauthorized use or disclosure of Confidential Information and cooperate with the Disclosing Party to regain possession of the Confidential Information and prevent further unauthorized use.
+
+4. TERM AND TERMINATION
+   This Agreement shall remain in effect for a period of three (3) years from the Effective Date. The obligations of confidentiality shall survive termination of this Agreement for a period of five (5) years thereafter.
+
+5. RETURN OF MATERIALS
+   Upon the earlier of (i) the completion of the purpose for which the Confidential Information was disclosed, (ii) the termination of this Agreement, or (iii) the written request of the Disclosing Party, the Receiving Party shall promptly return or destroy all Confidential Information and any copies, notes, or other materials containing such Confidential Information.
+
+6. NO LICENSE
+   Nothing in this Agreement is intended to grant any rights to either party under any patent, copyright, trade secret, or other intellectual property right, nor shall this Agreement grant any party any rights in or to the other party's Confidential Information except as expressly set forth herein.
+
+7. GOVERNING LAW
+   This Agreement shall be governed by and construed in accordance with the laws of the State of California without reference to its conflict of laws principles.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the Effective Date.
+
+LEGAL NOMICON TECHNOLOGIES, INC.
+
+By: ________________________
+Name: John Smith
+Title: Chief Executive Officer
+
+ABC CONSULTING GROUP, LLC
+
+By: ________________________
+Name: Jane Doe
+Title: Managing Partner

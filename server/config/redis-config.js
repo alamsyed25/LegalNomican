@@ -1,12 +1,67 @@
 const redis = require('redis');
 
+/**
+ * Mock Redis Client for development when Redis is not available
+ */
+class MockRedisClient {
+    constructor() {
+        console.log('Using Mock Redis Client for development');
+        this.store = new Map();
+        this.connected = true;
+    }
+
+    async _ensureConnected() {
+        return true;
+    }
+
+    async get(key) {
+        console.log(`[MockRedis] GET ${key}`);
+        return this.store.get(key) || null;
+    }
+
+    async set(key, value, options = {}) {
+        console.log(`[MockRedis] SET ${key}`);
+        this.store.set(key, value);
+        
+        // Handle expiration if provided
+        if (options.EX) {
+            setTimeout(() => {
+                this.store.delete(key);
+            }, options.EX * 1000);
+        }
+        return 'OK';
+    }
+
+    async del(key) {
+        console.log(`[MockRedis] DEL ${key}`);
+        return this.store.delete(key) ? 1 : 0;
+    }
+
+    async expire(key, seconds) {
+        console.log(`[MockRedis] EXPIRE ${key} ${seconds}`);
+        if (!this.store.has(key)) return 0;
+        
+        setTimeout(() => {
+            this.store.delete(key);
+        }, seconds * 1000);
+        
+        return 1;
+    }
+
+    async disconnect() {
+        console.log('[MockRedis] Disconnected');
+        this.store.clear();
+        return true;
+    }
+}
+
 class RedisClient {
     constructor() {
         this.client = null;
         this.connected = false;
         this._connectPromise = null;
 
-        const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
+        const redisUrl = process.env.REDIS_URL || 'redis://default:npxXeXY7LOHR812RidRPWH7nPjaLFbKt@redis-11012.c329.us-east4-1.gce.redns.redis-cloud.com:11012';
         console.log(`Initializing Redis client for URL: ${redisUrl}`);
 
         this.client = redis.createClient({
@@ -154,12 +209,38 @@ class RedisClient {
     }
 }
 
-// Singleton instance
-const redisClient = new RedisClient();
-// Attempt to connect on startup, but don't block server start if Redis is down initially.
-// Operations will attempt to connect/reconnect as needed.
-redisClient._ensureConnected().catch(err => {
-    console.warn('Initial Redis connection attempt failed. Will retry on demand.', err.message);
-});
+/**
+ * Create the appropriate Redis client based on environment and availability
+ * @returns {RedisClient|MockRedisClient} - Redis client instance
+ */
+const createRedisClient = () => {
+    const isDev = process.env.NODE_ENV === 'development' || !process.env.NODE_ENV;
+    const redisUrl = process.env.REDIS_URL;
+    
+    // In development, if REDIS_URL is not provided, use the mock client
+    if (isDev && !redisUrl) {
+        console.log('Redis URL not provided in development. Using mock Redis client.');
+        return new MockRedisClient();
+    }
+    
+    // Create a real Redis client
+    const client = new RedisClient();
+    
+    // Attempt to connect on startup, but don't block server start if Redis is down initially.
+    client._ensureConnected().catch(err => {
+        console.warn('Initial Redis connection attempt failed.', err.message);
+        
+        // In development, fall back to mock client if connection fails
+        if (isDev) {
+            console.log('Falling back to mock Redis client in development.');
+            return new MockRedisClient();
+        }
+    });
+    
+    return client;
+};
+
+// Create the appropriate Redis client
+const redisClient = createRedisClient();
 
 module.exports = redisClient;

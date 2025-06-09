@@ -79,9 +79,12 @@ The application uses environment variables for configuration, managed via `.env`
 
 ## 5. Caching
 
--   **Redis**: Used for caching, particularly for storing document context related to chat sessions.
--   The application connects to a Redis instance, typically a Dockerized one named `legalnomican-redis`, accessible via the `REDIS_URL`.
--   Successful Redis integration is confirmed by server startup logs and functionality in the chat context management.
+-   **Redis Cloud**: Used for storing chat context and document data temporarily.
+    -   Configured via `server/config/redis-config.js` and the `REDIS_URL` environment variable.
+    -   Provides fast access to document context during chat sessions.
+    -   Uses Redis Cloud for production reliability, persistence, and scalability.
+    -   Connection URL format: `redis://username:password@hostname:port`
+-   Successful Redis Cloud integration is confirmed by server startup logs and functionality in the chat context management.
 
 ## 6. Error Handling
 
@@ -129,12 +132,19 @@ The application uses environment variables for configuration, managed via `.env`
     ```
 3.  **Environment Configuration**:
     *   Copy `env.example` to a new file for your environment (e.g., `.env` or `.env.development`).
-    *   Update the variables: `MONGO_URI`, `REDIS_URL`, `PORT`, `NODE_ENV`, `JWT_SECRET`, etc.
-4.  **Start Redis (using Docker, if applicable)**:
-    ```bash
-    docker run -d --name legalnomican-redis -p 6379:6379 redis
-    ```
-    (This command was used as per memory `6c98e2c6-7c82-4217-b605-fcce81f61e88`.)
+    *   Update the variables: 
+        - `MONGODB_URI` or environment-specific URIs (`DEV_MONGODB_URI`, etc.)
+        - `REDIS_URL` (local development: `redis://localhost:6379`, production: Redis Cloud URL)
+        - `PORT`, `NODE_ENV`, `JWT_SECRET`, etc.
+4.  **Redis Configuration**:
+    - For development: Local Redis can be used via Docker
+      ```bash
+      docker run -d --name legalnomican-redis -p 6379:6379 redis
+      ```
+    - For production: Redis Cloud is configured with the following URL format in `.env`:
+      ```
+      REDIS_URL=redis://username:password@hostname:port
+      ```
 5.  **Run the server**:
     *   For development (with auto-reloading, if `nodemon` is configured in `package.json` scripts):
         ```bash

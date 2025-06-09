@@ -8,8 +8,8 @@ const requiredEnvVars = {
     development: [
         'NODE_ENV',
         'PORT',
-        'DEV_MONGODB_URI',
-        'REDIS_URL' // Added REDIS_URL as required for dev too for consistency
+        'DEV_MONGODB_URI'
+        // REDIS_URL is optional in development
     ],
     test: [
         'NODE_ENV',
@@ -37,7 +37,8 @@ const optionalEnvVars = {
         // MAX_FILE_SIZE and ALLOWED_FILE_TYPES might be considered optional if they have defaults
         // or are not strictly needed for the app to run, but better to be required if core features depend on them.
         'DEV_CORS_ORIGINS', // Specific to dev
-        'PROD_CORS_ORIGINS' // Specific to prod
+        'PROD_CORS_ORIGINS', // Specific to prod
+        'REDIS_URL' // Optional in development, required in production
     ]
 };
 

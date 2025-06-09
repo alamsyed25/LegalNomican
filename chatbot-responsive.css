@@ -49,24 +49,20 @@
     }
 }
 
-/* Mobile styles - already handled in base styles */
+/* Updated Mobile styles - Sidebar always visible */
 .chat-sidebar {
     height: 100%;
-    position: fixed;
+    width: 250px;
+    position: relative;
     top: 0;
     left: 0;
-    right: 0;
     bottom: 0;
-    transform: translateX(-100%);
-    transition: transform 0.3s ease;
-}
-
-.chat-sidebar.active {
-    transform: translateX(0);
+    transform: none;
+    transition: width 0.3s ease;
 }
 
 .mobile-menu-toggle {
-    display: flex;
+    display: none; /* Hide the toggle button since sidebar is always visible */
 }
 
 .chat-main {

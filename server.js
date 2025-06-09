@@ -18,6 +18,8 @@ const { configureApp } = require('./server/config/app-config');
 const { connectDB, disconnectDB } = require('./server/config/db-config');
 const chatRoutes = require('./server/routes/chatRoutes');
 const documentRoutes = require('./server/routes/documentRoutes');
+const templateRoutes = require('./server/routes/templateRoutes');
+const documentComparisonRoutes = require('./server/routes/documentComparisonRoutes');
 const routes = require('./server/routes');
 const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
@@ -40,7 +42,8 @@ if (process.env.NODE_ENV !== 'test') {
 // Apply API routes
 app.use('/api', routes);
 app.use('/api/chat', chatRoutes);
-app.use('/documents', documentRoutes);
+app.use('/api/documents', documentRoutes); // Updated to use /api prefix
+app.use('/api/templates', templateRoutes);
 
 // Test route for file uploads
 app.post('/test-upload', (req, res) => {

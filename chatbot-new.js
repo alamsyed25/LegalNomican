@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Document Generation Integration
+    // Document Services Integration
     window.documentGeneration = window.documentGeneration || {};
+    window.documentServices = window.documentServices || {};
     
     // DOM Elements
     const chatInput = document.querySelector('.chat-input');
@@ -13,6 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const demoItems = document.querySelectorAll('.demo-item');
     const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
     const chatSidebar = document.querySelector('.chat-sidebar');
+    
+    // Document handling state
+    let lastMessageWasDocumentAnalysisRequest = false;
     
     // Chat session management
     let sessionId = localStorage.getItem('chatSessionId') || null;
@@ -57,10 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
             item.addEventListener('click', () => setActiveDemo(item));
         });
         
-        // Mobile menu toggle
-        mobileMenuToggle.addEventListener('click', () => {
-            chatSidebar.classList.toggle('active');
-        });
+        // Sidebar is now always visible, no need for toggle functionality
+        // Keeping reference to mobileMenuToggle but removing the event listener
     }
     
     // Handle chat input changes
@@ -94,6 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
         while (chatMessages.children.length > 1) {
             chatMessages.removeChild(chatMessages.lastChild);
         }
+        hideTypingIndicator();
         
         // Reset active demo items
         demoItems.forEach(item => item.classList.remove('active'));
@@ -163,13 +166,13 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Initialize chat session
     async function initChatSession() {
+        // If no session exists, start a new one
         if (!sessionId) {
             try {
                 const response = await fetch('/api/chat/start', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
+                        'Content-Type': 'application/json'
                     }
                 });
                 
@@ -179,20 +182,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 const data = await response.json();
                 
-                if (data.success) {
+                if (data.success && data.sessionId) {
                     sessionId = data.sessionId;
                     localStorage.setItem('chatSessionId', sessionId);
+                    console.log('New session created:', sessionId);
+                    
+                    // Initialize document services if available
+                    if (window.documentServices && typeof window.documentServices.init === 'function') {
+                        window.documentServices.init({
+                            sessionId: sessionId,
+                            addMessageToChat: addMessage,
+                            showTypingIndicator: showTypingIndicator,
+                            hideTypingIndicator: hideTypingIndicator
+                        });
+                    }
                     
                     // Add welcome message if chat is empty
                     if (chatMessages.children.length <= 1) {
                         addMessage(data.welcomeMessage || "Welcome to Legal Nomicon! I'm here to help with your legal questions.", 'ai');
                     }
                 } else {
-                    throw new Error(data.message || 'Failed to start chat session');
+                    throw new Error('Failed to create chat session');
                 }
             } catch (error) {
-                console.error('Error starting chat session:', error);
-                // Fallback to local session ID if API is unavailable
+                console.error('Error creating chat session:', error);
+                // Fallback to local session
                 sessionId = 'local-' + Date.now();
                 localStorage.setItem('chatSessionId', sessionId);
                 
@@ -227,6 +241,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
             
+            // Check if this is a document analysis request
+            if (isDocumentAnalysisRequest(message)) {
+                handleDocumentAnalysisRequest(message);
+                return;
+            }
+            
             // Process regular chat message
             await processChatMessage(message);
             
@@ -238,30 +258,6 @@ document.addEventListener('DOMContentLoaded', function() {
         } finally {
             hideTypingIndicator();
             scrollToBottom();
-        }
-    }
-    
-    // Check if the message is a document generation request
-    function isDocumentGenerationRequest(message) {
-        const lowerMessage = message.toLowerCase();
-        return (
-            lowerMessage.includes('create document') || 
-            lowerMessage.includes('generate document') ||
-            (lowerMessage.includes('make a') && (
-                lowerMessage.includes('agreement') || 
-                lowerMessage.includes('contract') || 
-                lowerMessage.includes('nda')
-            ))
-        );
-    }
-    
-    // Handle document generation request
-    function handleDocumentGenerationRequest() {
-        hideTypingIndicator();
-        if (window.documentGeneration && typeof window.documentGeneration.showDocumentTypeSelection === 'function') {
-            window.documentGeneration.showDocumentTypeSelection();
-        } else {
-            addMessage("I'm having trouble with the document generation feature. Please try again later.", 'ai');
         }
     }
     
@@ -310,6 +306,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         console.log('Using sessionId:', sessionId);
         
+        // Check if this upload is for document analysis
+        if (lastMessageWasDocumentAnalysisRequest) {
+            lastMessageWasDocumentAnalysisRequest = false;
+            return handleDocumentAnalysisUpload(file);
+        }
+        
+        // Regular document upload for context
         const formData = new FormData();
         formData.append('document', file);
         formData.append('sessionId', sessionId);
@@ -347,6 +350,147 @@ document.addEventListener('DOMContentLoaded', function() {
             addMessage(`I couldn't process that file: ${error.message}. Please try again or upload a different file.`, 'ai');
         } finally {
             hideTypingIndicator();
+        }
+    }
+    
+    // Check if the message is a document analysis request
+    function isDocumentAnalysisRequest(message) {
+        message = message.toLowerCase();
+        return message.includes("analyze document") || 
+               message.includes("review document") ||
+               message.includes("check document") ||
+               message.includes("analyze this") && (message.includes("agreement") || message.includes("contract")) ||
+               message.includes("review this") && (message.includes("agreement") || message.includes("contract"));
+    }
+    
+    // Check if the message is a document generation request
+    function isDocumentGenerationRequest(message) {
+        message = message.toLowerCase();
+        return message.includes("generate document") || 
+               message.includes("create document") ||
+               message.includes("draft") && (message.includes("agreement") || message.includes("contract") || message.includes("letter")) ||
+               message.includes("prepare") && (message.includes("document") || message.includes("contract") || message.includes("agreement"));
+    }
+    
+    // Handle document generation request
+    function handleDocumentGenerationRequest() {
+        // Try both possible implementations for backward compatibility
+        if (window.documentGeneration && typeof window.documentGeneration.showDocumentTypeSelection === 'function') {
+            window.documentGeneration.showDocumentTypeSelection();
+            addMessage("I can help you generate a document. Please select from the template options below.", 'ai');
+        } else if (window.documentServices && typeof window.documentServices.showTemplateSelection === 'function') {
+            window.documentServices.showTemplateSelection();
+            addMessage("I can help you generate a document. Please select a template type below.", 'ai');
+        } else {
+            // Fallback if neither document service is available
+            addMessage("I'd be happy to help you generate a document. To proceed, please specify what type of document you need (e.g., NDA, Employment Contract, Legal Letter, etc.)", 'ai');
+            
+            // Use the demo response as a fallback
+            const demoResponse = generateDemoResponse('document');
+            addMessage(demoResponse, 'ai');
+        }
+    }
+    
+    // Handle document analysis request
+    function handleDocumentAnalysisRequest(message) {
+        lastMessageWasDocumentAnalysisRequest = true;
+        addMessage("I'd be happy to analyze your document. Please upload the file you'd like me to review.", 'ai');
+    }
+    
+    // Handle document analysis upload
+    async function handleDocumentAnalysisUpload(file) {
+        const analysisHtml = `<div class="document-analysis-container">
+            <div class="analysis-status">Analyzing document: ${file.name}</div>
+            <div class="analysis-progress"><div class="progress-bar"></div></div>
+        </div>`;
+        addMessage(analysisHtml, 'ai');
+        
+        showTypingIndicator();
+        
+        try {
+            // Create form data for the analysis request
+            const formData = new FormData();
+            formData.append('document', file);
+            if (sessionId) {
+                formData.append('sessionId', sessionId);
+            }
+            
+            // Call the document analysis API
+            const response = await fetch('/api/analyze-document', {
+                method: 'POST',
+                body: formData
+            });
+            
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Analysis failed: ${response.statusText} (${response.status}) - ${errorText}`);
+            }
+            
+            const result = await response.json();
+            
+            // Remove analysis progress indicator
+            const analysisContainer = document.querySelector('.document-analysis-container');
+            if (analysisContainer) {
+                analysisContainer.remove();
+            }
+            
+            hideTypingIndicator();
+            
+            if (result.success && result.analysis) {
+                // Add formatted analysis results using the document services module
+                if (window.documentServices && typeof window.documentServices.formatAnalysisResults === 'function') {
+                    const analysisHtml = window.documentServices.formatAnalysisResults(result.analysis);
+                    addMessage(analysisHtml, 'ai');
+                } else {
+                    // Fallback formatting if document services aren't loaded
+                    let analysisText = `## Document Analysis: ${file.name}\n\n`;
+                    analysisText += `**Document Type:** ${result.analysis.documentType || 'Unknown'}\n`;
+                    analysisText += `**Page Count:** ${result.analysis.pageCount || 'N/A'}\n\n`;
+                    
+                    if (result.analysis.keyTopics && result.analysis.keyTopics.length) {
+                        analysisText += '### Key Topics\n';
+                        result.analysis.keyTopics.forEach(topic => {
+                            analysisText += `- ${topic}\n`;
+                        });
+                        analysisText += '\n';
+                    }
+                    
+                    if (result.analysis.keyFindings && result.analysis.keyFindings.length) {
+                        analysisText += '### Key Findings\n';
+                        result.analysis.keyFindings.forEach(finding => {
+                            analysisText += `- ${finding}\n`;
+                        });
+                        analysisText += '\n';
+                    }
+                    
+                    if (result.analysis.potentialIssues && result.analysis.potentialIssues.length) {
+                        analysisText += '### Potential Issues\n';
+                        result.analysis.potentialIssues.forEach(issue => {
+                            analysisText += `- ${issue}\n`;
+                        });
+                        analysisText += '\n';
+                    }
+                    
+                    if (result.analysis.recommendations && result.analysis.recommendations.length) {
+                        analysisText += '### Recommendations\n';
+                        result.analysis.recommendations.forEach(rec => {
+                            analysisText += `- ${rec}\n`;
+                        });
+                    }
+                    
+                    addMessage(analysisText, 'ai');
+                }
+                
+                // Add follow-up message
+                addMessage('Would you like me to explain any specific part of this document in more detail?', 'ai');
+            } else {
+                throw new Error(result.message || 'Failed to analyze document');
+            }
+            
+        } catch (error) {
+            console.error('Error analyzing document:', error);
+            hideTypingIndicator();
+            addMessage("I couldn't analyze that document properly: " + error.message + ". Please try again with a different file format.", 'ai');
         }
     }
     

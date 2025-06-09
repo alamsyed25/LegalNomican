@@ -1,0 +1,24 @@
+# REFERENCE COPY - DO NOT USE DIRECTLY
+# ===================================
+# This file is maintained as a reference/backup of environment variables.
+# It should be kept in sync with .env but is not used by the application.
+# 
+# Purpose:
+# - Serves as a backup of the current environment configuration
+# - Documents the structure of environment variables
+# - Helps with recovery if .env is lost or corrupted
+#
+# IMPORTANT:
+# 1. Never commit this file to version control
+# 2. Update this file whenever .env is modified
+# 3. Sensitive information in this file should be rotated if exposed
+# 4. This file is ignored by Git (see .gitignore)
+#
+# Last synchronized with .env: 2025-06-09
+
+# Environment Configuration
+# ========================
+# This file serves as a reference for environment variables.
+# It should match the structure of .env but is not used by the application.
+
+[Your existing environment variables go here...]
